@@ -1,0 +1,400 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=Oswald:wght@400;600;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Oswald',sans-serif;background:#111;color:#fff;min-height:100vh}
+.app{max-width:1100px;margin:0 auto;padding:1.5rem}
+.header{text-align:center;padding:1.5rem 0 2rem;border-bottom:2px solid #c41e1e;margin-bottom:2rem}
+.header h1{font-family:'Barlow Condensed',sans-serif;font-size:2.4rem;font-weight:900;letter-spacing:2px}
+.header h1 span{color:#f5c842}
+.header p{color:#aaa;margin-top:.4rem;font-size:.85rem;letter-spacing:1px}
+.steps{display:flex;margin-bottom:2rem;background:#1a1a1a;border-radius:12px;overflow:hidden;border:1px solid #333}
+.step{flex:1;padding:.9rem 1rem;text-align:center;font-size:.8rem;letter-spacing:1px;cursor:pointer;color:#777}
+.step.active{background:#c41e1e;color:#fff;font-weight:700}
+.step.done{color:#f5c842}
+.step span{display:block;font-size:1.2rem;font-weight:900;margin-bottom:.2rem}
+.panel{background:#1a1a1a;border-radius:12px;padding:1.5rem;border:1px solid #2a2a2a}
+.upload-zone{border:2px dashed #444;border-radius:12px;padding:3rem 2rem;text-align:center;cursor:pointer;transition:all .2s;position:relative}
+.upload-zone:hover,.drag{border-color:#f5c842!important;background:#1f1d10}
+.upload-zone h3{font-size:1.2rem;color:#fff;margin-bottom:.5rem;margin-top:.8rem}
+.upload-zone p{color:#777;font-size:.85rem}
+.upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.sample-btn{margin-top:1rem;background:#333;border:1px solid #555;color:#f5c842;padding:.5rem 1.4rem;border-radius:6px;cursor:pointer;font-family:'Oswald',sans-serif;font-size:.85rem;letter-spacing:1px}
+.sample-btn:hover{background:#444}
+.tbl{margin-top:1.5rem;overflow:hidden;border-radius:8px;border:1px solid #2a2a2a}
+.tbl table{width:100%;border-collapse:collapse;font-size:.85rem}
+.tbl th{background:#c41e1e;color:#fff;padding:.6rem .8rem;text-align:left;font-weight:700}
+.tbl td{padding:.55rem .8rem;border-bottom:1px solid #2a2a2a;color:#ddd}
+.tbl tr:last-child td{border-bottom:none}
+.cfg{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.5rem}
+.cfg label{display:block;font-size:.72rem;color:#888;letter-spacing:1px;margin-bottom:.3rem;text-transform:uppercase}
+.cfg input,.cfg select{width:100%;background:#111;border:1px solid #333;color:#fff;padding:.5rem .7rem;border-radius:6px;font-family:'Oswald',sans-serif;font-size:.9rem}
+.cfg input[type=color]{height:38px;cursor:pointer;padding:.2rem}
+.clrs{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1rem}
+.ci{flex:1;min-width:90px}
+.ci label{font-size:.7rem;color:#888;display:block;margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.5px}
+.bopts{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem}
+.bopt{background:#222;border:1px solid #444;color:#ccc;padding:.3rem .7rem;border-radius:4px;cursor:pointer;font-size:.8rem;font-family:'Oswald',sans-serif}
+.bopt.sel{background:#c41e1e;border-color:#c41e1e;color:#fff;font-weight:700}
+.btn{padding:.65rem 1.5rem;border-radius:6px;font-family:'Oswald',sans-serif;font-size:.9rem;font-weight:700;letter-spacing:1px;cursor:pointer;border:none;transition:all .15s;text-transform:uppercase}
+.btn-r{background:#c41e1e;color:#fff}.btn-r:hover{background:#e02020}
+.btn-y{background:#f5c842;color:#111}.btn-y:hover{background:#ffd55a}
+.btn-o{background:transparent;border:1px solid #555;color:#ccc}.btn-o:hover{border-color:#f5c842;color:#f5c842}
+.brow{display:flex;gap:.8rem;margin-top:1.5rem;flex-wrap:wrap}
+.info{background:#1f1d10;border:1px solid #f5c842;border-radius:8px;padding:.8rem 1rem;margin-bottom:1rem;font-size:.85rem;color:#f5c842;display:flex;align-items:center;gap:.5rem}
+.stats{display:flex;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.stat{background:#222;border-radius:8px;padding:.6rem 1rem;flex:1;min-width:100px;text-align:center}
+.sn{font-size:1.5rem;font-weight:900;color:#f5c842}
+.sl{font-size:.7rem;color:#888;letter-spacing:1px;text-transform:uppercase}
+.tag{display:inline-block;background:#c41e1e;color:#fff;font-size:.7rem;padding:.15rem .4rem;border-radius:3px;margin-left:.3rem}
+.scroll{max-height:600px;overflow:auto}
+/* 3 COLS */
+.sheet{background:#d8d8d8;padding:15px;border-radius:8px;display:grid;grid-template-columns:repeat(3,auto);gap:5px;width:fit-content}
+.sheet.cuts .lwrap{outline:1px dashed #aaa}
+.lwrap{width:234px;height:158px}
+#prog{display:none;background:#1a2a1a;border:1px solid #4caf50;border-radius:8px;padding:1rem;margin-top:1rem}
+.pbar{height:8px;background:#2a2a2a;border-radius:4px;margin-top:.5rem;overflow:hidden}
+.pfill{height:100%;background:#4caf50;border-radius:4px;transition:width .1s}
+</style>
+
+<div class="app">
+  <div class="header">
+    <h1>🍷 VINATERIA <span>ETIQUETAS</span> PRO</h1>
+    <p>GENERADOR AUTOMATICO DE ETIQUETAS PROMOCIONALES</p>
+  </div>
+  <div class="steps">
+    <div class="step active" id="s1" onclick="goStep(1)"><span>01</span>EXCEL</div>
+    <div class="step" id="s2" onclick="goStep(2)"><span>02</span>VISTA PREVIA</div>
+    <div class="step" id="s3" onclick="goStep(3)"><span>03</span>PDF</div>
+  </div>
+
+  <div id="p1" class="panel">
+    <div class="upload-zone" id="dz">
+      <i class="ti ti-file-spreadsheet" style="font-size:3rem;color:#f5c842;display:block" aria-hidden="true"></i>
+      <h3>ARRASTRA TU EXCEL AQUI</h3>
+      <p>.xlsx · .xlsm · .csv</p>
+      <input type="file" id="fi" accept=".xlsx,.xlsm,.csv" onchange="handleFile(event)">
+    </div>
+    <div style="text-align:center;margin-top:.8rem">
+      <button class="sample-btn" onclick="loadSample()">📋 CARGAR DATOS DE EJEMPLO</button>
+    </div>
+    <div id="tbl"></div>
+    <div class="cfg" id="cfgPanel" style="display:none">
+      <div>
+        <label>Nombre de la tienda</label>
+        <input type="text" id="storeName" value="VINATERIA" oninput="refreshPrev()">
+      </div>
+      <div>
+        <label>Texto banda diagonal</label>
+        <div class="bopts">
+          <span class="bopt sel" onclick="setBadge(this,'OFERTA')">OFERTA</span>
+          <span class="bopt" onclick="setBadge(this,'PROMOCION')">PROMOCION</span>
+          <span class="bopt" onclick="setBadge(this,'PRECIO ESPECIAL')">PRECIO ESPECIAL</span>
+          <span class="bopt" onclick="setBadge(this,'SUPER OFERTA')">SUPER OFERTA</span>
+        </div>
+      </div>
+    </div>
+    <div class="clrs" id="clrsPanel" style="display:none">
+      <div class="ci"><label>Principal</label><input type="color" id="cp" value="#c41e1e" oninput="refreshPrev()"></div>
+      <div class="ci"><label>Precio bg</label><input type="color" id="cy" value="#f5c842" oninput="refreshPrev()"></div>
+      <div class="ci"><label>Top bar</label><input type="color" id="cd" value="#111111" oninput="refreshPrev()"></div>
+      <div class="ci"><label>Tienda txt</label><input type="color" id="ca" value="#f5c842" oninput="refreshPrev()"></div>
+    </div>
+    <div class="brow" id="p1btns" style="display:none">
+      <button class="btn btn-r" onclick="goStep(2)">VISTA PREVIA →</button>
+    </div>
+  </div>
+
+  <div id="p2" class="panel" style="display:none">
+    <div class="stats" id="stats2"></div>
+    <div class="info"><i class="ti ti-info-circle" aria-hidden="true"></i> 3 etiquetas por fila · 5 filas = 15 por hoja carta · 6 cm × 4 cm exactos</div>
+    <div style="display:flex;gap:1rem;align-items:center;margin-bottom:1rem;flex-wrap:wrap">
+      <label style="font-size:.8rem;color:#888"><input type="checkbox" id="cuts" checked onchange="renderSheet()"> Lineas de corte</label>
+      <label style="font-size:.8rem;color:#888">Pagina: <input type="number" id="pgn" value="1" min="1" style="width:44px;background:#222;border:1px solid #444;color:#fff;padding:2px 4px;border-radius:4px;text-align:center" onchange="renderSheet()"></label>
+      <span id="totpg" style="color:#666;font-size:.82rem"></span>
+    </div>
+    <div class="scroll"><div id="sheet"></div></div>
+    <div class="brow">
+      <button class="btn btn-o" onclick="goStep(1)">← VOLVER</button>
+      <button class="btn btn-y" onclick="goStep(3)">GENERAR PDF →</button>
+    </div>
+  </div>
+
+  <div id="p3" class="panel" style="display:none">
+    <div class="info" style="background:#0d1f0d;border-color:#4caf50;color:#4caf50">
+      <i class="ti ti-circle-check" aria-hidden="true"></i> Cada etiqueta se captura con html2canvas — lo que ves es lo que se imprime.
+    </div>
+    <div class="stats" id="stats3"></div>
+    <div style="background:#222;border-radius:8px;padding:1.2rem;margin-bottom:1rem">
+      <div class="cfg" style="gap:.8rem">
+        <div>
+          <label>Lineas de corte en PDF</label>
+          <select id="pcuts">
+            <option value="1" selected>Si — incluir</option>
+            <option value="0">No incluir</option>
+          </select>
+        </div>
+        <div>
+          <label>Calidad imagen</label>
+          <select id="quality">
+            <option value="0.95" selected>Alta (recomendado)</option>
+            <option value="0.80">Media (archivo mas ligero)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="brow">
+      <button class="btn btn-r" id="pdfBtn" onclick="generatePDF()">
+        <i class="ti ti-file-type-pdf" aria-hidden="true"></i> DESCARGAR PDF
+      </button>
+      <button class="btn btn-o" onclick="goStep(2)">← VISTA PREVIA</button>
+    </div>
+    <div id="prog">
+      <div style="font-size:.85rem;color:#4caf50" id="progTxt">Procesando...</div>
+      <div class="pbar"><div class="pfill" id="progFill" style="width:0%"></div></div>
+    </div>
+    <p style="color:#555;font-size:.75rem;margin-top:1rem;line-height:1.6">
+      Imprimir en papel adhesivo brillante o cartulina · 100% sin escalar · Cortar por lineas punteadas
+    </p>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+// ── CONFIG LAYOUT ──────────────────────────────────────────
+const COLS = 3;   // <── 3 etiquetas por fila
+const ROWS = 5;   // 5 filas por hoja
+const LPP  = COLS * ROWS; // 15 por hoja
+
+let products=[], badge='OFERTA';
+
+const C=()=>({p:document.getElementById('cp').value,y:document.getElementById('cy').value,d:document.getElementById('cd').value,a:document.getElementById('ca').value});
+const store=()=>document.getElementById('storeName')?.value||'VINATERIA';
+const savePct=(p)=>Math.round((1-p.after/p.before)*100);
+const fmt=(n)=>{const i=Math.floor(n),d=Math.round((n-i)*100);return'$'+i+'.'+String(d).padStart(2,'0')};
+const darken=(h,a=70)=>{const n=parseInt(h.replace('#',''),16),r=Math.max(0,((n>>16)&255)-a),g=Math.max(0,((n>>8)&255)-a),b=Math.max(0,(n&255)-a);return'#'+[r,g,b].map(x=>x.toString(16).padStart(2,'0')).join('')};
+
+const sample=[
+  {name:'CONCHA Y TORO',desc:'Reserva 750 ml',cat:'VINO TINTO',before:259,after:199},
+  {name:'JACK DANIELS',desc:'Tennessee 700 ml',cat:'WHISKEY',before:499,after:399},
+  {name:'JOHNNIE WALKER',desc:'Red Label 750 ml',cat:'WHISKY',before:349,after:279},
+  {name:'CLASE AZUL',desc:'Reposado 750 ml',cat:'TEQUILA',before:1985,after:1765},
+  {name:'HERRADURA',desc:'Plata 750 ml',cat:'TEQUILA',before:1355,after:1199},
+  {name:'HENNESSY',desc:'VS Cognac 750 ml',cat:'COGNAC',before:1475,after:1199},
+  {name:'SMIRNOFF',desc:'Vodka 750 ml',cat:'VODKA',before:265,after:219},
+  {name:'BACARDI',desc:'Ron Blanco 750 ml',cat:'RON',before:289,after:229},
+  {name:'GLENLIVET 12',desc:'Scotch Whisky 750 ml',cat:'WHISKY',before:925,after:799},
+  {name:'CORONA EXTRA',desc:'Sixpack 355 ml',cat:'CERVEZA',before:129,after:99},
+];
+
+function loadSample(){products=[...sample];afterLoad();}
+
+function handleFile(e){
+  const f=e.target.files[0];if(!f)return;
+  const ext=f.name.split('.').pop().toLowerCase();
+  const r=new FileReader();
+  if(ext==='csv'){r.onload=ev=>parseCSV(ev.target.result);r.readAsText(f,'utf-8');}
+  else{r.onload=ev=>parseXLSX(ev.target.result);r.readAsArrayBuffer(f);}
+}
+function parseXLSX(buf){const wb=XLSX.read(buf,{type:'array'});const ws=wb.Sheets[wb.SheetNames[0]];processRows(XLSX.utils.sheet_to_json(ws,{header:1,defval:''}));}
+function parseCSV(t){processRows(t.split('\n').map(r=>r.split(',').map(c=>c.trim().replace(/^"|"$/g,''))));}
+function processRows(rows){
+  if(rows.length<2)return;
+  const h=rows[0].map(x=>String(x).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''));
+  const fi=ks=>{for(const k of ks)for(let i=0;i<h.length;i++)if(h[i].includes(k))return i;return -1;};
+  const ni=fi(['descripcion','producto','nombre','name','product']);
+  const bi=fi(['anterior','antes','original','before','old','regular']);
+  const ai=fi(['oferta','descuento','sale','precio','price','after','nuevo']);
+  const ci=fi(['categoria','tipo','category','type']);
+  const di=fi(['tamano','tamanio','size','presentacion','ml','contenido','desc']);
+  if(ni<0||bi<0||ai<0){alert('No se detectaron columnas requeridas.\nColumnas en tu archivo: '+rows[0].join(', '));return;}
+  products=[];
+  for(let i=1;i<rows.length;i++){
+    const r=rows[i];
+    const name=String(r[ni]||'').trim();
+    const before=parseFloat(String(r[bi]||'').replace(/[^\d.]/g,''));
+    const after=parseFloat(String(r[ai]||'').replace(/[^\d.]/g,''));
+    if(!name||!before||!after||isNaN(before)||isNaN(after)||before<=0||after<=0)continue;
+    products.push({name:name.toUpperCase().substring(0,32),desc:di>=0?String(r[di]||'').substring(0,30):'',cat:ci>=0?String(r[ci]||'').toUpperCase().substring(0,20):'',before,after});
+  }
+  if(!products.length){alert('Sin productos validos.');return;}
+  afterLoad();
+}
+function afterLoad(){
+  const shown=products.slice(0,8);
+  document.getElementById('tbl').innerHTML=`<div class="tbl"><div style="padding:.5rem .8rem;background:#222;font-size:.75rem;color:#aaa">${products.length} PRODUCTOS CARGADOS</div>
+  <table><thead><tr><th>PRODUCTO</th><th>CAT.</th><th>ANTES</th><th>AHORA</th><th>%</th></tr></thead><tbody>
+  ${shown.map(p=>`<tr><td><strong style="color:#fff">${p.name}</strong>${p.desc?`<br><span style="color:#777;font-size:.78rem">${p.desc}</span>`:''}</td><td style="color:#aaa">${p.cat||'—'}</td><td style="text-decoration:line-through;color:#777">${fmt(p.before)}</td><td style="color:#f5c842;font-weight:700">${fmt(p.after)}</td><td><span class="tag">${savePct(p)}%</span></td></tr>`).join('')}
+  </tbody></table></div>`;
+  document.getElementById('cfgPanel').style.display='grid';
+  document.getElementById('clrsPanel').style.display='flex';
+  document.getElementById('p1btns').style.display='flex';
+}
+function setBadge(el,t){badge=t;document.querySelectorAll('.bopt').forEach(b=>b.classList.remove('sel'));el.classList.add('sel');}
+function refreshPrev(){if(document.getElementById('p2').style.display!=='none')renderSheet();}
+
+// ── LABEL HTML ──────────────────────────────────────────────
+function labelHTML(p, scale=1){
+  const c=C();
+  const s=savePct(p);
+  const intP=Math.floor(p.after);
+  const decP=String(Math.round((p.after%1)*100)).padStart(2,'0');
+  const intStr=String(intP);
+  const intFs=intStr.length>=4?38:intStr.length===3?46:54;
+  const nl=p.name.length;
+  const nfs=nl>24?10:nl>18?12:nl>13?13.5:15;
+  const bl=fmt(p.before).length;
+  const bfs=bl>=8?11:bl>=6?13:14;
+  const W=220*scale,H=144*scale,S=scale;
+  return `<div style="width:${W}px;height:${H}px;border-radius:${7*S}px;overflow:hidden;display:flex;position:relative;font-family:'Barlow Condensed',sans-serif;border:${S}px solid #bbb;background:#fff;flex-shrink:0">
+  <div style="flex:0 0 58%;position:relative;overflow:hidden;background:#fff">
+    <div style="position:absolute;top:0;left:0;right:0;height:${21*S}px;background:${c.d};display:flex;align-items:center;justify-content:flex-end;padding:0 ${7*S}px;z-index:3">
+      <span style="font-size:${9*S}px;font-weight:700;letter-spacing:${2*S}px;text-transform:uppercase;color:${c.a}">${store()}</span>
+    </div>
+    <div style="position:absolute;top:${-5*S}px;left:${-30*S}px;width:${95*S}px;height:${40*S}px;background:${c.p};transform:rotate(-35deg);z-index:5;display:flex;align-items:flex-end;justify-content:center;padding-bottom:${3*S}px">
+      <span style="font-weight:900;font-size:${8*S}px;color:#fff;text-transform:uppercase;transform:rotate(35deg);margin-left:${22*S}px;margin-bottom:${1*S}px;letter-spacing:.3px;white-space:nowrap;text-shadow:0 1px 1px rgba(0,0,0,.4)">${badge}</span>
+    </div>
+    <div style="position:absolute;top:${25*S}px;left:${7*S}px;right:${3*S}px;bottom:${30*S}px;display:flex;flex-direction:column;justify-content:center;gap:${1*S}px">
+      ${p.cat?`<div style="font-size:${6.5*S}px;color:#999;letter-spacing:${1*S}px;text-transform:uppercase">${p.cat}</div>`:''}
+      <div style="font-weight:900;color:#111;line-height:1.05;text-transform:uppercase;font-size:${nfs*S}px;word-break:break-word">${p.name}</div>
+      ${p.desc?`<div style="font-size:${8*S}px;color:#666">${p.desc}</div>`:''}
+    </div>
+    <div style="position:absolute;bottom:${4*S}px;left:${7*S}px">
+      <div style="font-size:${7*S}px;color:#888;font-weight:700;letter-spacing:.5px">Antes:</div>
+      <div style="font-weight:700;color:#aaa;line-height:1;text-decoration:line-through;font-size:${bfs*S}px">${fmt(p.before)}</div>
+    </div>
+  </div>
+  <div style="flex:0 0 42%;display:flex;flex-direction:column">
+    <div style="flex:1;background:${c.y};display:flex;flex-direction:column;align-items:center;justify-content:center;padding:${3*S}px ${3*S}px ${2*S}px">
+      <div style="font-size:${8*S}px;font-weight:700;letter-spacing:${1*S}px;text-transform:uppercase;color:${darken(c.y)}">AHORA:</div>
+      <div style="display:flex;align-items:flex-start;justify-content:center;line-height:1;gap:0;margin-top:${2*S}px">
+        <span style="font-weight:900;color:${c.p};margin-top:${4*S}px;line-height:1;font-size:${16*S}px">$</span>
+        <span style="font-weight:900;color:${c.p};line-height:1;font-size:${intFs*S}px">${intStr}</span>
+        <span style="font-weight:900;color:${c.p};margin-top:${3*S}px;line-height:1;font-size:${14*S}px">.${decP}</span>
+      </div>
+    </div>
+    <div style="background:${c.p};padding:${3*S}px ${4*S}px;text-align:center;flex-shrink:0">
+      <span style="font-size:${8.5*S}px;font-weight:900;color:#fff;letter-spacing:${1*S}px;text-transform:uppercase">AHORRA <span style="font-size:${11*S}px;font-weight:900">${s}%</span></span>
+    </div>
+  </div>
+</div>`;
+}
+
+// ── SHEET PREVIEW ───────────────────────────────────────────
+function renderSheet(){
+  const pg=parseInt(document.getElementById('pgn').value)||1;
+  const tot=Math.ceil(products.length/LPP);
+  document.getElementById('totpg').textContent='/ '+tot+' paginas';
+  const pp=products.slice((pg-1)*LPP, pg*LPP);
+  const cuts=document.getElementById('cuts').checked;
+  let html=`<div class="sheet ${cuts?'cuts':''}">`;
+  for(let i=0;i<LPP;i++) html+=`<div class="lwrap">${i<pp.length?'<div style="padding:4px">'+labelHTML(pp[i],1)+'</div>':''}</div>`;
+  document.getElementById('sheet').innerHTML=html+'</div>';
+}
+
+function goStep(n){
+  [1,2,3].forEach(i=>{
+    document.getElementById('p'+i).style.display=i===n?'block':'none';
+    const b=document.getElementById('s'+i);
+    b.classList.remove('active','done');
+    if(i===n)b.classList.add('active');else if(i<n)b.classList.add('done');
+  });
+  if(n===2){document.getElementById('pgn').value=1;renderSheet();updateStats('stats2');}
+  if(n===3)updateStats('stats3');
+}
+function updateStats(id){
+  const avg=products.length?Math.round(products.reduce((a,p)=>a+savePct(p),0)/products.length):0;
+  document.getElementById(id).innerHTML=`
+  <div class="stat"><div class="sn">${products.length}</div><div class="sl">Etiquetas</div></div>
+  <div class="stat"><div class="sn">${Math.ceil(products.length/LPP)}</div><div class="sl">Paginas</div></div>
+  <div class="stat"><div class="sn">${avg}%</div><div class="sl">Ahorro prom.</div></div>
+  <div class="stat"><div class="sn">6x4 cm</div><div class="sl">Tamano real</div></div>`;
+}
+
+// ── PDF — 3 cols x 5 rows ───────────────────────────────────
+async function generatePDF(){
+  if(!products.length)return;
+  const btn=document.getElementById('pdfBtn');
+  btn.disabled=true;btn.textContent='Procesando...';
+  const prog=document.getElementById('prog');
+  const pTxt=document.getElementById('progTxt');
+  const pFill=document.getElementById('progFill');
+  prog.style.display='block';
+
+  try{
+    const {jsPDF}=window.jspdf;
+    const PW=215.9, PH=279.4, MAR=10;
+    // 3 cols x 5 rows, etiqueta 60x40mm
+    const LW=60, LH=40;
+    const GAPX=(PW-2*MAR-COLS*LW)/(COLS-1); // ~11.97mm — espacio generoso entre cols
+    const GAPY=(PH-2*MAR-ROWS*LH)/(ROWS-1); // ~7.88mm
+    const includeCuts=document.getElementById('pcuts').value==='1';
+    const quality=parseFloat(document.getElementById('quality').value);
+    const SCALE=3;
+
+    const offscreen=document.createElement('div');
+    offscreen.style.cssText='position:fixed;left:-9999px;top:-9999px;';
+    document.body.appendChild(offscreen);
+
+    const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'letter'});
+    const totalPages=Math.ceil(products.length/LPP);
+
+    for(let page=0;page<totalPages;page++){
+      if(page>0)doc.addPage('letter','portrait');
+      const pageProds=products.slice(page*LPP,(page+1)*LPP);
+
+      for(let idx=0;idx<pageProds.length;idx++){
+        const p=pageProds[idx];
+        const col=idx%COLS;
+        const row=Math.floor(idx/COLS);
+        const X=MAR+col*(LW+GAPX);
+        const Y=MAR+row*(LH+GAPY);
+
+        offscreen.innerHTML=labelHTML(p,SCALE);
+        const el=offscreen.firstChild;
+        const canvas=await html2canvas(el,{scale:1,useCORS:true,backgroundColor:'#ffffff',logging:false});
+        const imgData=canvas.toDataURL('image/jpeg',quality);
+        doc.addImage(imgData,'JPEG',X,Y,LW,LH);
+
+        if(includeCuts){
+          doc.setDrawColor(160,160,160);
+          doc.setLineWidth(0.1);
+          doc.setLineDashPattern([1,1],0);
+          if(col>0){const cx=X-GAPX/2;doc.line(cx,MAR-4,cx,PH-MAR+4);}
+          if(row>0){const cy=Y-GAPY/2;doc.line(MAR-4,cy,PW-MAR+4,cy);}
+          doc.setLineDashPattern([],0);
+        }
+
+        const done=page*LPP+idx+1;
+        const pct=Math.round((done/products.length)*100);
+        pTxt.textContent=`Procesando ${done} de ${products.length}...`;
+        pFill.style.width=pct+'%';
+        await new Promise(r=>setTimeout(r,0));
+      }
+
+      doc.setTextColor(170,170,170);
+      doc.setFont('helvetica','normal');
+      doc.setFontSize(5.5);
+      doc.text('Pagina '+(page+1)+' de '+totalPages+' - '+store(),PW/2,PH-2.5,{align:'center'});
+    }
+
+    document.body.removeChild(offscreen);
+    doc.save('etiquetas-'+store().replace(/\s+/g,'-')+'.pdf');
+    pTxt.textContent='Listo! '+products.length+' etiquetas en '+totalPages+' paginas.';
+    pFill.style.width='100%';
+    pFill.style.background='#f5c842';
+  }catch(err){
+    console.error(err);
+    document.getElementById('progTxt').textContent='Error: '+err.message;
+  }
+  btn.disabled=false;btn.innerHTML='<i class="ti ti-file-type-pdf" aria-hidden="true"></i> DESCARGAR PDF';
+}
+
+// Drag & drop
+const dz=document.getElementById('dz');
+dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('drag')});
+dz.addEventListener('dragleave',()=>dz.classList.remove('drag'));
+dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('drag');const f=e.dataTransfer.files[0];if(f){document.getElementById('fi').files=e.dataTransfer.files;handleFile({target:{files:[f]}});}});
+</script>
