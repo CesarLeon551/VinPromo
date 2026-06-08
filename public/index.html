@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>🍷 Vinatería Etiquetas PRO v7 · IA</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--red:#c41e1e;--gold:#f5c842;--dark:#0e0e0e;--panel:#1a1a1a;--border:#2a2a2a}
+body{font-family:'Oswald',sans-serif;background:var(--dark);color:#fff;min-height:100vh}
+.app{max-width:1200px;margin:0 auto;padding:1.5rem}
+.header{text-align:center;padding:1.5rem 0 2rem;border-bottom:2px solid var(--red);margin-bottom:2rem;position:relative}
+.header h1{font-family:'Barlow Condensed',sans-serif;font-size:2.6rem;font-weight:900;letter-spacing:3px}
+.header h1 span{color:var(--gold)}
+.header p{color:#aaa;margin-top:.4rem;font-size:.82rem;letter-spacing:1.5px}
+.vbadge{position:absolute;top:1.5rem;right:0;background:linear-gradient(135deg,#7b2d8b,#c41e1e);color:#fff;font-size:.68rem;font-weight:700;padding:.3rem .8rem;border-radius:20px;letter-spacing:1px}
+.steps{display:flex;margin-bottom:2rem;background:var(--panel);border-radius:12px;overflow:hidden;border:1px solid #333}
+.step{flex:1;padding:.85rem .4rem;text-align:center;font-size:.68rem;letter-spacing:.5px;cursor:pointer;color:#666;transition:all .2s;border-right:1px solid #222}
+.step:last-child{border-right:none}
+.step.active{background:var(--red);color:#fff;font-weight:700}
+.step.done{color:var(--gold)}
+.step span{display:block;font-size:1rem;font-weight:900;margin-bottom:.15rem}
+.panel{background:var(--panel);border-radius:12px;padding:1.5rem;border:1px solid var(--border)}
+.upload-zone{border:2px dashed #444;border-radius:12px;padding:2.5rem 2rem;text-align:center;cursor:pointer;transition:all .2s;position:relative}
+.upload-zone:hover,.drag{border-color:var(--gold)!important;background:#1f1d10}
+.upload-zone h3{font-size:1.1rem;color:#fff;margin-bottom:.4rem;margin-top:.7rem}
+.upload-zone p{color:#777;font-size:.8rem}
+.upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.sample-btn{margin-top:.8rem;background:#2a2a2a;border:1px solid #555;color:var(--gold);padding:.4rem 1.2rem;border-radius:6px;cursor:pointer;font-family:'Oswald',sans-serif;font-size:.8rem;letter-spacing:1px}
+.sample-btn:hover{background:#383838}
+.section-title{font-size:.75rem;letter-spacing:1.5px;color:var(--gold);margin-bottom:.7rem;text-transform:uppercase}
+.tpl-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:.6rem;margin-bottom:1.2rem}
+.tpl{border-radius:8px;padding:.6rem .3rem;text-align:center;cursor:pointer;border:2px solid transparent;transition:all .2s;font-size:.62rem;font-weight:700}
+.tpl.sel{border-color:#fff!important;transform:scale(1.06)}
+.tpl-emoji{font-size:1.3rem;display:block;margin-bottom:.25rem}
+.tpl-dots{display:flex;gap:3px;justify-content:center;margin-top:.3rem}
+.tpl-dot{width:9px;height:9px;border-radius:50%}
+.cfg-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem}
+.cfg-label{display:block;font-size:.68rem;color:#888;letter-spacing:1px;margin-bottom:.3rem;text-transform:uppercase}
+.cfg-input{width:100%;background:#111;border:1px solid #333;color:#fff;padding:.45rem .7rem;border-radius:6px;font-family:'Oswald',sans-serif;font-size:.88rem}
+.cfg-input:focus{outline:none;border-color:var(--gold)}
+input[type=color].cfg-input{height:36px;cursor:pointer;padding:.15rem}
+.colors-row{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:.8rem}
+.color-item{flex:1;min-width:80px}
+.color-item label{font-size:.65rem;color:#888;display:block;margin-bottom:.25rem;text-transform:uppercase}
+.badge-opts{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.4rem}
+.bopt{background:#222;border:1px solid #444;color:#bbb;padding:.25rem .6rem;border-radius:4px;cursor:pointer;font-size:.72rem;font-family:'Oswald',sans-serif}
+.bopt.sel{background:var(--red);border-color:var(--red);color:#fff;font-weight:700}
+.btn{padding:.6rem 1.3rem;border-radius:6px;font-family:'Oswald',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:1px;cursor:pointer;border:none;transition:all .15s;text-transform:uppercase}
+.btn-r{background:var(--red);color:#fff}.btn-r:hover{background:#e52020}
+.btn-y{background:var(--gold);color:#111}.btn-y:hover{background:#ffd44a}
+.btn-o{background:transparent;border:1px solid #555;color:#bbb}.btn-o:hover{border-color:var(--gold);color:var(--gold)}
+.btn-ai{background:linear-gradient(135deg,#7b2d8b,#c41e1e);color:#fff;border:none}
+.btn-ai:hover{opacity:.9}
+.btn-ai:disabled{opacity:.5;cursor:not-allowed}
+.btn-row{display:flex;gap:.7rem;margin-top:1.2rem;flex-wrap:wrap;align-items:center}
+.info-box{border-radius:8px;padding:.7rem 1rem;margin-bottom:.8rem;font-size:.8rem;display:flex;align-items:flex-start;gap:.6rem}
+.info-gold{background:#1f1d10;border:1px solid var(--gold);color:var(--gold)}
+.info-green{background:#0d1f0d;border:1px solid #4caf50;color:#4caf50}
+.info-purple{background:#1a0d2e;border:1px solid #7b2d8b;color:#bb86fc}
+.stats-row{display:flex;gap:.8rem;margin-bottom:1.2rem;flex-wrap:wrap}
+.stat{background:#222;border-radius:8px;padding:.5rem .8rem;flex:1;min-width:90px;text-align:center}
+.stat-n{font-size:1.4rem;font-weight:900;color:var(--gold)}
+.stat-l{font-size:.62rem;color:#888;letter-spacing:1px;text-transform:uppercase}
+.tag{display:inline-block;font-size:.65rem;padding:.1rem .35rem;border-radius:3px;margin-left:.3rem;font-weight:700;color:#fff}
+.dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+.tbl-wrap{margin-top:1.2rem;overflow:hidden;border-radius:8px;border:1px solid var(--border)}
+.tbl-wrap table{width:100%;border-collapse:collapse;font-size:.8rem}
+.tbl-wrap th{background:var(--red);color:#fff;padding:.5rem .7rem;text-align:left;font-weight:700;font-size:.72rem}
+.tbl-wrap td{padding:.48rem .7rem;border-bottom:1px solid var(--border);color:#ddd;vertical-align:middle}
+.tbl-wrap tr:last-child td{border-bottom:none}
+.tbl-wrap tr:hover td{background:#222}
+/* AI GENERATION */
+.ai-panel{background:#1a0d2e;border:1px solid #7b2d8b;border-radius:12px;padding:1.2rem;margin-top:1.2rem}
+.ai-panel h3{font-size:.85rem;letter-spacing:1px;color:#bb86fc;margin-bottom:.8rem;display:flex;align-items:center;gap:.5rem}
+.ai-progress{margin-top:1rem}
+.ai-prog-bar{height:8px;background:#2a1a3e;border-radius:4px;overflow:hidden;margin-top:.4rem}
+.ai-prog-fill{height:100%;background:linear-gradient(90deg,#7b2d8b,#c41e1e);border-radius:4px;transition:width .3s}
+.ai-prog-txt{font-size:.78rem;color:#bb86fc;margin-top:.3rem}
+.product-ai-row{display:flex;align-items:center;gap:.6rem;padding:.4rem 0;border-bottom:1px solid #2a1a3e;font-size:.78rem}
+.product-ai-row:last-child{border-bottom:none}
+.ai-status{font-size:.7rem;padding:.15rem .4rem;border-radius:3px;font-weight:700;letter-spacing:.5px;white-space:nowrap}
+.ai-pending{background:#2a2a2a;color:#555}
+.ai-loading{background:#1a0d2e;color:#bb86fc;animation:pulse 1s infinite}
+.ai-done{background:#0d2a0d;color:#4caf50}
+.ai-err{background:#2a0d0d;color:#f44336}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+/* FICHA CARDS */
+.fichas-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:1rem}
+.ficha-card{background:#222;border:1px solid #333;border-radius:10px;padding:1rem;position:relative}
+.ficha-card.ai-generated{border-color:#7b2d8b}
+.ficha-ai-badge{position:absolute;top:.6rem;right:.6rem;background:linear-gradient(135deg,#7b2d8b,#c41e1e);color:#fff;font-size:.58rem;font-weight:700;padding:.15rem .4rem;border-radius:10px;letter-spacing:.5px}
+.ficha-card-name{font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:900;color:#fff;margin-bottom:.2rem}
+.ficha-card-cat{font-size:.65rem;color:#888;letter-spacing:1px;text-transform:uppercase;margin-bottom:.6rem}
+.ficha-chips{display:flex;flex-wrap:wrap;gap:.3rem;margin:.4rem 0}
+.ficha-chip{background:#2a2a2a;border:1px solid #333;color:#aaa;font-size:.62rem;padding:.15rem .4rem;border-radius:10px}
+.ficha-nota-preview{font-size:.72rem;color:#999;font-style:italic;line-height:1.4;margin-top:.4rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.edit-ficha-btn{background:none;border:1px solid #444;color:#888;font-size:.68rem;padding:.2rem .5rem;border-radius:4px;cursor:pointer;font-family:'Oswald',sans-serif;margin-top:.5rem}
+.edit-ficha-btn:hover{border-color:var(--gold);color:var(--gold)}
+/* SHEET */
+.scroll-area{max-height:640px;overflow:auto}
+.sheet{background:#d0d0d0;padding:12px;border-radius:8px;display:grid;grid-template-columns:repeat(3,auto);gap:6px;width:fit-content}
+.sheet.cuts .lwrap{outline:1px dashed #999}
+.lwrap{width:236px;height:160px;position:relative;cursor:pointer}
+.lwrap:hover::after{content:'✏️ EDITAR';position:absolute;inset:4px;background:rgba(245,200,66,.2);border:2px solid var(--gold);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.68rem;color:var(--gold);font-weight:700;letter-spacing:1px}
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:200;display:none;align-items:center;justify-content:center;padding:1rem}
+.modal-overlay.open{display:flex}
+.modal{background:#1a1a1a;border-radius:14px;padding:1.5rem;border:1px solid #444;width:560px;max-width:100%;max-height:92vh;overflow-y:auto}
+.modal h3{font-size:.95rem;letter-spacing:1px;margin-bottom:1rem;color:var(--gold)}
+.mfield{margin-bottom:.7rem}
+.mfield label{font-size:.65rem;color:#888;letter-spacing:1px;display:block;margin-bottom:.22rem;text-transform:uppercase}
+.mfield input,.mfield select,.mfield textarea{width:100%;background:#111;border:1px solid #333;color:#fff;padding:.4rem .6rem;border-radius:6px;font-family:'Oswald',sans-serif;font-size:.85rem}
+.mfield input:focus,.mfield select:focus,.mfield textarea:focus{outline:none;border-color:var(--gold)}
+.mfield textarea{resize:vertical;min-height:55px;line-height:1.5}
+.mini-preview{margin:.6rem 0;display:flex;justify-content:center}
+/* PROG BOX */
+.prog-box{display:none;background:#0d1f0d;border:1px solid #4caf50;border-radius:8px;padding:1rem;margin-top:1rem}
+.prog-bar{height:6px;background:#1a2a1a;border-radius:3px;margin-top:.5rem;overflow:hidden}
+.prog-fill{height:100%;background:#4caf50;border-radius:3px;transition:width .1s}
+.prog-txt{font-size:.78rem;color:#4caf50}
+.qr-holder{background:#fff;border-radius:2px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.qr-holder canvas,.qr-holder img{width:100%!important;height:100%!important}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="header">
+    <div class="vbadge">🤖 IA · PRO v7</div>
+    <h1>🍷 VINATERÍA <span>ETIQUETAS</span> PRO</h1>
+    <p>FICHAS DE CATA GENERADAS AUTOMÁTICAMENTE CON INTELIGENCIA ARTIFICIAL</p>
+  </header>
+
+  <nav class="steps">
+    <div class="step active" id="s1" onclick="goStep(1)"><span>01</span>DATOS</div>
+    <div class="step" id="s2" onclick="goStep(2)"><span>🤖</span>IA · CATA</div>
+    <div class="step" id="s3" onclick="goStep(3)"><span>03</span>PREVIEW</div>
+    <div class="step" id="s4" onclick="goStep(4)"><span>04</span>PDF</div>
+  </nav>
+
+  <!-- STEP 1 -->
+  <div id="p1" class="panel">
+    <div class="section-title">🎨 Plantilla de diseño</div>
+    <div class="tpl-grid" id="tplGrid"></div>
+
+    <div class="upload-zone" id="dz">
+      <div style="font-size:2.8rem">📊</div>
+      <h3>ARRASTRA TU EXCEL AQUÍ</h3>
+      <p>.xlsx &nbsp;·&nbsp; .xlsm &nbsp;·&nbsp; .csv — columnas: Producto · Precio Anterior · Precio Oferta</p>
+      <input type="file" id="fi" accept=".xlsx,.xlsm,.csv" onchange="handleFile(event)">
+    </div>
+    <div style="text-align:center;margin-top:.6rem">
+      <button class="sample-btn" onclick="loadSample()">📋 CARGAR DATOS DE EJEMPLO</button>
+    </div>
+
+    <div id="tbl"></div>
+
+    <div class="cfg-grid" id="cfgPanel" style="display:none">
+      <div>
+        <label class="cfg-label">Nombre de la tienda</label>
+        <input class="cfg-input" type="text" id="storeName" value="VINATERÍA">
+      </div>
+      <div>
+        <label class="cfg-label">Banda diagonal</label>
+        <div class="badge-opts">
+          <span class="bopt sel" onclick="setBadge(this,'OFERTA')">OFERTA</span>
+          <span class="bopt" onclick="setBadge(this,'PROMOCIÓN')">PROMOCIÓN</span>
+          <span class="bopt" onclick="setBadge(this,'PRECIO ESPECIAL')">PRECIO ESP.</span>
+          <span class="bopt" onclick="setBadge(this,'SUPER OFERTA')">SUPER</span>
+        </div>
+      </div>
+    </div>
+    <div class="colors-row" id="clrsPanel" style="display:none">
+      <div class="color-item"><label>Principal</label><input class="cfg-input" type="color" id="cp" value="#c41e1e"></div>
+      <div class="color-item"><label>Precio bg</label><input class="cfg-input" type="color" id="cy" value="#f5c842"></div>
+      <div class="color-item"><label>Top bar</label><input class="cfg-input" type="color" id="cd" value="#111111"></div>
+      <div class="color-item"><label>Tienda txt</label><input class="cfg-input" type="color" id="ca" value="#f5c842"></div>
+    </div>
+
+    <!-- API KEY INPUT -->
+    <!-- sin API key necesaria — el scraping lo hace el servidor Vercel -->
+
+    <div class="btn-row" id="p1btns" style="display:none">
+      <button class="btn btn-ai" onclick="goStep(2)">🤖 GENERAR FICHAS CON IA →</button>
+    </div>
+  </div>
+
+  <!-- STEP 2: AI CATA -->
+  <div id="p2" class="panel" style="display:none">
+    <div class="info-box info-purple">
+      <span style="font-size:1.2rem">🤖</span>
+      <div>
+        <strong>Generación automática con Claude AI</strong><br>
+        La IA analiza cada producto y genera su ficha técnica completa: país, región, aromas, maridaje, nota de sommelier y más. Puedes editar cualquier campo después.
+      </div>
+    </div>
+
+    <div class="ai-panel">
+      <h3>🤖 Generador de fichas de cata con IA</h3>
+      <div style="display:flex;gap:.8rem;flex-wrap:wrap;align-items:center">
+        <button class="btn btn-ai" id="genBtn" onclick="generateAllFichas()">✨ GENERAR TODAS LAS FICHAS</button>
+        <button class="btn btn-o" id="stopBtn" onclick="stopGeneration()" style="display:none">⏹ DETENER</button>
+        <span id="aiStatusGlobal" style="font-size:.78rem;color:#888"></span>
+      </div>
+      <div class="ai-progress" id="aiProgress" style="display:none">
+        <div class="ai-prog-bar"><div class="ai-prog-fill" id="aiProgFill" style="width:0%"></div></div>
+        <div class="ai-prog-txt" id="aiProgTxt">Iniciando...</div>
+        <div id="aiProductList" style="margin-top:.8rem;max-height:200px;overflow-y:auto"></div>
+      </div>
+    </div>
+
+    <div class="fichas-grid" id="fichasGrid" style="margin-top:1.2rem"></div>
+
+    <div class="btn-row">
+      <button class="btn btn-o" onclick="goStep(1)">← VOLVER</button>
+      <button class="btn btn-r" onclick="goStep(3)">VISTA PREVIA →</button>
+    </div>
+  </div>
+
+  <!-- STEP 3: PREVIEW -->
+  <div id="p3" class="panel" style="display:none">
+    <div class="stats-row" id="stats3"></div>
+    <div class="info-box info-gold">📱 QR incluido en cada etiqueta — el cliente escanea y ve la ficha técnica generada por IA · Clic para editar</div>
+    <div style="display:flex;gap:1.2rem;align-items:center;margin-bottom:1rem;flex-wrap:wrap;font-size:.78rem;color:#888">
+      <label><input type="checkbox" id="cuts" checked onchange="renderSheet()" style="accent-color:var(--gold)"> Líneas de corte</label>
+      <label><input type="checkbox" id="showSem" checked onchange="renderSheet()" style="accent-color:var(--gold)"> Semáforo</label>
+      <label>Página: <input type="number" id="pgn" value="1" min="1" style="width:42px;background:#222;border:1px solid #444;color:#fff;padding:2px 5px;border-radius:4px;text-align:center;font-family:'Oswald',sans-serif" onchange="renderSheet()"></label>
+      <span id="totpg" style="color:#555"></span>
+    </div>
+    <div class="scroll-area"><div id="sheet"></div></div>
+    <div class="btn-row">
+      <button class="btn btn-o" onclick="goStep(2)">← FICHAS</button>
+      <button class="btn btn-y" onclick="goStep(4)">GENERAR PDF →</button>
+    </div>
+  </div>
+
+  <!-- STEP 4: PDF -->
+  <div id="p4" class="panel" style="display:none">
+    <div class="info-box info-green">✅ El QR de cada etiqueta abre la ficha generada por IA — sin internet, sin servidor.</div>
+    <div class="stats-row" id="stats4"></div>
+    <div style="background:#222;border-radius:8px;padding:1.2rem;margin-bottom:1rem">
+      <div class="cfg-grid" style="gap:.8rem">
+        <div><label class="cfg-label">Líneas de corte</label>
+          <select class="cfg-input" id="pcuts"><option value="1" selected>Sí</option><option value="0">No</option></select></div>
+        <div><label class="cfg-label">Calidad imagen</label>
+          <select class="cfg-input" id="quality"><option value="0.95" selected>Alta</option><option value="0.80">Media</option></select></div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-r" id="pdfBtn" onclick="generatePDF()">📄 DESCARGAR PDF</button>
+      <button class="btn btn-o" onclick="goStep(3)">← PREVIEW</button>
+    </div>
+    <div class="prog-box" id="prog">
+      <div class="prog-txt" id="progTxt">Procesando...</div>
+      <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+    </div>
+    <p style="color:#444;font-size:.72rem;margin-top:1rem;line-height:1.7">
+      💡 Imprimir en papel adhesivo brillante · 100% sin escalar · QR funciona sin internet
+    </p>
+  </div>
+</div>
+
+<!-- EDITOR MODAL -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal">
+    <h3>✏️ EDITAR ETIQUETA + FICHA DE CATA</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem">
+      <div class="mfield"><label>Nombre *</label><input type="text" id="eName" oninput="miniPrev()"></div>
+      <div class="mfield"><label>Categoría</label><input type="text" id="eCat" oninput="miniPrev()"></div>
+      <div class="mfield"><label>Descripción</label><input type="text" id="eDesc" oninput="miniPrev()"></div>
+      <div class="mfield"><label>Marca</label><input type="text" id="eMarca"></div>
+      <div class="mfield"><label>Precio anterior *</label><input type="number" id="eBefore" oninput="miniPrev()"></div>
+      <div class="mfield"><label>Precio oferta *</label><input type="number" id="eAfter" oninput="miniPrev()"></div>
+      <div class="mfield"><label>País</label><input type="text" id="ePais"></div>
+      <div class="mfield"><label>Región / DO</label><input type="text" id="eRegion"></div>
+      <div class="mfield"><label>Uva / Agave / Grano</label><input type="text" id="eUva"></div>
+      <div class="mfield"><label>Graduación</label><input type="text" id="eAlc"></div>
+      <div class="mfield"><label>Añejamiento</label><input type="text" id="eAnejo"></div>
+      <div class="mfield"><label>Temperatura servicio</label><input type="text" id="eTemp"></div>
+      <div class="mfield"><label>Color</label><input type="text" id="eColor"></div>
+      <div class="mfield"><label>Contenido</label><input type="text" id="eContenido"></div>
+    </div>
+    <div class="mfield"><label>Aromas</label><input type="text" id="eAromas"></div>
+    <div class="mfield"><label>Sabor en boca</label><input type="text" id="eSabor"></div>
+    <div class="mfield"><label>Maridaje</label><input type="text" id="eMaridaje"></div>
+    <div class="mfield"><label>Nota del sommelier</label><textarea id="eNota" rows="3"></textarea></div>
+    <div class="mini-preview" id="miniPrevEl"></div>
+    <div class="btn-row" style="margin-top:.5rem">
+      <button class="btn btn-r" onclick="confirmEdit()">✅ GUARDAR</button>
+      <button class="btn btn-o" onclick="closeModal()">CANCELAR</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+const COLS=3,ROWS=5,LPP=15;
+let products=[], badge='OFERTA', editIdx=-1, stopGen=false;
+
+const TEMPLATES=[
+  {id:'clasico',n:'Clásico',e:'🍷',p:'#c41e1e',y:'#f5c842',d:'#111111',a:'#f5c842'},
+  {id:'navidad',n:'Navidad',e:'🎄',p:'#1a6b2a',y:'#d4af37',d:'#8b0000',a:'#ffd700'},
+  {id:'dark',n:'Dark',e:'🖤',p:'#7b2d8b',y:'#2a2a2a',d:'#000000',a:'#bb86fc'},
+  {id:'verano',n:'Verano',e:'☀️',p:'#e65c00',y:'#ffe500',d:'#003366',a:'#ffffff'},
+  {id:'elegante',n:'Elegante',e:'✨',p:'#1a1a2e',y:'#c9a84c',d:'#0f0f0f',a:'#c9a84c'},
+  {id:'neon',n:'Neon',e:'💥',p:'#ff0066',y:'#00ffcc',d:'#080808',a:'#00ffcc'},
+];
+
+const C=()=>({p:document.getElementById('cp').value,y:document.getElementById('cy').value,d:document.getElementById('cd').value,a:document.getElementById('ca').value});
+const store=()=>document.getElementById('storeName')?.value||'VINATERÍA';
+const savePct=(p)=>Math.round((1-p.after/p.before)*100);
+const fmt=(n)=>{const i=Math.floor(n),d=Math.round((n-i)*100);return'$'+i+'.'+String(d).padStart(2,'0')};
+const dk=(h,a=70)=>{const n=parseInt(h.replace('#',''),16),r=Math.max(0,((n>>16)&255)-a),g=Math.max(0,((n>>8)&255)-a),b=Math.max(0,(n&255)-a);return'#'+[r,g,b].map(x=>x.toString(16).padStart(2,'0')).join('')};
+const semColor=(p)=>savePct(p)>=20?'#4caf50':savePct(p)>=10?'#f5c842':'#c41e1e';
+
+const SAMPLE=[
+  {name:'CONCHA Y TORO',desc:'Reserva 750 ml',cat:'VINO TINTO',before:259,after:199},
+  {name:'JACK DANIELS',desc:'Tennessee 700 ml',cat:'WHISKEY',before:499,after:399},
+  {name:'CLASE AZUL',desc:'Reposado 750 ml',cat:'TEQUILA',before:1985,after:1765},
+  {name:'HENNESSY',desc:'VS Cognac 750 ml',cat:'COGNAC',before:1475,after:1199},
+  {name:'HERRADURA',desc:'Plata 750 ml',cat:'TEQUILA',before:1355,after:1199},
+  {name:'SMIRNOFF',desc:'Vodka 750 ml',cat:'VODKA',before:265,after:219},
+];
+
+// ── TEMPLATES ────────────────────────────────────────────────
+function initTemplates(){
+  document.getElementById('tplGrid').innerHTML=TEMPLATES.map(t=>`
+  <div class="tpl${t.id==='clasico'?' sel':''}" id="tpl_${t.id}" onclick="applyTpl('${t.id}')"
+    style="background:${t.d};color:${t.a};border-color:${t.p}">
+    <span class="tpl-emoji">${t.e}</span>${t.n}
+    <div class="tpl-dots">
+      <div class="tpl-dot" style="background:${t.p}"></div>
+      <div class="tpl-dot" style="background:${t.y}"></div>
+      <div class="tpl-dot" style="background:${t.a}"></div>
+    </div>
+  </div>`).join('');
+}
+function applyTpl(id){
+  const t=TEMPLATES.find(x=>x.id===id);if(!t)return;
+  document.getElementById('cp').value=t.p;
+  document.getElementById('cy').value=t.y;
+  document.getElementById('cd').value=t.d;
+  document.getElementById('ca').value=t.a;
+  document.querySelectorAll('.tpl').forEach(x=>x.classList.remove('sel'));
+  document.getElementById('tpl_'+id).classList.add('sel');
+}
+
+// ── FILE LOAD ────────────────────────────────────────────────
+function loadSample(){products=SAMPLE.map(p=>({...p}));afterLoad();}
+function handleFile(e){
+  const f=e.target.files[0];if(!f)return;
+  const ext=f.name.split('.').pop().toLowerCase();
+  const r=new FileReader();
+  if(ext==='csv'){r.onload=ev=>parseCSV(ev.target.result);r.readAsText(f,'utf-8');}
+  else{r.onload=ev=>parseXLSX(ev.target.result);r.readAsArrayBuffer(f);}
+}
+function parseXLSX(buf){const wb=XLSX.read(buf,{type:'array'});processRows(XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1,defval:''}));}
+function parseCSV(t){processRows(t.split('\n').map(r=>r.split(',').map(c=>c.trim().replace(/^"|"$/g,''))));}
+function processRows(rows){
+  if(rows.length<2)return;
+  const h=rows[0].map(x=>String(x).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''));
+  const fi=ks=>{for(const k of ks)for(let i=0;i<h.length;i++)if(h[i].includes(k))return i;return -1;};
+  const ni=fi(['descripcion','producto','nombre','name']);
+  const bi=fi(['anterior','antes','original','before','old','regular']);
+  const ai=fi(['oferta','descuento','sale','precio','price','after','nuevo']);
+  const ci=fi(['categoria','tipo','category','type']);
+  const di=fi(['tamano','tamanio','size','presentacion','ml','desc']);
+  if(ni<0||bi<0||ai<0){alert('Columnas no detectadas.\nDetectadas: '+rows[0].join(', '));return;}
+  products=[];
+  for(let i=1;i<rows.length;i++){
+    const r=rows[i];
+    const name=String(r[ni]||'').trim();
+    const before=parseFloat(String(r[bi]||'').replace(/[^\d.]/g,''));
+    const after=parseFloat(String(r[ai]||'').replace(/[^\d.]/g,''));
+    if(!name||!before||!after||isNaN(before)||isNaN(after)||before<=0||after<=0)continue;
+    products.push({
+      name:name.toUpperCase().substring(0,32),
+      desc:di>=0?String(r[di]||'').substring(0,30):'',
+      cat:ci>=0?String(r[ci]||'').toUpperCase().substring(0,20):'',
+      before,after,
+      // ficha fields vacíos — se llenarán con IA
+      marca:'',pais:'',region:'',uva:'',alc:'',anejo:'',temp:'',
+      color:'',contenido:'',aromas:'',sabor:'',maridaje:'',nota:'',
+      aiGenerated:false
+    });
+  }
+  if(!products.length){alert('Sin productos válidos.');return;}
+  afterLoad();
+}
+function afterLoad(){
+  const shown=products.slice(0,8);
+  document.getElementById('tbl').innerHTML=`<div class="tbl-wrap">
+  <div style="padding:.5rem .8rem;background:#222;font-size:.7rem;color:#aaa">${products.length} PRODUCTOS CARGADOS · La IA generará la ficha técnica de cada uno</div>
+  <table><thead><tr><th></th><th>PRODUCTO</th><th>CAT.</th><th>ANTES</th><th>AHORA</th><th>AHORRO</th></tr></thead><tbody>
+  ${shown.map(p=>`<tr>
+    <td><span class="dot" style="background:${semColor(p)}"></span></td>
+    <td><strong style="color:#fff">${p.name}</strong>${p.desc?`<br><span style="color:#666;font-size:.7rem">${p.desc}</span>`:''}</td>
+    <td style="color:#888">${p.cat||'—'}</td>
+    <td style="text-decoration:line-through;color:#666">${fmt(p.before)}</td>
+    <td style="color:var(--gold);font-weight:700">${fmt(p.after)}</td>
+    <td><span class="tag" style="background:${semColor(p)}">${savePct(p)}%</span></td>
+  </tr>`).join('')}
+  </tbody></table></div>`;
+  document.getElementById('cfgPanel').style.display='grid';
+  document.getElementById('clrsPanel').style.display='flex';
+  document.getElementById('p1btns').style.display='flex';
+}
+function setBadge(el,t){badge=t;document.querySelectorAll('.bopt').forEach(b=>b.classList.remove('sel'));el.classList.add('sel');}
+
+// ── AI FICHA GENERATION ──────────────────────────────────────
+// Llama al endpoint de Vercel /api/scrape — sin API key, sin costo
+async function callClaude(productName, category, description){
+  const response = await fetch('/api/scrape', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ name: productName, category, description })
+  });
+  if(!response.ok){
+    const e = await response.text();
+    throw new Error(`Error scraping ${productName}: ${e}`);
+  }
+  return await response.json();
+}
+
+async function generateAllFichas(){
+  if(!products.length) return;
+  stopGen = false;
+  const btn = document.getElementById('genBtn');
+  const stopBtn = document.getElementById('stopBtn');
+  btn.disabled = true;
+  stopBtn.style.display = 'inline-block';
+  document.getElementById('aiProgress').style.display = 'block';
+  document.getElementById('aiStatusGlobal').textContent = '';
+
+  // Inicializar lista de productos
+  const listEl = document.getElementById('aiProductList');
+  listEl.innerHTML = products.map((p,i)=>`
+    <div class="product-ai-row" id="airow_${i}">
+      <span class="ai-status ai-pending" id="aist_${i}">PENDIENTE</span>
+      <span style="color:#aaa;flex:1">${p.name}</span>
+      <span style="color:#666;font-size:.65rem">${p.cat||''}</span>
+    </div>`).join('');
+
+  let done = 0;
+  for(let i=0; i<products.length; i++){
+    if(stopGen) break;
+    const p = products[i];
+    const stEl = document.getElementById('aist_'+i);
+
+    // Actualizar estado
+    stEl.className = 'ai-status ai-loading';
+    stEl.textContent = 'GENERANDO...';
+    document.getElementById('aiProgTxt').textContent = `Generando ficha ${i+1} de ${products.length}: ${p.name}`;
+
+    try{
+      const ficha = await callClaude(p.name, p.cat, p.desc);
+      // Mezclar con producto existente
+      Object.assign(products[i], {
+        marca: ficha.marca||'',
+        pais: ficha.pais||'',
+        region: ficha.region||'',
+        uva: ficha.uva||'',
+        alc: ficha.alc||'',
+        anejo: ficha.anejo||'',
+        temp: ficha.temp||'',
+        color: ficha.color||'',
+        contenido: ficha.contenido||p.desc||'',
+        aromas: ficha.aromas||'',
+        sabor: ficha.sabor||'',
+        maridaje: ficha.maridaje||'',
+        nota: ficha.nota||'',
+        aiGenerated: true
+      });
+      stEl.className = 'ai-status ai-done';
+      stEl.textContent = '✅ LISTA';
+    } catch(err){
+      console.error('Error en',p.name, err);
+      stEl.className = 'ai-status ai-err';
+      stEl.textContent = '❌ ERROR';
+    }
+
+    done++;
+    document.getElementById('aiProgFill').style.width = Math.round(done/products.length*100)+'%';
+    renderFichasGrid();
+
+    // Pequeña pausa para no saturar la API
+    if(i < products.length-1) await new Promise(r=>setTimeout(r,300));
+  }
+
+  btn.disabled = false;
+  stopBtn.style.display = 'none';
+  const genCount = products.filter(p=>p.aiGenerated).length;
+  document.getElementById('aiStatusGlobal').textContent = `✅ ${genCount} fichas generadas`;
+  document.getElementById('aiProgTxt').textContent = stopGen
+    ? `Detenido. ${genCount} fichas generadas.`
+    : `✅ Todas las fichas generadas. Puedes editar cualquiera antes de imprimir.`;
+}
+
+function stopGeneration(){
+  stopGen = true;
+  document.getElementById('stopBtn').style.display = 'none';
+  document.getElementById('genBtn').disabled = false;
+}
+
+// ── FICHAS GRID ──────────────────────────────────────────────
+function renderFichasGrid(){
+  const g = document.getElementById('fichasGrid');
+  g.innerHTML = products.map((p,i) => {
+    const aromas = (p.aromas||'').split(',').map(a=>a.trim()).filter(Boolean).slice(0,4);
+    const maridaje = (p.maridaje||'').split(',').map(m=>m.trim()).filter(Boolean).slice(0,3);
+    return `<div class="ficha-card${p.aiGenerated?' ai-generated':''}">
+      ${p.aiGenerated?'<div class="ficha-ai-badge">🤖 IA</div>':''}
+      <div class="ficha-card-name">${p.name}</div>
+      <div class="ficha-card-cat">${p.cat||''} ${p.pais?'· '+p.pais:''} ${p.alc?'· '+p.alc:''}</div>
+      ${aromas.length?`<div class="ficha-chips">${aromas.map(a=>`<span class="ficha-chip">👃 ${a}</span>`).join('')}</div>`:''}
+      ${maridaje.length?`<div class="ficha-chips">${maridaje.map(m=>`<span class="ficha-chip">🍽️ ${m}</span>`).join('')}</div>`:''}
+      ${p.nota?`<div class="ficha-nota-preview">"${p.nota}"</div>`:'<div style="font-size:.72rem;color:#444;margin-top:.3rem;font-style:italic">Sin ficha generada aún</div>'}
+      <button class="edit-ficha-btn" onclick="openEdit(${i})">✏️ Editar ficha</button>
+    </div>`;
+  }).join('');
+}
+
+// ── QR / FICHA HTML ──────────────────────────────────────────
+function fichaHTML(p){
+  const c=C();
+  const aro=(p.aromas||'').split(',').map(a=>a.trim()).filter(Boolean);
+  const mar=(p.maridaje||'').split(',').map(m=>m.trim()).filter(Boolean);
+  return `<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${p.name}</title>
+<style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:system-ui,sans-serif;background:#0a0a0a;color:#fff;padding:1rem}
+.card{background:#111;border-radius:14px;overflow:hidden;max-width:400px;margin:0 auto}
+.hdr{background:${c.p};padding:1rem;text-align:center}
+.nombre{font-size:1.4rem;font-weight:900;letter-spacing:1px}
+.cat{font-size:.65rem;color:rgba(255,255,255,.7);letter-spacing:2px;text-transform:uppercase;margin-top:.2rem}
+.ai-tag{background:rgba(255,255,255,.2);font-size:.55rem;padding:.1rem .4rem;border-radius:10px;margin-top:.3rem;display:inline-block;letter-spacing:1px}
+.precio-row{display:flex;align-items:center;justify-content:space-between;background:#1a1a1a;padding:.8rem 1rem}
+.precio-now{font-size:2rem;font-weight:900;color:${c.y}}
+.precio-was{font-size:.75rem;color:#555;text-decoration:line-through}
+.badge{background:${c.p};color:#fff;font-size:.72rem;font-weight:700;padding:.25rem .6rem;border-radius:4px}
+.sec{padding:.8rem 1rem;border-bottom:1px solid #1a1a1a}
+.sec-t{font-size:.58rem;letter-spacing:2px;color:#555;text-transform:uppercase;margin-bottom:.5rem}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:.4rem}
+.item{background:#1a1a1a;border-radius:6px;padding:.4rem .6rem}
+.item-l{font-size:.52rem;color:#555;letter-spacing:1px;text-transform:uppercase}
+.item-v{font-size:.78rem;color:#ddd;margin-top:.1rem;font-weight:500}
+.chips{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.3rem}
+.chip{background:#1e1e1e;border:1px solid #2a2a2a;color:#999;font-size:.62rem;padding:.2rem .45rem;border-radius:20px}
+.nota{background:#1a1a1a;border-radius:8px;padding:.7rem;font-size:.76rem;color:#aaa;line-height:1.6;font-style:italic}
+.footer{text-align:center;padding:.8rem;font-size:.6rem;color:#333;letter-spacing:1px}
+</style></head><body><div class="card">
+<div class="hdr">
+  <div class="nombre">${p.name}</div>
+  <div class="cat">${p.cat||''} ${p.marca?'· '+p.marca:''}</div>
+  ${p.aiGenerated?'<div class="ai-tag">🤖 Ficha generada con IA</div>':''}
+</div>
+<div class="precio-row">
+  <div><div class="precio-now">${fmt(p.after)}</div><div class="precio-was">Antes: ${fmt(p.before)}</div></div>
+  <div class="badge">AHORRA ${savePct(p)}%</div>
+</div>
+${(p.pais||p.region||p.uva||p.alc||p.anejo||p.temp||p.color||p.contenido)?`
+<div class="sec"><div class="sec-t">Ficha técnica</div><div class="grid">
+${p.pais?`<div class="item"><div class="item-l">País</div><div class="item-v">${p.pais}</div></div>`:''}
+${p.region?`<div class="item"><div class="item-l">Región</div><div class="item-v">${p.region}</div></div>`:''}
+${p.uva?`<div class="item"><div class="item-l">Uva / Agave</div><div class="item-v">${p.uva}</div></div>`:''}
+${p.alc?`<div class="item"><div class="item-l">Alcohol</div><div class="item-v">${p.alc}</div></div>`:''}
+${p.anejo?`<div class="item"><div class="item-l">Añejamiento</div><div class="item-v">${p.anejo}</div></div>`:''}
+${p.temp?`<div class="item"><div class="item-l">Temperatura</div><div class="item-v">${p.temp}</div></div>`:''}
+${p.color?`<div class="item"><div class="item-l">Color</div><div class="item-v">${p.color}</div></div>`:''}
+${p.contenido?`<div class="item"><div class="item-l">Contenido</div><div class="item-v">${p.contenido}</div></div>`:''}
+</div></div>`:''}
+${(aro.length||p.sabor)?`<div class="sec"><div class="sec-t">Cata</div>
+${aro.length?`<div style="margin-bottom:.5rem"><div class="item-l" style="font-size:.58rem;color:#555;letter-spacing:1px;text-transform:uppercase;margin-bottom:.3rem">👃 Aromas</div><div class="chips">${aro.map(a=>`<span class="chip">${a}</span>`).join('')}</div></div>`:''}
+${p.sabor?`<div class="item-l" style="font-size:.58rem;color:#555;letter-spacing:1px;text-transform:uppercase;margin-bottom:.3rem">👅 En boca</div><div style="font-size:.76rem;color:#bbb">${p.sabor}</div>`:''}
+</div>`:''}
+${mar.length?`<div class="sec"><div class="sec-t">🍽️ Maridaje</div><div class="chips">${mar.map(m=>`<span class="chip">${m}</span>`).join('')}</div></div>`:''}
+${p.nota?`<div class="sec"><div class="sec-t">📝 Nota del sommelier</div><div class="nota">${p.nota}</div></div>`:''}
+<div class="footer">${store()} · Escanea para más información</div>
+</div></body></html>`;
+}
+
+function fichaDataURL(p){
+  const html=fichaHTML(p);
+  return 'data:text/html;base64,'+btoa(unescape(encodeURIComponent(html)));
+}
+
+function makeQR(el, p, size){
+  el.innerHTML='';
+  try{new QRCode(el,{text:fichaDataURL(p),width:size,height:size,colorDark:'#000000',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.L});}
+  catch(e){console.warn(e);}
+}
+
+// ── LABEL HTML ───────────────────────────────────────────────
+function labelHTML(p,S=1,sem=false){
+  const c=C();
+  const s=savePct(p);
+  const iP=Math.floor(p.after);
+  const dP=String(Math.round((p.after%1)*100)).padStart(2,'0');
+  const iStr=String(iP);
+  const iFs=iStr.length>=4?38:iStr.length===3?46:54;
+  const nFs=p.name.length>24?10:p.name.length>18?12:p.name.length>13?13.5:15;
+  const bFs=fmt(p.before).length>=8?11:fmt(p.before).length>=6?13:14;
+  const sc=semColor(p);
+  const qrId='qr_'+(Math.random().toString(36).slice(2,8));
+  return `<div style="width:${220*S}px;height:${144*S}px;border-radius:${7*S}px;overflow:hidden;display:flex;position:relative;font-family:'Barlow Condensed',sans-serif;border:${S}px solid #ccc;background:#fff;flex-shrink:0" data-qrid="${qrId}" data-pidx="${products.indexOf(p)}">
+  ${sem?`<div style="position:absolute;top:${3*S}px;right:${3*S}px;width:${8*S}px;height:${8*S}px;border-radius:50%;background:${sc};z-index:10;box-shadow:0 0 ${5*S}px ${sc}88"></div>`:''}
+  <div style="flex:0 0 58%;position:relative;overflow:hidden;background:#fff">
+    <div style="position:absolute;top:0;left:0;right:0;height:${21*S}px;background:${c.d};display:flex;align-items:center;justify-content:flex-end;padding:0 ${7*S}px;z-index:3">
+      <span style="font-size:${9*S}px;font-weight:700;letter-spacing:${1.5*S}px;text-transform:uppercase;color:${c.a}">${store()}</span>
+    </div>
+    <div style="position:absolute;top:${-5*S}px;left:${-30*S}px;width:${95*S}px;height:${40*S}px;background:${c.p};transform:rotate(-35deg);z-index:5;display:flex;align-items:flex-end;justify-content:center;padding-bottom:${3*S}px">
+      <span style="font-weight:900;font-size:${7.5*S}px;color:#fff;text-transform:uppercase;transform:rotate(35deg);margin-left:${22*S}px;margin-bottom:${1*S}px;white-space:nowrap">${badge}</span>
+    </div>
+    <div style="position:absolute;top:${25*S}px;left:${7*S}px;right:${3*S}px;bottom:${40*S}px;display:flex;flex-direction:column;justify-content:center;gap:${1*S}px;overflow:hidden">
+      ${p.cat?`<div style="font-size:${6*S}px;color:#999;letter-spacing:${.8*S}px;text-transform:uppercase">${p.cat}</div>`:''}
+      <div style="font-weight:900;color:#111;line-height:1.05;text-transform:uppercase;font-size:${nFs*S}px">${p.name}</div>
+      ${p.desc?`<div style="font-size:${7*S}px;color:#666">${p.desc}</div>`:''}
+    </div>
+    <div style="position:absolute;bottom:${4*S}px;left:${7*S}px;right:${36*S}px">
+      <div style="font-size:${6*S}px;color:#999;font-weight:700">Antes:</div>
+      <div style="font-weight:700;color:#aaa;line-height:1;text-decoration:line-through;font-size:${bFs*S}px">${fmt(p.before)}</div>
+    </div>
+    <div id="${qrId}" style="position:absolute;bottom:${3*S}px;right:${3*S}px;width:${30*S}px;height:${30*S}px;background:#fff;border-radius:${2*S}px;overflow:hidden"></div>
+  </div>
+  <div style="flex:0 0 42%;display:flex;flex-direction:column">
+    <div style="flex:1;background:${c.y};display:flex;flex-direction:column;align-items:center;justify-content:center;padding:${3*S}px">
+      <div style="font-size:${7.5*S}px;font-weight:700;letter-spacing:${.8*S}px;text-transform:uppercase;color:${dk(c.y)}">AHORA:</div>
+      <div style="display:flex;align-items:flex-start;line-height:1;margin-top:${2*S}px">
+        <span style="font-weight:900;color:${c.p};margin-top:${4*S}px;font-size:${15*S}px">$</span>
+        <span style="font-weight:900;color:${c.p};font-size:${iFs*S}px;line-height:1">${iStr}</span>
+        <span style="font-weight:900;color:${c.p};margin-top:${3*S}px;font-size:${13*S}px">.${dP}</span>
+      </div>
+    </div>
+    <div style="background:${c.p};padding:${3*S}px ${4*S}px;text-align:center">
+      <span style="font-size:${7*S}px;font-weight:900;color:#fff;letter-spacing:.8px;text-transform:uppercase">AHORRA <span style="font-size:${10*S}px">${s}%</span></span>
+    </div>
+    <div style="background:#f5f5f5;padding:${2*S}px;text-align:center;border-top:${S}px solid #eee">
+      <span style="font-size:${5*S}px;color:#aaa">📱 ESCANEA · FICHA TÉCNICA</span>
+    </div>
+  </div>
+</div>`;
+}
+
+async function injectQRs(container,scale=1){
+  const els=container.querySelectorAll('[data-qrid]');
+  for(const el of els){
+    const qrEl=container.querySelector('#'+el.dataset.qrid);
+    const pidx=parseInt(el.dataset.pidx);
+    if(qrEl&&pidx>=0&&products[pidx]) makeQR(qrEl,products[pidx],Math.round(30*scale));
+    await new Promise(r=>setTimeout(r,30));
+  }
+}
+
+// ── SHEET ────────────────────────────────────────────────────
+function renderSheet(){
+  const pg=parseInt(document.getElementById('pgn').value)||1;
+  const tot=Math.ceil(products.length/LPP);
+  document.getElementById('totpg').textContent='/ '+tot+' págs';
+  const pp=products.slice((pg-1)*LPP,pg*LPP);
+  const cuts=document.getElementById('cuts').checked;
+  const sem=document.getElementById('showSem').checked;
+  let html=`<div class="sheet${cuts?' cuts':''}">`;
+  for(let i=0;i<LPP;i++){
+    if(i<pp.length){const gi=(pg-1)*LPP+i;
+      html+=`<div class="lwrap" onclick="openEdit(${gi})"><div style="padding:4px">${labelHTML(pp[i],1,sem)}</div></div>`;
+    } else html+=`<div class="lwrap"></div>`;
+  }
+  html+=`</div>`;
+  document.getElementById('sheet').innerHTML=html;
+  setTimeout(()=>injectQRs(document.getElementById('sheet'),1),150);
+}
+
+// ── EDITOR ───────────────────────────────────────────────────
+function openEdit(idx){
+  editIdx=idx;
+  const p=products[idx];
+  const map={eName:'name',eCat:'cat',eDesc:'desc',eMarca:'marca',eBefore:'before',eAfter:'after',
+    ePais:'pais',eRegion:'region',eUva:'uva',eAlc:'alc',eAnejo:'anejo',eTemp:'temp',
+    eColor:'color',eContenido:'contenido',eAromas:'aromas',eSabor:'sabor',eMaridaje:'maridaje',eNota:'nota'};
+  Object.entries(map).forEach(([elId,key])=>{const el=document.getElementById(elId);if(el)el.value=p[key]||'';});
+  miniPrev();
+  document.getElementById('editModal').classList.add('open');
+}
+function miniPrev(){
+  const tmp={name:(document.getElementById('eName').value||'PRODUCTO').toUpperCase(),cat:document.getElementById('eCat').value.toUpperCase(),desc:document.getElementById('eDesc').value,before:parseFloat(document.getElementById('eBefore').value)||100,after:parseFloat(document.getElementById('eAfter').value)||80};
+  document.getElementById('miniPrevEl').innerHTML=`<div style="transform:scale(.65);transform-origin:top center;height:94px;overflow:visible">${labelHTML(tmp,1,true)}</div>`;
+}
+function confirmEdit(){
+  if(editIdx<0)return;
+  const map={eName:'name',eCat:'cat',eDesc:'desc',eMarca:'marca',
+    ePais:'pais',eRegion:'region',eUva:'uva',eAlc:'alc',eAnejo:'anejo',eTemp:'temp',
+    eColor:'color',eContenido:'contenido',eAromas:'aromas',eSabor:'sabor',eMaridaje:'maridaje',eNota:'nota'};
+  Object.entries(map).forEach(([elId,key])=>{const el=document.getElementById(elId);if(el)products[editIdx][key]=el.value;});
+  products[editIdx].name=products[editIdx].name.toUpperCase().substring(0,32);
+  products[editIdx].cat=products[editIdx].cat.toUpperCase().substring(0,20);
+  products[editIdx].before=parseFloat(document.getElementById('eBefore').value)||0;
+  products[editIdx].after=parseFloat(document.getElementById('eAfter').value)||0;
+  closeModal();
+  renderSheet();
+  renderFichasGrid();
+}
+function closeModal(){document.getElementById('editModal').classList.remove('open');editIdx=-1;}
+document.getElementById('editModal').addEventListener('click',e=>{if(e.target.classList.contains('modal-overlay'))closeModal();});
+
+// ── NAV ──────────────────────────────────────────────────────
+function goStep(n){
+  [1,2,3,4].forEach(i=>{
+    document.getElementById('p'+i).style.display=i===n?'block':'none';
+    const b=document.getElementById('s'+i);
+    b.classList.remove('active','done');
+    if(i===n)b.classList.add('active');else if(i<n)b.classList.add('done');
+  });
+  if(n===2)renderFichasGrid();
+  if(n===3){document.getElementById('pgn').value=1;renderSheet();updateStats('stats3');}
+  if(n===4)updateStats('stats4');
+}
+function updateStats(id){
+  if(!products.length)return;
+  const avg=Math.round(products.reduce((a,p)=>a+savePct(p),0)/products.length);
+  const conFicha=products.filter(p=>p.aiGenerated).length;
+  document.getElementById(id).innerHTML=`
+  <div class="stat"><div class="stat-n">${products.length}</div><div class="stat-l">Etiquetas</div></div>
+  <div class="stat"><div class="stat-n">${Math.ceil(products.length/LPP)}</div><div class="stat-l">Páginas</div></div>
+  <div class="stat"><div class="stat-n" style="color:#bb86fc">${conFicha}</div><div class="stat-l">Fichas IA</div></div>
+  <div class="stat"><div class="stat-n">${avg}%</div><div class="stat-l">Ahorro prom.</div></div>`;
+}
+
+// ── PDF ──────────────────────────────────────────────────────
+async function generatePDF(){
+  if(!products.length)return;
+  const btn=document.getElementById('pdfBtn');
+  const prog=document.getElementById('prog');
+  const pTxt=document.getElementById('progTxt');
+  const pFill=document.getElementById('progFill');
+  btn.disabled=true;btn.textContent='⏳ Procesando...';
+  prog.style.display='block';pFill.style.background='#4caf50';
+  try{
+    const {jsPDF}=window.jspdf;
+    const PW=215.9,PH=279.4,MAR=10,LW=60,LH=40;
+    const GAPX=(PW-2*MAR-COLS*LW)/(COLS-1);
+    const GAPY=(PH-2*MAR-ROWS*LH)/(ROWS-1);
+    const cuts=document.getElementById('pcuts').value==='1';
+    const qual=parseFloat(document.getElementById('quality').value);
+    const SCALE=3;
+    const off=document.createElement('div');
+    off.style.cssText='position:fixed;left:-9999px;top:-9999px;background:#fff';
+    document.body.appendChild(off);
+    const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'letter'});
+    const totalPages=Math.ceil(products.length/LPP);
+    for(let page=0;page<totalPages;page++){
+      if(page>0)doc.addPage('letter','portrait');
+      const pp=products.slice(page*LPP,(page+1)*LPP);
+      for(let i=0;i<pp.length;i++){
+        const p=pp[i];
+        const col=i%COLS,row=Math.floor(i/COLS);
+        const X=MAR+col*(LW+GAPX),Y=MAR+row*(LH+GAPY);
+        off.innerHTML=`<div>${labelHTML(p,SCALE,true)}</div>`;
+        const qrEl=off.querySelector('[id^="qr_"]');
+        if(qrEl){makeQR(qrEl,p,90);await new Promise(r=>setTimeout(r,120));}
+        const canvas=await html2canvas(off.firstChild,{scale:1,useCORS:true,backgroundColor:'#ffffff',logging:false});
+        doc.addImage(canvas.toDataURL('image/jpeg',qual),'JPEG',X,Y,LW,LH);
+        if(cuts){
+          doc.setDrawColor(160,160,160);doc.setLineWidth(0.1);doc.setLineDashPattern([1.2,1.2],0);
+          if(col>0){const cx=X-GAPX/2;doc.line(cx,MAR-4,cx,PH-MAR+4);}
+          if(row>0){const cy=Y-GAPY/2;doc.line(MAR-4,cy,PW-MAR+4,cy);}
+          doc.setLineDashPattern([],0);
+        }
+        const done=page*LPP+i+1;
+        pTxt.textContent=`Procesando ${done}/${products.length}...`;
+        pFill.style.width=Math.round(done/products.length*100)+'%';
+        await new Promise(r=>setTimeout(r,0));
+      }
+      doc.setTextColor(160,160,160);doc.setFont('helvetica','normal');doc.setFontSize(5.5);
+      doc.text('Pág '+(page+1)+'/'+totalPages+' · '+store(),PW/2,PH-2.5,{align:'center'});
+    }
+    document.body.removeChild(off);
+    doc.save('etiquetas-'+store().replace(/[^a-zA-Z0-9]/g,'-')+'.pdf');
+    pTxt.textContent='✅ PDF listo con fichas de cata generadas por IA';
+    pFill.style.width='100%';pFill.style.background='var(--gold)';
+  }catch(err){
+    console.error(err);
+    pTxt.textContent='❌ Error: '+err.message;
+    pFill.style.background='var(--red)';
+  }
+  btn.disabled=false;btn.innerHTML='📄 DESCARGAR PDF';
+}
+
+// ── DRAG DROP ────────────────────────────────────────────────
+const dz=document.getElementById('dz');
+dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('drag')});
+dz.addEventListener('dragleave',()=>dz.classList.remove('drag'));
+dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('drag');const f=e.dataTransfer.files[0];if(f){document.getElementById('fi').files=e.dataTransfer.files;handleFile({target:{files:[f]}});}});
+
+initTemplates();
+</script>
+</body>
+</html>
