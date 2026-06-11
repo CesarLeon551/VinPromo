@@ -1,108 +1,90 @@
-# 🍾 Vinatería Promo Labels
+# 🍷 Vinatería Etiquetas PRO v8
 
-Sistema web para generar etiquetas promocionales de vinatería de forma automática a partir de archivos Excel.
-
-El objetivo es facilitar la creación de promociones en anaquel, reduciendo tiempo de captura y manteniendo un diseño uniforme para toda la tienda.
-
----
-
-## ✨ Características
-
-* 📊 Importación de archivos Excel (.xlsx y .xlsm)
-* 🏷️ Generación automática de etiquetas promocionales
-* 💰 Cálculo automático de descuentos
-* 🔥 Precio de oferta destacado
-* ❌ Precio anterior tachado
-* 📄 Exportación a PDF
-* 👀 Vista previa antes de imprimir
-* 🎨 Personalización de colores y promociones
-* 🖼️ Soporte para logo de la tienda
-* ✂️ Líneas de corte opcionales
+Generador de etiquetas promocionales con fichas de cata automáticas.  
+Funciona para **múltiples sucursales** desde una sola URL pública — **100% gratuito**.
 
 ---
 
-## 📏 Formato de Etiqueta
+## ¿Cómo funciona?
 
-Cada etiqueta se genera con medidas exactas de:
-
-* Ancho: 6 cm
-* Alto: 4 cm
-* Orientación: Horizontal
-
-Diseño optimizado para lectura rápida en anaqueles y exhibiciones.
+1. Subes tu Excel con productos y precios
+2. La app busca información de cada producto en Wikipedia y fuentes públicas
+3. Genera fichas técnicas de cata automáticamente
+4. Exporta etiquetas en PDF con QR incluido — el cliente escanea y ve la ficha en su celular
 
 ---
 
-## 📂 Formato del Excel
+## Deploy en Vercel (5 minutos, gratis para siempre)
 
-Columnas requeridas:
+### Paso 1 — Subir a GitHub
 
-| Campo                    | Obligatorio |
-| ------------------------ | ----------- |
-| Descripción del producto | Sí          |
-| Precio anterior          | Sí          |
-| Precio oferta            | Sí          |
+1. Ve a [github.com](https://github.com) → **New repository**
+2. Nombre: `vinateria-etiquetas`
+3. Visibility: **Private** (recomendado)
+4. Click **Create repository**
+5. Sube todos estos archivos:
+   ```
+   vinateria-vercel/
+   ├── vercel.json
+   ├── api/
+   │   └── scrape.js
+   └── public/
+       └── index.html
+   ```
 
-Columnas opcionales:
+Con GitHub Desktop o arrastrando los archivos al repositorio.
 
-| Campo            |
-| ---------------- |
-| Marca            |
-| Categoría        |
-| Tamaño           |
-| Código de barras |
-| Imagen           |
+### Paso 2 — Conectar con Vercel
 
-Ejemplo:
+1. Ve a [vercel.com](https://vercel.com) → **Sign up with GitHub** (gratis)
+2. Click **Add New Project**
+3. Selecciona el repositorio `vinateria-etiquetas`
+4. En configuración:
+   - **Framework Preset**: Other
+   - **Root Directory**: `vinateria-vercel`
+   - Todo lo demás déjalo por defecto
+5. Click **Deploy**
 
-| Descripción                | Precio Anterior | Precio Oferta |
-| -------------------------- | --------------- | ------------- |
-| Bacardí Carta Blanca 750ml | 259             | 199           |
-| Smirnoff Vodka 750ml       | 199             | 159           |
+¡Listo! En 2 minutos tendrás una URL pública tipo:
+```
+https://vinateria-etiquetas.vercel.app
+```
 
----
+### Paso 3 — Compartir con sucursales
 
-## 🚀 Flujo de Uso
-
-### 1. Subir Excel
-
-Importa tu archivo con los productos en promoción.
-
-### 2. Vista Previa
-
-Visualiza las etiquetas antes de imprimir.
-
-### 3. Generar PDF
-
-Exporta una hoja tamaño carta con múltiples etiquetas listas para recortar.
+Comparte esa URL con todas las sucursales. Funciona en cualquier navegador, sin instalar nada.
 
 ---
 
-## 🛠️ Tecnologías
+## Actualizar la app
 
-### Frontend
-
-* React
-* TypeScript
-* Tailwind CSS
-
-### Librerías
-
-* SheetJS (Lectura de Excel)
-* PDF-lib (Generación de PDF)
+Cada vez que modifiques los archivos y los subas a GitHub, Vercel se actualiza automáticamente en segundos.
 
 ---
 
-## 🎯 Objetivo
+## Estructura del proyecto
 
-Automatizar la creación de etiquetas promocionales para vinaterías, supermercados y tiendas de conveniencia, eliminando la edición manual de diseños y reduciendo errores en promociones.
+```
+vinateria-vercel/
+├── vercel.json          ← Configuración de Vercel
+├── api/
+│   └── scrape.js        ← Función que busca info del producto (Wikipedia + DuckDuckGo)
+└── public/
+    └── index.html       ← La app completa (frontend)
+```
 
 ---
 
-## 📄 Licencia
+## Fuentes de información usadas
 
-MIT License
+- **Wikipedia API** — información general de marcas y productos
+- **DuckDuckGo Instant Answers** — datos adicionales de productos
+- **Base de conocimiento por categoría** — defaults inteligentes para tequila, whiskey, vino, etc.
+
+Ambas APIs son **públicas y gratuitas**, sin límite de uso para este propósito.
 
 ---
 
-Desarrollado para optimizar la gestión de promociones y mejorar la presentación visual de productos en punto de venta.
+## Soporte
+
+Si la ficha de algún producto sale incompleta, puedes editarla manualmente en la app antes de generar el PDF.

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>🍷 Vinatería Etiquetas PRO v7 · IA</title>
+<title>🍷 Vinatería Etiquetas PRO v9</title>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -16,110 +16,118 @@ body{font-family:'Oswald',sans-serif;background:var(--dark);color:#fff;min-heigh
 .header p{color:#aaa;margin-top:.4rem;font-size:.82rem;letter-spacing:1.5px}
 .vbadge{position:absolute;top:1.5rem;right:0;background:linear-gradient(135deg,#7b2d8b,#c41e1e);color:#fff;font-size:.68rem;font-weight:700;padding:.3rem .8rem;border-radius:20px;letter-spacing:1px}
 .steps{display:flex;margin-bottom:2rem;background:var(--panel);border-radius:12px;overflow:hidden;border:1px solid #333}
-.step{flex:1;padding:.85rem .4rem;text-align:center;font-size:.68rem;letter-spacing:.5px;cursor:pointer;color:#666;transition:all .2s;border-right:1px solid #222}
+.step{flex:1;padding:.85rem .3rem;text-align:center;font-size:.62rem;letter-spacing:.3px;cursor:pointer;color:#666;transition:all .2s;border-right:1px solid #222}
 .step:last-child{border-right:none}
 .step.active{background:var(--red);color:#fff;font-weight:700}
 .step.done{color:var(--gold)}
-.step span{display:block;font-size:1rem;font-weight:900;margin-bottom:.15rem}
+.step span{display:block;font-size:.95rem;font-weight:900;margin-bottom:.1rem}
 .panel{background:var(--panel);border-radius:12px;padding:1.5rem;border:1px solid var(--border)}
-.upload-zone{border:2px dashed #444;border-radius:12px;padding:2.5rem 2rem;text-align:center;cursor:pointer;transition:all .2s;position:relative}
+.upload-zone{border:2px dashed #444;border-radius:12px;padding:2rem;text-align:center;cursor:pointer;transition:all .2s;position:relative}
 .upload-zone:hover,.drag{border-color:var(--gold)!important;background:#1f1d10}
-.upload-zone h3{font-size:1.1rem;color:#fff;margin-bottom:.4rem;margin-top:.7rem}
-.upload-zone p{color:#777;font-size:.8rem}
+.upload-zone h3{font-size:1rem;color:#fff;margin-bottom:.3rem;margin-top:.6rem}
+.upload-zone p{color:#777;font-size:.78rem}
 .upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
-.sample-btn{margin-top:.8rem;background:#2a2a2a;border:1px solid #555;color:var(--gold);padding:.4rem 1.2rem;border-radius:6px;cursor:pointer;font-family:'Oswald',sans-serif;font-size:.8rem;letter-spacing:1px}
+.sample-btn{margin-top:.7rem;background:#2a2a2a;border:1px solid #555;color:var(--gold);padding:.4rem 1.2rem;border-radius:6px;cursor:pointer;font-family:'Oswald',sans-serif;font-size:.78rem;letter-spacing:1px}
 .sample-btn:hover{background:#383838}
-.section-title{font-size:.75rem;letter-spacing:1.5px;color:var(--gold);margin-bottom:.7rem;text-transform:uppercase}
-.tpl-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:.6rem;margin-bottom:1.2rem}
-.tpl{border-radius:8px;padding:.6rem .3rem;text-align:center;cursor:pointer;border:2px solid transparent;transition:all .2s;font-size:.62rem;font-weight:700}
-.tpl.sel{border-color:#fff!important;transform:scale(1.06)}
-.tpl-emoji{font-size:1.3rem;display:block;margin-bottom:.25rem}
-.tpl-dots{display:flex;gap:3px;justify-content:center;margin-top:.3rem}
-.tpl-dot{width:9px;height:9px;border-radius:50%}
+.section-title{font-size:.72rem;letter-spacing:1.5px;color:var(--gold);margin-bottom:.6rem;text-transform:uppercase}
+/* TEMPLATES */
+.tpl-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:.5rem;margin-bottom:1rem}
+.tpl{border-radius:8px;padding:.5rem .2rem;text-align:center;cursor:pointer;border:2px solid transparent;transition:all .2s;font-size:.58rem;font-weight:700}
+.tpl.sel{border-color:#fff!important;transform:scale(1.05)}
+.tpl-emoji{font-size:1.2rem;display:block;margin-bottom:.2rem}
+.tpl-dots{display:flex;gap:3px;justify-content:center;margin-top:.25rem}
+.tpl-dot{width:8px;height:8px;border-radius:50%}
+/* CONFIG */
 .cfg-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem}
-.cfg-label{display:block;font-size:.68rem;color:#888;letter-spacing:1px;margin-bottom:.3rem;text-transform:uppercase}
-.cfg-input{width:100%;background:#111;border:1px solid #333;color:#fff;padding:.45rem .7rem;border-radius:6px;font-family:'Oswald',sans-serif;font-size:.88rem}
+.cfg-label{display:block;font-size:.65rem;color:#888;letter-spacing:1px;margin-bottom:.25rem;text-transform:uppercase}
+.cfg-input{width:100%;background:#111;border:1px solid #333;color:#fff;padding:.42rem .65rem;border-radius:6px;font-family:'Oswald',sans-serif;font-size:.85rem}
 .cfg-input:focus{outline:none;border-color:var(--gold)}
-input[type=color].cfg-input{height:36px;cursor:pointer;padding:.15rem}
-.colors-row{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:.8rem}
-.color-item{flex:1;min-width:80px}
-.color-item label{font-size:.65rem;color:#888;display:block;margin-bottom:.25rem;text-transform:uppercase}
-.badge-opts{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.4rem}
-.bopt{background:#222;border:1px solid #444;color:#bbb;padding:.25rem .6rem;border-radius:4px;cursor:pointer;font-size:.72rem;font-family:'Oswald',sans-serif}
+input[type=color].cfg-input{height:34px;cursor:pointer;padding:.15rem}
+input[type=date].cfg-input{color-scheme:dark}
+.colors-row{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.7rem}
+.color-item{flex:1;min-width:75px}
+.color-item label{font-size:.62rem;color:#888;display:block;margin-bottom:.22rem;text-transform:uppercase}
+.badge-opts{display:flex;gap:.35rem;flex-wrap:wrap;margin-top:.35rem}
+.bopt{background:#222;border:1px solid #444;color:#bbb;padding:.22rem .55rem;border-radius:4px;cursor:pointer;font-size:.68rem;font-family:'Oswald',sans-serif}
 .bopt.sel{background:var(--red);border-color:var(--red);color:#fff;font-weight:700}
-.btn{padding:.6rem 1.3rem;border-radius:6px;font-family:'Oswald',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:1px;cursor:pointer;border:none;transition:all .15s;text-transform:uppercase}
+/* BOTTLE TOGGLE */
+.bottle-opts{display:flex;gap:.5rem;margin-top:.4rem;flex-wrap:wrap}
+.bottle-opt{background:#222;border:1px solid #444;color:#bbb;padding:.3rem .7rem;border-radius:6px;cursor:pointer;font-size:.72rem;font-family:'Oswald',sans-serif;display:flex;align-items:center;gap:.3rem}
+.bottle-opt.sel{background:#2a1a3e;border-color:#7b2d8b;color:#bb86fc;font-weight:700}
+/* BUTTONS */
+.btn{padding:.55rem 1.2rem;border-radius:6px;font-family:'Oswald',sans-serif;font-size:.82rem;font-weight:700;letter-spacing:1px;cursor:pointer;border:none;transition:all .15s;text-transform:uppercase}
 .btn-r{background:var(--red);color:#fff}.btn-r:hover{background:#e52020}
 .btn-y{background:var(--gold);color:#111}.btn-y:hover{background:#ffd44a}
 .btn-o{background:transparent;border:1px solid #555;color:#bbb}.btn-o:hover{border-color:var(--gold);color:var(--gold)}
-.btn-ai{background:linear-gradient(135deg,#7b2d8b,#c41e1e);color:#fff;border:none}
-.btn-ai:hover{opacity:.9}
-.btn-ai:disabled{opacity:.5;cursor:not-allowed}
-.btn-row{display:flex;gap:.7rem;margin-top:1.2rem;flex-wrap:wrap;align-items:center}
-.info-box{border-radius:8px;padding:.7rem 1rem;margin-bottom:.8rem;font-size:.8rem;display:flex;align-items:flex-start;gap:.6rem}
+.btn-ai{background:linear-gradient(135deg,#7b2d8b,#c41e1e);color:#fff;border:none}.btn-ai:hover{opacity:.9}.btn-ai:disabled{opacity:.5;cursor:not-allowed}
+.btn-row{display:flex;gap:.6rem;margin-top:1rem;flex-wrap:wrap;align-items:center}
+/* INFO */
+.info-box{border-radius:8px;padding:.65rem .9rem;margin-bottom:.7rem;font-size:.78rem;display:flex;align-items:flex-start;gap:.5rem}
 .info-gold{background:#1f1d10;border:1px solid var(--gold);color:var(--gold)}
 .info-green{background:#0d1f0d;border:1px solid #4caf50;color:#4caf50}
 .info-purple{background:#1a0d2e;border:1px solid #7b2d8b;color:#bb86fc}
-.stats-row{display:flex;gap:.8rem;margin-bottom:1.2rem;flex-wrap:wrap}
-.stat{background:#222;border-radius:8px;padding:.5rem .8rem;flex:1;min-width:90px;text-align:center}
-.stat-n{font-size:1.4rem;font-weight:900;color:var(--gold)}
-.stat-l{font-size:.62rem;color:#888;letter-spacing:1px;text-transform:uppercase}
-.tag{display:inline-block;font-size:.65rem;padding:.1rem .35rem;border-radius:3px;margin-left:.3rem;font-weight:700;color:#fff}
-.dot{width:9px;height:9px;border-radius:50%;display:inline-block}
-.tbl-wrap{margin-top:1.2rem;overflow:hidden;border-radius:8px;border:1px solid var(--border)}
-.tbl-wrap table{width:100%;border-collapse:collapse;font-size:.8rem}
-.tbl-wrap th{background:var(--red);color:#fff;padding:.5rem .7rem;text-align:left;font-weight:700;font-size:.72rem}
-.tbl-wrap td{padding:.48rem .7rem;border-bottom:1px solid var(--border);color:#ddd;vertical-align:middle}
+/* STATS */
+.stats-row{display:flex;gap:.7rem;margin-bottom:1rem;flex-wrap:wrap}
+.stat{background:#222;border-radius:8px;padding:.45rem .7rem;flex:1;min-width:80px;text-align:center}
+.stat-n{font-size:1.3rem;font-weight:900;color:var(--gold)}
+.stat-l{font-size:.6rem;color:#888;letter-spacing:1px;text-transform:uppercase}
+.tag{display:inline-block;font-size:.62rem;padding:.1rem .32rem;border-radius:3px;margin-left:.25rem;font-weight:700;color:#fff}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+/* TABLE */
+.tbl-wrap{margin-top:1rem;overflow:hidden;border-radius:8px;border:1px solid var(--border)}
+.tbl-wrap table{width:100%;border-collapse:collapse;font-size:.78rem}
+.tbl-wrap th{background:var(--red);color:#fff;padding:.45rem .65rem;text-align:left;font-weight:700;font-size:.68rem}
+.tbl-wrap td{padding:.42rem .65rem;border-bottom:1px solid var(--border);color:#ddd;vertical-align:middle}
 .tbl-wrap tr:last-child td{border-bottom:none}
 .tbl-wrap tr:hover td{background:#222}
-/* AI GENERATION */
-.ai-panel{background:#1a0d2e;border:1px solid #7b2d8b;border-radius:12px;padding:1.2rem;margin-top:1.2rem}
-.ai-panel h3{font-size:.85rem;letter-spacing:1px;color:#bb86fc;margin-bottom:.8rem;display:flex;align-items:center;gap:.5rem}
-.ai-progress{margin-top:1rem}
-.ai-prog-bar{height:8px;background:#2a1a3e;border-radius:4px;overflow:hidden;margin-top:.4rem}
+/* AI PANEL */
+.ai-panel{background:#1a0d2e;border:1px solid #7b2d8b;border-radius:12px;padding:1rem;margin-top:1rem}
+.ai-panel h3{font-size:.82rem;letter-spacing:1px;color:#bb86fc;margin-bottom:.7rem}
+.ai-prog-bar{height:7px;background:#2a1a3e;border-radius:4px;overflow:hidden;margin-top:.35rem}
 .ai-prog-fill{height:100%;background:linear-gradient(90deg,#7b2d8b,#c41e1e);border-radius:4px;transition:width .3s}
-.ai-prog-txt{font-size:.78rem;color:#bb86fc;margin-top:.3rem}
-.product-ai-row{display:flex;align-items:center;gap:.6rem;padding:.4rem 0;border-bottom:1px solid #2a1a3e;font-size:.78rem}
+.ai-prog-txt{font-size:.75rem;color:#bb86fc;margin-top:.25rem}
+.product-ai-row{display:flex;align-items:center;gap:.5rem;padding:.3rem 0;border-bottom:1px solid #2a1a3e;font-size:.75rem}
 .product-ai-row:last-child{border-bottom:none}
-.ai-status{font-size:.7rem;padding:.15rem .4rem;border-radius:3px;font-weight:700;letter-spacing:.5px;white-space:nowrap}
+.ai-status{font-size:.65rem;padding:.12rem .35rem;border-radius:3px;font-weight:700;letter-spacing:.5px;white-space:nowrap}
 .ai-pending{background:#2a2a2a;color:#555}
 .ai-loading{background:#1a0d2e;color:#bb86fc;animation:pulse 1s infinite}
 .ai-done{background:#0d2a0d;color:#4caf50}
 .ai-err{background:#2a0d0d;color:#f44336}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
-/* FICHA CARDS */
-.fichas-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:1rem}
-.ficha-card{background:#222;border:1px solid #333;border-radius:10px;padding:1rem;position:relative}
+/* FICHAS GRID */
+.fichas-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;margin-top:1rem}
+.ficha-card{background:#222;border:1px solid #333;border-radius:10px;padding:.9rem;position:relative}
 .ficha-card.ai-generated{border-color:#7b2d8b}
-.ficha-ai-badge{position:absolute;top:.6rem;right:.6rem;background:linear-gradient(135deg,#7b2d8b,#c41e1e);color:#fff;font-size:.58rem;font-weight:700;padding:.15rem .4rem;border-radius:10px;letter-spacing:.5px}
-.ficha-card-name{font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:900;color:#fff;margin-bottom:.2rem}
-.ficha-card-cat{font-size:.65rem;color:#888;letter-spacing:1px;text-transform:uppercase;margin-bottom:.6rem}
-.ficha-chips{display:flex;flex-wrap:wrap;gap:.3rem;margin:.4rem 0}
-.ficha-chip{background:#2a2a2a;border:1px solid #333;color:#aaa;font-size:.62rem;padding:.15rem .4rem;border-radius:10px}
-.ficha-nota-preview{font-size:.72rem;color:#999;font-style:italic;line-height:1.4;margin-top:.4rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.edit-ficha-btn{background:none;border:1px solid #444;color:#888;font-size:.68rem;padding:.2rem .5rem;border-radius:4px;cursor:pointer;font-family:'Oswald',sans-serif;margin-top:.5rem}
+.ficha-ai-badge{position:absolute;top:.5rem;right:.5rem;background:linear-gradient(135deg,#7b2d8b,#c41e1e);color:#fff;font-size:.55rem;font-weight:700;padding:.12rem .35rem;border-radius:10px}
+.ficha-card-name{font-family:'Barlow Condensed',sans-serif;font-size:.95rem;font-weight:900;color:#fff;margin-bottom:.15rem}
+.ficha-card-cat{font-size:.62rem;color:#888;letter-spacing:1px;text-transform:uppercase;margin-bottom:.5rem}
+.ficha-chips{display:flex;flex-wrap:wrap;gap:.25rem;margin:.3rem 0}
+.ficha-chip{background:#2a2a2a;border:1px solid #333;color:#aaa;font-size:.6rem;padding:.12rem .35rem;border-radius:10px}
+.ficha-nota-preview{font-size:.7rem;color:#999;font-style:italic;line-height:1.4;margin-top:.35rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.edit-ficha-btn{background:none;border:1px solid #444;color:#888;font-size:.65rem;padding:.18rem .45rem;border-radius:4px;cursor:pointer;font-family:'Oswald',sans-serif;margin-top:.45rem}
 .edit-ficha-btn:hover{border-color:var(--gold);color:var(--gold)}
 /* SHEET */
 .scroll-area{max-height:640px;overflow:auto}
-.sheet{background:#d0d0d0;padding:12px;border-radius:8px;display:grid;grid-template-columns:repeat(3,auto);gap:6px;width:fit-content}
+.sheet{background:#d0d0d0;padding:10px;border-radius:8px;display:grid;grid-template-columns:repeat(3,auto);gap:5px;width:fit-content}
 .sheet.cuts .lwrap{outline:1px dashed #999}
 .lwrap{width:236px;height:160px;position:relative;cursor:pointer}
-.lwrap:hover::after{content:'✏️ EDITAR';position:absolute;inset:4px;background:rgba(245,200,66,.2);border:2px solid var(--gold);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.68rem;color:var(--gold);font-weight:700;letter-spacing:1px}
+.lwrap:hover::after{content:'✏️ EDITAR';position:absolute;inset:4px;background:rgba(245,200,66,.2);border:2px solid var(--gold);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.65rem;color:var(--gold);font-weight:700;letter-spacing:1px}
 /* MODAL */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:200;display:none;align-items:center;justify-content:center;padding:1rem}
 .modal-overlay.open{display:flex}
-.modal{background:#1a1a1a;border-radius:14px;padding:1.5rem;border:1px solid #444;width:560px;max-width:100%;max-height:92vh;overflow-y:auto}
-.modal h3{font-size:.95rem;letter-spacing:1px;margin-bottom:1rem;color:var(--gold)}
-.mfield{margin-bottom:.7rem}
-.mfield label{font-size:.65rem;color:#888;letter-spacing:1px;display:block;margin-bottom:.22rem;text-transform:uppercase}
+.modal{background:#1a1a1a;border-radius:14px;padding:1.4rem;border:1px solid #444;width:560px;max-width:100%;max-height:92vh;overflow-y:auto}
+.modal h3{font-size:.92rem;letter-spacing:1px;margin-bottom:.9rem;color:var(--gold)}
+.mfield{margin-bottom:.65rem}
+.mfield label{font-size:.65rem;color:#888;letter-spacing:1px;display:block;margin-bottom:.2rem;text-transform:uppercase}
 .mfield input,.mfield select,.mfield textarea{width:100%;background:#111;border:1px solid #333;color:#fff;padding:.4rem .6rem;border-radius:6px;font-family:'Oswald',sans-serif;font-size:.85rem}
-.mfield input:focus,.mfield select:focus,.mfield textarea:focus{outline:none;border-color:var(--gold)}
-.mfield textarea{resize:vertical;min-height:55px;line-height:1.5}
+.mfield input:focus,.mfield textarea:focus{outline:none;border-color:var(--gold)}
+.mfield textarea{resize:vertical;min-height:50px;line-height:1.5}
 .mini-preview{margin:.6rem 0;display:flex;justify-content:center}
-/* PROG BOX */
-.prog-box{display:none;background:#0d1f0d;border:1px solid #4caf50;border-radius:8px;padding:1rem;margin-top:1rem}
-.prog-bar{height:6px;background:#1a2a1a;border-radius:3px;margin-top:.5rem;overflow:hidden}
+/* PROGRESS */
+.prog-box{display:none;background:#0d1f0d;border:1px solid #4caf50;border-radius:8px;padding:.9rem;margin-top:.8rem}
+.prog-bar{height:5px;background:#1a2a1a;border-radius:3px;margin-top:.4rem;overflow:hidden}
 .prog-fill{height:100%;background:#4caf50;border-radius:3px;transition:width .1s}
-.prog-txt{font-size:.78rem;color:#4caf50}
+.prog-txt{font-size:.75rem;color:#4caf50}
 .qr-holder{background:#fff;border-radius:2px;overflow:hidden;display:flex;align-items:center;justify-content:center}
 .qr-holder canvas,.qr-holder img{width:100%!important;height:100%!important}
 </style>
@@ -127,14 +135,14 @@ input[type=color].cfg-input{height:36px;cursor:pointer;padding:.15rem}
 <body>
 <div class="app">
   <header class="header">
-    <div class="vbadge">🤖 IA · PRO v7</div>
+    <div class="vbadge">🍾 PRO v9</div>
     <h1>🍷 VINATERÍA <span>ETIQUETAS</span> PRO</h1>
-    <p>FICHAS DE CATA GENERADAS AUTOMÁTICAMENTE CON INTELIGENCIA ARTIFICIAL</p>
+    <p>BOTELLAS SVG · FOTO REAL · DISEÑO B&N · FECHA VIGENCIA · FICHAS IA · QR · PDF</p>
   </header>
 
   <nav class="steps">
     <div class="step active" id="s1" onclick="goStep(1)"><span>01</span>DATOS</div>
-    <div class="step" id="s2" onclick="goStep(2)"><span>🤖</span>IA · CATA</div>
+    <div class="step" id="s2" onclick="goStep(2)"><span>🤖</span>IA CATA</div>
     <div class="step" id="s3" onclick="goStep(3)"><span>03</span>PREVIEW</div>
     <div class="step" id="s4" onclick="goStep(4)"><span>04</span>PDF</div>
   </nav>
@@ -145,73 +153,78 @@ input[type=color].cfg-input{height:36px;cursor:pointer;padding:.15rem}
     <div class="tpl-grid" id="tplGrid"></div>
 
     <div class="upload-zone" id="dz">
-      <div style="font-size:2.8rem">📊</div>
+      <div style="font-size:2.5rem">📊</div>
       <h3>ARRASTRA TU EXCEL AQUÍ</h3>
-      <p>.xlsx &nbsp;·&nbsp; .xlsm &nbsp;·&nbsp; .csv — columnas: Producto · Precio Anterior · Precio Oferta</p>
+      <p>.xlsx · .xlsm · .csv — columnas: Producto · Precio Anterior · Precio Oferta</p>
       <input type="file" id="fi" accept=".xlsx,.xlsm,.csv" onchange="handleFile(event)">
     </div>
-    <div style="text-align:center;margin-top:.6rem">
+    <div style="text-align:center;margin-top:.5rem">
       <button class="sample-btn" onclick="loadSample()">📋 CARGAR DATOS DE EJEMPLO</button>
     </div>
 
     <div id="tbl"></div>
 
-    <div class="cfg-grid" id="cfgPanel" style="display:none">
-      <div>
-        <label class="cfg-label">Nombre de la tienda</label>
-        <input class="cfg-input" type="text" id="storeName" value="VINATERÍA">
-      </div>
-      <div>
-        <label class="cfg-label">Banda diagonal</label>
-        <div class="badge-opts">
-          <span class="bopt sel" onclick="setBadge(this,'OFERTA')">OFERTA</span>
-          <span class="bopt" onclick="setBadge(this,'PROMOCIÓN')">PROMOCIÓN</span>
-          <span class="bopt" onclick="setBadge(this,'PRECIO ESPECIAL')">PRECIO ESP.</span>
-          <span class="bopt" onclick="setBadge(this,'SUPER OFERTA')">SUPER</span>
+    <div id="extraCfg" style="display:none">
+      <div class="cfg-grid" style="margin-top:1rem">
+        <div>
+          <label class="cfg-label">Nombre de la tienda</label>
+          <input class="cfg-input" type="text" id="storeName" value="VINATERÍA" oninput="refreshPrev()">
+        </div>
+        <div>
+          <label class="cfg-label">Banda diagonal</label>
+          <div class="badge-opts">
+            <span class="bopt sel" onclick="setBadge(this,'OFERTA')">OFERTA</span>
+            <span class="bopt" onclick="setBadge(this,'PROMOCIÓN')">PROMOCIÓN</span>
+            <span class="bopt" onclick="setBadge(this,'PRECIO ESPECIAL')">PRECIO ESP.</span>
+            <span class="bopt" onclick="setBadge(this,'SUPER OFERTA')">SUPER</span>
+          </div>
+        </div>
+        <div>
+          <label class="cfg-label">📅 Fecha de vigencia (opcional)</label>
+          <input class="cfg-input" type="date" id="vigencia" oninput="refreshPrev()">
+        </div>
+        <div>
+          <label class="cfg-label">🍾 Botella en etiqueta</label>
+          <div class="bottle-opts">
+            <span class="bottle-opt sel" id="bopt_svgauto" onclick="setBottle('svgauto')">🍾 SVG auto</span>
+            <span class="bottle-opt" id="bopt_photo" onclick="setBottle('photo')">📸 Foto real</span>
+            <span class="bottle-opt" id="bopt_none" onclick="setBottle('none')">✕ Sin botella</span>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="colors-row" id="clrsPanel" style="display:none">
-      <div class="color-item"><label>Principal</label><input class="cfg-input" type="color" id="cp" value="#c41e1e"></div>
-      <div class="color-item"><label>Precio bg</label><input class="cfg-input" type="color" id="cy" value="#f5c842"></div>
-      <div class="color-item"><label>Top bar</label><input class="cfg-input" type="color" id="cd" value="#111111"></div>
-      <div class="color-item"><label>Tienda txt</label><input class="cfg-input" type="color" id="ca" value="#f5c842"></div>
-    </div>
-
-    <!-- API KEY INPUT -->
-    <!-- sin API key necesaria — el scraping lo hace el servidor Vercel -->
-
-    <div class="btn-row" id="p1btns" style="display:none">
-      <button class="btn btn-ai" onclick="goStep(2)">🤖 GENERAR FICHAS CON IA →</button>
+      <div class="colors-row" id="clrsPanel">
+        <div class="color-item"><label>Principal</label><input class="cfg-input" type="color" id="cp" value="#c41e1e" oninput="refreshPrev()"></div>
+        <div class="color-item"><label>Precio bg</label><input class="cfg-input" type="color" id="cy" value="#f5c842" oninput="refreshPrev()"></div>
+        <div class="color-item"><label>Top bar</label><input class="cfg-input" type="color" id="cd" value="#111111" oninput="refreshPrev()"></div>
+        <div class="color-item"><label>Tienda txt</label><input class="cfg-input" type="color" id="ca" value="#f5c842" oninput="refreshPrev()"></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-ai" onclick="goStep(2)">🤖 GENERAR FICHAS CON IA →</button>
+        <button class="btn btn-o" onclick="goStep(3)">SALTAR IA → PREVIEW</button>
+      </div>
     </div>
   </div>
 
-  <!-- STEP 2: AI CATA -->
+  <!-- STEP 2: IA CATA -->
   <div id="p2" class="panel" style="display:none">
     <div class="info-box info-purple">
-      <span style="font-size:1.2rem">🤖</span>
-      <div>
-        <strong>Generación automática con Claude AI</strong><br>
-        La IA analiza cada producto y genera su ficha técnica completa: país, región, aromas, maridaje, nota de sommelier y más. Puedes editar cualquier campo después.
-      </div>
+      <span style="font-size:1.1rem">🤖</span>
+      <div>Busca información de cada producto en Wikipedia y fuentes públicas, y genera la ficha de cata automáticamente. Puedes editar cualquier campo después.</div>
     </div>
-
     <div class="ai-panel">
-      <h3>🤖 Generador de fichas de cata con IA</h3>
-      <div style="display:flex;gap:.8rem;flex-wrap:wrap;align-items:center">
-        <button class="btn btn-ai" id="genBtn" onclick="generateAllFichas()">✨ GENERAR TODAS LAS FICHAS</button>
+      <h3>🤖 Generador automático de fichas de cata</h3>
+      <div style="display:flex;gap:.7rem;flex-wrap:wrap;align-items:center">
+        <button class="btn btn-ai" id="genBtn" onclick="generateAllFichas()">✨ GENERAR TODAS</button>
         <button class="btn btn-o" id="stopBtn" onclick="stopGeneration()" style="display:none">⏹ DETENER</button>
-        <span id="aiStatusGlobal" style="font-size:.78rem;color:#888"></span>
+        <span id="aiStatusGlobal" style="font-size:.75rem;color:#888"></span>
       </div>
-      <div class="ai-progress" id="aiProgress" style="display:none">
+      <div id="aiProgress" style="display:none;margin-top:.8rem">
         <div class="ai-prog-bar"><div class="ai-prog-fill" id="aiProgFill" style="width:0%"></div></div>
         <div class="ai-prog-txt" id="aiProgTxt">Iniciando...</div>
-        <div id="aiProductList" style="margin-top:.8rem;max-height:200px;overflow-y:auto"></div>
+        <div id="aiProductList" style="margin-top:.7rem;max-height:180px;overflow-y:auto"></div>
       </div>
     </div>
-
-    <div class="fichas-grid" id="fichasGrid" style="margin-top:1.2rem"></div>
-
+    <div class="fichas-grid" id="fichasGrid"></div>
     <div class="btn-row">
       <button class="btn btn-o" onclick="goStep(1)">← VOLVER</button>
       <button class="btn btn-r" onclick="goStep(3)">VISTA PREVIA →</button>
@@ -221,11 +234,11 @@ input[type=color].cfg-input{height:36px;cursor:pointer;padding:.15rem}
   <!-- STEP 3: PREVIEW -->
   <div id="p3" class="panel" style="display:none">
     <div class="stats-row" id="stats3"></div>
-    <div class="info-box info-gold">📱 QR incluido en cada etiqueta — el cliente escanea y ve la ficha técnica generada por IA · Clic para editar</div>
-    <div style="display:flex;gap:1.2rem;align-items:center;margin-bottom:1rem;flex-wrap:wrap;font-size:.78rem;color:#888">
+    <div class="info-box info-gold">🍾 Botella + QR + Fecha · Clic en cualquier etiqueta para editar</div>
+    <div style="display:flex;gap:1rem;align-items:center;margin-bottom:.8rem;flex-wrap:wrap;font-size:.76rem;color:#888">
       <label><input type="checkbox" id="cuts" checked onchange="renderSheet()" style="accent-color:var(--gold)"> Líneas de corte</label>
       <label><input type="checkbox" id="showSem" checked onchange="renderSheet()" style="accent-color:var(--gold)"> Semáforo</label>
-      <label>Página: <input type="number" id="pgn" value="1" min="1" style="width:42px;background:#222;border:1px solid #444;color:#fff;padding:2px 5px;border-radius:4px;text-align:center;font-family:'Oswald',sans-serif" onchange="renderSheet()"></label>
+      <label>Pág: <input type="number" id="pgn" value="1" min="1" style="width:40px;background:#222;border:1px solid #444;color:#fff;padding:2px 4px;border-radius:4px;text-align:center;font-family:'Oswald',sans-serif" onchange="renderSheet()"></label>
       <span id="totpg" style="color:#555"></span>
     </div>
     <div class="scroll-area"><div id="sheet"></div></div>
@@ -237,10 +250,10 @@ input[type=color].cfg-input{height:36px;cursor:pointer;padding:.15rem}
 
   <!-- STEP 4: PDF -->
   <div id="p4" class="panel" style="display:none">
-    <div class="info-box info-green">✅ El QR de cada etiqueta abre la ficha generada por IA — sin internet, sin servidor.</div>
+    <div class="info-box info-green">✅ Etiquetas con botella, QR y fecha de vigencia — listas para imprimir.</div>
     <div class="stats-row" id="stats4"></div>
-    <div style="background:#222;border-radius:8px;padding:1.2rem;margin-bottom:1rem">
-      <div class="cfg-grid" style="gap:.8rem">
+    <div style="background:#222;border-radius:8px;padding:1rem;margin-bottom:.8rem">
+      <div class="cfg-grid" style="gap:.7rem">
         <div><label class="cfg-label">Líneas de corte</label>
           <select class="cfg-input" id="pcuts"><option value="1" selected>Sí</option><option value="0">No</option></select></div>
         <div><label class="cfg-label">Calidad imagen</label>
@@ -255,8 +268,8 @@ input[type=color].cfg-input{height:36px;cursor:pointer;padding:.15rem}
       <div class="prog-txt" id="progTxt">Procesando...</div>
       <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
     </div>
-    <p style="color:#444;font-size:.72rem;margin-top:1rem;line-height:1.7">
-      💡 Imprimir en papel adhesivo brillante · 100% sin escalar · QR funciona sin internet
+    <p style="color:#444;font-size:.7rem;margin-top:.8rem;line-height:1.7">
+      💡 Papel adhesivo brillante · 100% sin escalar · QR funciona sin internet
     </p>
   </div>
 </div>
@@ -264,7 +277,7 @@ input[type=color].cfg-input{height:36px;cursor:pointer;padding:.15rem}
 <!-- EDITOR MODAL -->
 <div class="modal-overlay" id="editModal">
   <div class="modal">
-    <h3>✏️ EDITAR ETIQUETA + FICHA DE CATA</h3>
+    <h3>✏️ EDITAR ETIQUETA + FICHA</h3>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem">
       <div class="mfield"><label>Nombre *</label><input type="text" id="eName" oninput="miniPrev()"></div>
       <div class="mfield"><label>Categoría</label><input type="text" id="eCat" oninput="miniPrev()"></div>
@@ -273,20 +286,18 @@ input[type=color].cfg-input{height:36px;cursor:pointer;padding:.15rem}
       <div class="mfield"><label>Precio anterior *</label><input type="number" id="eBefore" oninput="miniPrev()"></div>
       <div class="mfield"><label>Precio oferta *</label><input type="number" id="eAfter" oninput="miniPrev()"></div>
       <div class="mfield"><label>País</label><input type="text" id="ePais"></div>
-      <div class="mfield"><label>Región / DO</label><input type="text" id="eRegion"></div>
-      <div class="mfield"><label>Uva / Agave / Grano</label><input type="text" id="eUva"></div>
+      <div class="mfield"><label>Región</label><input type="text" id="eRegion"></div>
+      <div class="mfield"><label>Uva / Agave</label><input type="text" id="eUva"></div>
       <div class="mfield"><label>Graduación</label><input type="text" id="eAlc"></div>
       <div class="mfield"><label>Añejamiento</label><input type="text" id="eAnejo"></div>
-      <div class="mfield"><label>Temperatura servicio</label><input type="text" id="eTemp"></div>
-      <div class="mfield"><label>Color</label><input type="text" id="eColor"></div>
-      <div class="mfield"><label>Contenido</label><input type="text" id="eContenido"></div>
+      <div class="mfield"><label>Temperatura</label><input type="text" id="eTemp"></div>
     </div>
     <div class="mfield"><label>Aromas</label><input type="text" id="eAromas"></div>
     <div class="mfield"><label>Sabor en boca</label><input type="text" id="eSabor"></div>
     <div class="mfield"><label>Maridaje</label><input type="text" id="eMaridaje"></div>
     <div class="mfield"><label>Nota del sommelier</label><textarea id="eNota" rows="3"></textarea></div>
     <div class="mini-preview" id="miniPrevEl"></div>
-    <div class="btn-row" style="margin-top:.5rem">
+    <div class="btn-row" style="margin-top:.4rem">
       <button class="btn btn-r" onclick="confirmEdit()">✅ GUARDAR</button>
       <button class="btn btn-o" onclick="closeModal()">CANCELAR</button>
     </div>
@@ -299,34 +310,19 @@ input[type=color].cfg-input{height:36px;cursor:pointer;padding:.15rem}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
 const COLS=3,ROWS=5,LPP=15;
-let products=[], badge='OFERTA', editIdx=-1, stopGen=false;
+let products=[], badge='OFERTA', editIdx=-1, stopGen=false, bottleMode='svgauto';
 
+// ── PLANTILLAS ───────────────────────────────────────────────
 const TEMPLATES=[
-  {id:'clasico',n:'Clásico',e:'🍷',p:'#c41e1e',y:'#f5c842',d:'#111111',a:'#f5c842'},
-  {id:'navidad',n:'Navidad',e:'🎄',p:'#1a6b2a',y:'#d4af37',d:'#8b0000',a:'#ffd700'},
-  {id:'dark',n:'Dark',e:'🖤',p:'#7b2d8b',y:'#2a2a2a',d:'#000000',a:'#bb86fc'},
-  {id:'verano',n:'Verano',e:'☀️',p:'#e65c00',y:'#ffe500',d:'#003366',a:'#ffffff'},
-  {id:'elegante',n:'Elegante',e:'✨',p:'#1a1a2e',y:'#c9a84c',d:'#0f0f0f',a:'#c9a84c'},
-  {id:'neon',n:'Neon',e:'💥',p:'#ff0066',y:'#00ffcc',d:'#080808',a:'#00ffcc'},
+  {id:'clasico', n:'Clásico', e:'🍷', p:'#c41e1e', y:'#f5c842', d:'#111111', a:'#f5c842', bw:false},
+  {id:'navidad', n:'Navidad', e:'🎄', p:'#1a6b2a', y:'#d4af37', d:'#8b0000', a:'#ffd700', bw:false},
+  {id:'dark',    n:'Dark',   e:'🖤', p:'#7b2d8b', y:'#2a2a2a', d:'#000000', a:'#bb86fc', bw:false},
+  {id:'verano',  n:'Verano', e:'☀️', p:'#e65c00', y:'#ffe500', d:'#003366', a:'#ffffff', bw:false},
+  {id:'elegante',n:'Elegante',e:'✨',p:'#1a1a2e', y:'#c9a84c', d:'#0f0f0f',  a:'#c9a84c', bw:false},
+  {id:'neon',    n:'Neon',   e:'💥', p:'#ff0066', y:'#00ffcc', d:'#080808',  a:'#00ffcc', bw:false},
+  {id:'bw',      n:'B & N',  e:'⬛', p:'#222222', y:'#f0f0f0', d:'#000000',  a:'#ffffff', bw:true},
 ];
 
-const C=()=>({p:document.getElementById('cp').value,y:document.getElementById('cy').value,d:document.getElementById('cd').value,a:document.getElementById('ca').value});
-const store=()=>document.getElementById('storeName')?.value||'VINATERÍA';
-const savePct=(p)=>Math.round((1-p.after/p.before)*100);
-const fmt=(n)=>{const i=Math.floor(n),d=Math.round((n-i)*100);return'$'+i+'.'+String(d).padStart(2,'0')};
-const dk=(h,a=70)=>{const n=parseInt(h.replace('#',''),16),r=Math.max(0,((n>>16)&255)-a),g=Math.max(0,((n>>8)&255)-a),b=Math.max(0,(n&255)-a);return'#'+[r,g,b].map(x=>x.toString(16).padStart(2,'0')).join('')};
-const semColor=(p)=>savePct(p)>=20?'#4caf50':savePct(p)>=10?'#f5c842':'#c41e1e';
-
-const SAMPLE=[
-  {name:'CONCHA Y TORO',desc:'Reserva 750 ml',cat:'VINO TINTO',before:259,after:199},
-  {name:'JACK DANIELS',desc:'Tennessee 700 ml',cat:'WHISKEY',before:499,after:399},
-  {name:'CLASE AZUL',desc:'Reposado 750 ml',cat:'TEQUILA',before:1985,after:1765},
-  {name:'HENNESSY',desc:'VS Cognac 750 ml',cat:'COGNAC',before:1475,after:1199},
-  {name:'HERRADURA',desc:'Plata 750 ml',cat:'TEQUILA',before:1355,after:1199},
-  {name:'SMIRNOFF',desc:'Vodka 750 ml',cat:'VODKA',before:265,after:219},
-];
-
-// ── TEMPLATES ────────────────────────────────────────────────
 function initTemplates(){
   document.getElementById('tplGrid').innerHTML=TEMPLATES.map(t=>`
   <div class="tpl${t.id==='clasico'?' sel':''}" id="tpl_${t.id}" onclick="applyTpl('${t.id}')"
@@ -347,10 +343,381 @@ function applyTpl(id){
   document.getElementById('ca').value=t.a;
   document.querySelectorAll('.tpl').forEach(x=>x.classList.remove('sel'));
   document.getElementById('tpl_'+id).classList.add('sel');
+  refreshPrev();
 }
 
-// ── FILE LOAD ────────────────────────────────────────────────
-function loadSample(){products=SAMPLE.map(p=>({...p}));afterLoad();}
+// ── HELPERS ──────────────────────────────────────────────────
+const C=()=>({p:document.getElementById('cp').value,y:document.getElementById('cy').value,d:document.getElementById('cd').value,a:document.getElementById('ca').value});
+const store=()=>document.getElementById('storeName')?.value||'VINATERÍA';
+const vigencia=()=>document.getElementById('vigencia')?.value||'';
+const savePct=(p)=>Math.round((1-p.after/p.before)*100);
+const fmt=(n)=>{const i=Math.floor(n),d=Math.round((n-i)*100);return'$'+i+'.'+String(d).padStart(2,'0')};
+const dk=(h,a=70)=>{const n=parseInt(h.replace('#',''),16),r=Math.max(0,((n>>16)&255)-a),g=Math.max(0,((n>>8)&255)-a),b=Math.max(0,(n&255)-a);return'#'+[r,g,b].map(x=>x.toString(16).padStart(2,'0')).join('')};
+const semColor=(p)=>savePct(p)>=20?'#4caf50':savePct(p)>=10?'#f5c842':'#c41e1e';
+const fmtDate=(d)=>{if(!d)return'';const[y,m,dd]=d.split('-');return`${dd}/${m}/${y}`;};
+
+function setBadge(el,t){badge=t;document.querySelectorAll('.bopt').forEach(b=>b.classList.remove('sel'));el.classList.add('sel');}
+function setBottle(m){
+  bottleMode=m;
+  document.querySelectorAll('.bottle-opt').forEach(b=>b.classList.remove('sel'));
+  document.getElementById('bopt_'+m)?.classList.add('sel');
+  refreshPrev();
+}
+function refreshPrev(){if(document.getElementById('p3').style.display!=='none')renderSheet();}
+
+// ── BOTTLE SVG ───────────────────────────────────────────────
+// Siluetas SVG detalladas por categoría
+function getBottleSVG(cat, color, scale=1){
+  const c=(cat||'').toUpperCase();
+  const h=120*scale, w=38*scale;
+
+  // Vino tinto/blanco/espumoso — botella bordelesa/borgoña
+  if(c.includes('VINO')||c.includes('CHAMPAGNE')||c.includes('ESPUMOSO')||c.includes('CAVA')){
+    const isSparkling=c.includes('CHAMPAGNE')||c.includes('ESPUMOSO')||c.includes('CAVA');
+    return `<svg width="${w}" height="${h}" viewBox="0 0 38 120" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="bg${scale}" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="${color}" stop-opacity=".7"/><stop offset="50%" stop-color="${color}"/><stop offset="100%" stop-color="${color}" stop-opacity=".5"/></linearGradient></defs>
+      <!-- Cuerpo -->
+      <rect x="7" y="55" width="24" height="55" rx="3" fill="url(#bg${scale})"/>
+      <!-- Hombros -->
+      <path d="M7,55 Q7,38 13,32 L13,20 L25,20 L25,32 Q31,38 31,55Z" fill="url(#bg${scale})"/>
+      <!-- Cuello -->
+      <rect x="13" y="10" width="12" height="12" rx="2" fill="${color}" opacity=".85"/>
+      <!-- Corcho -->
+      <rect x="15" y="${isSparkling?4:6}" width="8" height="7" rx="1.5" fill="${isSparkling?'#d4af37':'#c4a068'}"/>
+      ${isSparkling?`<rect x="13" y="3" width="12" height="4" rx="1" fill="#aaa" opacity=".7"/>
+      <line x1="19" y1="0" x2="19" y2="3" stroke="#999" stroke-width="1.5"/>`:'' }
+      <!-- Etiqueta en botella -->
+      <rect x="9" y="68" width="20" height="25" rx="2" fill="rgba(255,255,255,.15)"/>
+      <!-- Highlight -->
+      <rect x="10" y="56" width="4" height="40" rx="2" fill="rgba(255,255,255,.15)"/>
+    </svg>`;
+  }
+
+  // Tequila — botella cuadrada/rectangular
+  if(c.includes('TEQUILA')||c.includes('MEZCAL')){
+    return `<svg width="${w}" height="${h}" viewBox="0 0 38 120" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="tg${scale}" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="${color}" stop-opacity=".6"/><stop offset="40%" stop-color="${color}"/><stop offset="100%" stop-color="${color}" stop-opacity=".4"/></linearGradient></defs>
+      <!-- Cuerpo cuadrado -->
+      <rect x="5" y="48" width="28" height="62" rx="2" fill="url(#tg${scale})"/>
+      <!-- Hombros rectos -->
+      <path d="M5,48 L5,38 Q5,30 12,28 L12,16 L26,16 L26,28 Q33,30 33,38 L33,48Z" fill="url(#tg${scale})"/>
+      <!-- Cuello -->
+      <rect x="12" y="8" width="14" height="10" rx="1.5" fill="${color}" opacity=".9"/>
+      <!-- Corcho/tapa -->
+      <rect x="14" y="4" width="10" height="6" rx="1" fill="#8b5a00"/>
+      <!-- Etiqueta -->
+      <rect x="7" y="55" width="24" height="30" rx="2" fill="rgba(255,255,255,.18)"/>
+      <!-- Agave detail -->
+      <text x="19" y="74" text-anchor="middle" font-size="10" fill="rgba(255,255,255,.3)">🌵</text>
+      <!-- Highlight -->
+      <rect x="8" y="49" width="3" height="45" rx="1.5" fill="rgba(255,255,255,.2)"/>
+    </svg>`;
+  }
+
+  // Whiskey/Whisky — botella cuadrada con hombros angulados
+  if(c.includes('WHISKEY')||c.includes('WHISKY')||c.includes('BOURBON')||c.includes('SCOTCH')){
+    return `<svg width="${w}" height="${h}" viewBox="0 0 38 120" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="wg${scale}" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="${color}" stop-opacity=".65"/><stop offset="50%" stop-color="${color}"/><stop offset="100%" stop-color="${color}" stop-opacity=".45"/></linearGradient></defs>
+      <!-- Cuerpo ancho -->
+      <rect x="4" y="50" width="30" height="60" rx="2" fill="url(#wg${scale})"/>
+      <!-- Hombros angulados -->
+      <path d="M4,50 L4,40 L11,26 L11,14 L27,14 L27,26 L34,40 L34,50Z" fill="url(#wg${scale})"/>
+      <!-- Cuello corto -->
+      <rect x="11" y="8" width="16" height="8" rx="1.5" fill="${color}" opacity=".9"/>
+      <!-- Tapa metálica -->
+      <rect x="10" y="4" width="18" height="6" rx="1" fill="#888"/>
+      <rect x="11" y="4" width="16" height="2" rx="1" fill="#aaa"/>
+      <!-- Etiqueta principal -->
+      <rect x="6" y="55" width="26" height="35" rx="2" fill="rgba(255,255,255,.15)"/>
+      <!-- Highlight -->
+      <rect x="7" y="51" width="3.5" height="50" rx="1.75" fill="rgba(255,255,255,.18)"/>
+    </svg>`;
+  }
+
+  // Cognac/Coñac — botella panzuda
+  if(c.includes('COGNAC')||c.includes('COÑAC')||c.includes('BRANDY')){
+    return `<svg width="${w}" height="${h}" viewBox="0 0 38 120" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="cg${scale}" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="${color}" stop-opacity=".6"/><stop offset="50%" stop-color="${color}"/><stop offset="100%" stop-color="${color}" stop-opacity=".4"/></linearGradient></defs>
+      <!-- Cuerpo panzudo -->
+      <ellipse cx="19" cy="82" rx="14" ry="28" fill="url(#cg${scale})"/>
+      <rect x="5" y="82" width="28" height="28" rx="2" fill="url(#cg${scale})"/>
+      <!-- Cuello largo y estrecho -->
+      <path d="M5,65 Q5,45 12,35 L12,16 L26,16 L26,35 Q33,45 33,65Z" fill="url(#cg${scale})"/>
+      <rect x="13" y="8" width="12" height="10" rx="2" fill="${color}" opacity=".9"/>
+      <!-- Tapa dorada -->
+      <rect x="12" y="4" width="14" height="6" rx="1.5" fill="#d4af37"/>
+      <!-- Etiqueta -->
+      <ellipse cx="19" cy="85" rx="11" ry="16" fill="rgba(255,255,255,.15)"/>
+      <rect x="11" y="54" width="3" height="35" rx="1.5" fill="rgba(255,255,255,.2)"/>
+    </svg>`;
+  }
+
+  // Vodka — botella alta y cilíndrica
+  if(c.includes('VODKA')){
+    return `<svg width="${w}" height="${h}" viewBox="0 0 38 120" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="vg${scale}" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="${color}" stop-opacity=".5"/><stop offset="50%" stop-color="${color}" stop-opacity=".85"/><stop offset="100%" stop-color="${color}" stop-opacity=".35"/></linearGradient></defs>
+      <!-- Cuerpo cilíndrico alto -->
+      <rect x="8" y="35" width="22" height="75" rx="3" fill="url(#vg${scale})"/>
+      <!-- Hombros redondeados -->
+      <path d="M8,45 Q8,30 14,24 L14,12 L24,12 L24,24 Q30,30 30,45Z" fill="url(#vg${scale})"/>
+      <!-- Cuello largo -->
+      <rect x="14" y="6" width="10" height="8" rx="2" fill="${color}" opacity=".9"/>
+      <!-- Tapa plateada -->
+      <rect x="13" y="2" width="12" height="6" rx="1.5" fill="#c0c0c0"/>
+      <rect x="14" y="2" width="10" height="2" rx="1" fill="#e0e0e0"/>
+      <!-- Etiqueta -->
+      <rect x="10" y="50" width="18" height="35" rx="2" fill="rgba(255,255,255,.2)"/>
+      <!-- Highlight pronunciado (vidrio claro) -->
+      <rect x="10" y="36" width="4" height="65" rx="2" fill="rgba(255,255,255,.3)"/>
+    </svg>`;
+  }
+
+  // Ron/Rum — botella caribeña redondeada
+  if(c.includes('RON')||c.includes('RUM')){
+    return `<svg width="${w}" height="${h}" viewBox="0 0 38 120" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="rg${scale}" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="${color}" stop-opacity=".65"/><stop offset="50%" stop-color="${color}"/><stop offset="100%" stop-color="${color}" stop-opacity=".45"/></linearGradient></defs>
+      <!-- Cuerpo redondeado -->
+      <rect x="6" y="52" width="26" height="58" rx="5" fill="url(#rg${scale})"/>
+      <!-- Hombros redondeados -->
+      <path d="M6,58 Q6,40 13,32 L13,18 L25,18 L25,32 Q32,40 32,58Z" fill="url(#rg${scale})"/>
+      <!-- Cuello -->
+      <rect x="13" y="10" width="12" height="10" rx="2" fill="${color}" opacity=".9"/>
+      <!-- Tapa corcho -->
+      <rect x="14" y="5" width="10" height="7" rx="1.5" fill="#8b5a00"/>
+      <!-- Etiqueta -->
+      <rect x="8" y="58" width="22" height="30" rx="3" fill="rgba(255,255,255,.15)"/>
+      <rect x="9" y="53" width="3" height="45" rx="1.5" fill="rgba(255,255,255,.2)"/>
+    </svg>`;
+  }
+
+  // Cerveza — botella de cerveza
+  if(c.includes('CERVEZA')||c.includes('BEER')){
+    return `<svg width="${w}" height="${h}" viewBox="0 0 38 120" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="berr${scale}" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="${color}" stop-opacity=".7"/><stop offset="50%" stop-color="${color}"/><stop offset="100%" stop-color="${color}" stop-opacity=".5"/></linearGradient></defs>
+      <!-- Cuerpo -->
+      <rect x="8" y="58" width="22" height="52" rx="3" fill="url(#berr${scale})"/>
+      <!-- Hombros -->
+      <path d="M8,62 Q8,48 13,40 L13,20 L25,20 L25,40 Q30,48 30,62Z" fill="url(#berr${scale})"/>
+      <!-- Cuello largo -->
+      <rect x="13" y="10" width="12" height="12" rx="2" fill="${color}" opacity=".9"/>
+      <!-- Tapa corona -->
+      <rect x="12" y="5" width="14" height="7" rx="1" fill="#888"/>
+      <path d="M12,7 Q19,4 26,7" stroke="#666" stroke-width="1.5" fill="none"/>
+      <!-- Etiqueta -->
+      <rect x="10" y="65" width="18" height="25" rx="2" fill="rgba(255,255,255,.15)"/>
+      <rect x="10" y="59" width="3" height="42" rx="1.5" fill="rgba(255,255,255,.2)"/>
+    </svg>`;
+  }
+
+  // Gin — botella alta con detalles botánicos
+  if(c.includes('GIN')){
+    return `<svg width="${w}" height="${h}" viewBox="0 0 38 120" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="gin${scale}" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="${color}" stop-opacity=".5"/><stop offset="50%" stop-color="${color}" stop-opacity=".9"/><stop offset="100%" stop-color="${color}" stop-opacity=".35"/></linearGradient></defs>
+      <rect x="7" y="42" width="24" height="68" rx="4" fill="url(#gin${scale})"/>
+      <path d="M7,50 Q7,34 13,26 L13,12 L25,12 L25,26 Q31,34 31,50Z" fill="url(#gin${scale})"/>
+      <rect x="13" y="6" width="12" height="8" rx="2" fill="${color}" opacity=".9"/>
+      <rect x="12" y="2" width="14" height="6" rx="1.5" fill="#4a9e4a"/>
+      <rect x="9" y="55" width="20" height="30" rx="2" fill="rgba(255,255,255,.18)"/>
+      <rect x="9" y="43" width="3.5" height="55" rx="1.75" fill="rgba(255,255,255,.25)"/>
+    </svg>`;
+  }
+
+  // DEFAULT — botella genérica
+  return `<svg width="${w}" height="${h}" viewBox="0 0 38 120" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="gen${scale}" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="${color}" stop-opacity=".6"/><stop offset="50%" stop-color="${color}"/><stop offset="100%" stop-color="${color}" stop-opacity=".4"/></linearGradient></defs>
+    <rect x="7" y="52" width="24" height="58" rx="4" fill="url(#gen${scale})"/>
+    <path d="M7,58 Q7,42 13,34 L13,18 L25,18 L25,34 Q31,42 31,58Z" fill="url(#gen${scale})"/>
+    <rect x="13" y="10" width="12" height="10" rx="2" fill="${color}" opacity=".9"/>
+    <rect x="14" y="5" width="10" height="7" rx="1.5" fill="#888"/>
+    <rect x="9" y="60" width="20" height="28" rx="2" fill="rgba(255,255,255,.15)"/>
+    <rect x="9" y="53" width="3" height="44" rx="1.5" fill="rgba(255,255,255,.2)"/>
+  </svg>`;
+}
+
+// ── FOTO REAL: buscar imagen desde Unsplash Source (gratis, sin auth) ──
+function getBottleImgHTML(p, W, H){
+  // Usar imagen de botella de Unsplash según categoría
+  const cat=(p.cat||'').toLowerCase();
+  const queries={
+    'vino':'wine+bottle','tequila':'tequila+bottle','whiskey':'whiskey+bottle',
+    'whisky':'whisky+bottle','vodka':'vodka+bottle','ron':'rum+bottle',
+    'cognac':'cognac+bottle','cerveza':'beer+bottle','gin':'gin+bottle',
+    'mezcal':'mezcal+bottle','champagne':'champagne+bottle'
+  };
+  let q='alcohol+bottle';
+  for(const[k,v] of Object.entries(queries)){if(cat.includes(k)){q=v;break;}}
+  // Unsplash Source API — gratuita, sin autenticación
+  const url=`https://source.unsplash.com/featured/60x120/?${q}`;
+  return `<img src="${url}" style="width:${W}px;height:${H}px;object-fit:cover;border-radius:4px;opacity:.85" onerror="this.style.display='none'" crossorigin="anonymous">`;
+}
+
+// ── LABEL HTML ───────────────────────────────────────────────
+function labelHTML(p, S=1, sem=false){
+  const c=C();
+  const isBW = document.querySelector('.tpl.sel')?.id==='tpl_bw';
+  const s=savePct(p);
+  const iP=Math.floor(p.after);
+  const dP=String(Math.round((p.after%1)*100)).padStart(2,'0');
+  const iStr=String(iP);
+  const iFs=iStr.length>=4?36:iStr.length===3?44:52;
+  const nFs=p.name.length>24?9.5:p.name.length>18?11.5:p.name.length>13?13:14.5;
+  const bFs=fmt(p.before).length>=8?10.5:fmt(p.before).length>=6?12.5:13.5;
+  const sc=semColor(p);
+  const W=220*S, H=144*S;
+  const qrId='qr_'+(Math.random().toString(36).slice(2,8));
+  const vig=vigencia();
+  const hasVig=!!vig;
+
+  // Botella
+  let bottleEl='';
+  const bW=Math.round(28*S), bH=Math.round(90*S);
+  if(bottleMode==='svgauto'){
+    // Color de botella: usa color principal en modo color, gris en B&N
+    const bColor = isBW ? '#555555' : c.p;
+    bottleEl=`<div style="position:absolute;bottom:${hasVig?22*S:4*S}px;right:${3*S}px;width:${bW}px;height:${bH}px;opacity:${isBW?.6:.7};display:flex;align-items:flex-end">
+      ${getBottleSVG(p.cat, bColor, S)}
+    </div>`;
+  } else if(bottleMode==='photo'){
+    bottleEl=`<div style="position:absolute;bottom:${hasVig?22*S:4*S}px;right:${3*S}px;width:${bW}px;height:${bH}px;overflow:hidden;border-radius:${3*S}px;opacity:.85">
+      ${getBottleImgHTML(p, bW, bH)}
+    </div>`;
+  }
+
+  // Fecha de vigencia
+  const vigEl = hasVig
+    ? `<div style="position:absolute;bottom:0;left:0;right:0;height:${18*S}px;background:${isBW?'#333':c.d};display:flex;align-items:center;justify-content:center;gap:${3*S}px">
+        <span style="font-size:${6.5*S}px;color:${isBW?'#fff':c.a};letter-spacing:.5px;font-weight:700">VIGENCIA:</span>
+        <span style="font-size:${7.5*S}px;color:${isBW?'#fff':c.y};font-weight:900;font-family:'Barlow Condensed',sans-serif">${fmtDate(vig)}</span>
+      </div>`
+    : '';
+
+  // QR
+  const qrEl = `<div id="${qrId}" style="position:absolute;bottom:${hasVig?20*S:4*S}px;left:${6*S}px;width:${26*S}px;height:${26*S}px;background:#fff;border-radius:${2*S}px;overflow:hidden"></div>`;
+
+  // B&N: aplicar filter en la etiqueta completa
+  const bwFilter = isBW ? 'filter:grayscale(1) contrast(1.1);' : '';
+
+  return `<div style="width:${W}px;height:${H}px;border-radius:${7*S}px;overflow:hidden;display:flex;position:relative;font-family:'Barlow Condensed',sans-serif;border:${S}px solid ${isBW?'#888':'#ccc'};background:${isBW?'#f5f5f5':'#fff'};flex-shrink:0;${bwFilter}" data-qrid="${qrId}" data-pidx="${products.indexOf(p)}">
+  ${sem?`<div style="position:absolute;top:${3*S}px;right:${3*S}px;width:${8*S}px;height:${8*S}px;border-radius:50%;background:${isBW?'#444':sc};z-index:10;box-shadow:0 0 ${4*S}px ${isBW?'#44444488':sc+'88'}"></div>`:''}
+  <div style="flex:0 0 62%;position:relative;overflow:hidden;background:${isBW?'#f5f5f5':'#fff'}">
+    <!-- TOP BAR -->
+    <div style="position:absolute;top:0;left:0;right:0;height:${20*S}px;background:${c.d};display:flex;align-items:center;justify-content:flex-end;padding:0 ${7*S}px;z-index:3">
+      <span style="font-size:${8.5*S}px;font-weight:700;letter-spacing:${1.5*S}px;text-transform:uppercase;color:${c.a}">${store()}</span>
+    </div>
+    <!-- DIAGONAL BADGE -->
+    <div style="position:absolute;top:${-5*S}px;left:${-30*S}px;width:${92*S}px;height:${40*S}px;background:${c.p};transform:rotate(-35deg);z-index:5;display:flex;align-items:flex-end;justify-content:center;padding-bottom:${3*S}px">
+      <span style="font-weight:900;font-size:${7.5*S}px;color:#fff;text-transform:uppercase;transform:rotate(35deg);margin-left:${20*S}px;margin-bottom:${1*S}px;white-space:nowrap">${badge}</span>
+    </div>
+    <!-- PRODUCT INFO -->
+    <div style="position:absolute;top:${24*S}px;left:${7*S}px;right:${2*S}px;bottom:${hasVig?50*S:34*S}px;display:flex;flex-direction:column;justify-content:center;gap:${1*S}px;overflow:hidden">
+      ${p.cat?`<div style="font-size:${5.8*S}px;color:${isBW?'#666':'#999'};letter-spacing:${.8*S}px;text-transform:uppercase">${p.cat}</div>`:''}
+      <div style="font-weight:900;color:${isBW?'#000':'#111'};line-height:1.05;text-transform:uppercase;font-size:${nFs*S}px;overflow:hidden">${p.name}</div>
+      ${p.desc?`<div style="font-size:${6.5*S}px;color:${isBW?'#555':'#666'}">${p.desc}</div>`:''}
+    </div>
+    <!-- PRECIO ANTERIOR -->
+    <div style="position:absolute;bottom:${hasVig?22*S:4*S}px;left:${7*S}px;right:${34*S}px">
+      <div style="font-size:${5.8*S}px;color:${isBW?'#888':'#999'};font-weight:700;letter-spacing:.4px">Antes:</div>
+      <div style="font-weight:700;color:${isBW?'#999':'#aaa'};line-height:1;text-decoration:line-through;font-size:${bFs*S}px">${fmt(p.before)}</div>
+    </div>
+    <!-- QR -->
+    ${qrEl}
+    <!-- BOTELLA -->
+    ${bottleEl}
+    <!-- VIGENCIA -->
+    ${vigEl}
+  </div>
+  <!-- ZONA DERECHA -->
+  <div style="flex:0 0 38%;display:flex;flex-direction:column">
+    <div style="flex:1;background:${c.y};display:flex;flex-direction:column;align-items:center;justify-content:center;padding:${2*S}px">
+      <div style="font-size:${7*S}px;font-weight:700;letter-spacing:${.8*S}px;text-transform:uppercase;color:${dk(c.y)}">AHORA:</div>
+      <div style="display:flex;align-items:flex-start;line-height:1;margin-top:${1.5*S}px">
+        <span style="font-weight:900;color:${c.p};margin-top:${3.5*S}px;font-size:${14*S}px">$</span>
+        <span style="font-weight:900;color:${c.p};font-size:${iFs*S}px;line-height:1">${iStr}</span>
+        <span style="font-weight:900;color:${c.p};margin-top:${2.5*S}px;font-size:${12*S}px">.${dP}</span>
+      </div>
+    </div>
+    <div style="background:${c.p};padding:${2.5*S}px ${3*S}px;text-align:center">
+      <span style="font-size:${7.5*S}px;font-weight:900;color:#fff;letter-spacing:.6px;text-transform:uppercase">AHORRA <span style="font-size:${10*S}px">${s}%</span></span>
+    </div>
+    <div style="background:${isBW?'#e8e8e8':'#f5f5f5'};padding:${1.5*S}px;text-align:center;border-top:${S}px solid ${isBW?'#ccc':'#eee'}">
+      <span style="font-size:${4.8*S}px;color:${isBW?'#777':'#aaa'}">📱 ESCANEA · FICHA TÉCNICA</span>
+    </div>
+  </div>
+</div>`;
+}
+
+// ── QR ───────────────────────────────────────────────────────
+function saveFichaToStorage(p){
+  const id='f_'+p.name.replace(/[^A-Z0-9]/g,'').substring(0,10)+'_'+Date.now().toString(36);
+  try{localStorage.setItem(id,JSON.stringify({...p,store:store(),cp:C().p,cy:C().y}));}catch(e){}
+  return id;
+}
+function getQRText(p){
+  const isHosted=window.location.protocol==='https:'||window.location.hostname==='localhost';
+  if(isHosted){const id=saveFichaToStorage(p);return window.location.origin+'/?ficha='+id;}
+  return fichaDataURLMini(p);
+}
+function fichaDataURLMini(p){
+  const c=C();
+  const html=`<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:system-ui,sans-serif;background:#111;color:#fff;padding:1rem;max-width:360px;margin:0 auto}.card{background:#1a1a1a;border-radius:12px;overflow:hidden}.hdr{background:${c.p};padding:.8rem;text-align:center}.nom{font-size:1.2rem;font-weight:900}.cat{font-size:.6rem;color:rgba(255,255,255,.7);letter-spacing:2px;text-transform:uppercase;margin-top:.1rem}.pr{display:flex;justify-content:space-between;align-items:center;background:#222;padding:.7rem .9rem}.pn{font-size:1.8rem;font-weight:900;color:${c.y}}.pw{font-size:.7rem;color:#555;text-decoration:line-through}.bw{background:${c.p};color:#fff;font-size:.68rem;font-weight:700;padding:.2rem .5rem;border-radius:4px}.sec{padding:.6rem .9rem;border-bottom:1px solid #222;font-size:.75rem}.st{color:#555;font-size:.55rem;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:.3rem}.chips{display:flex;flex-wrap:wrap;gap:.25rem;margin-top:.25rem}.chip{background:#222;color:#999;font-size:.58rem;padding:.12rem .35rem;border-radius:10px}.nota{background:#1a1a1a;padding:.6rem;border-radius:6px;font-size:.72rem;color:#aaa;font-style:italic;line-height:1.5}.ft{text-align:center;color:#333;font-size:.58rem;padding:.6rem}</style></head><body><div class="card"><div class="hdr"><div class="nom">${p.name}</div><div class="cat">${p.cat||''}</div></div><div class="pr"><div><div class="pn">${fmt(p.after)}</div><div class="pw">Antes: ${fmt(p.before)}</div></div><div class="bw">AHORRA ${savePct(p)}%</div></div>${p.pais||p.alc||p.uva?`<div class="sec"><div class="st">Ficha técnica</div>${p.pais?`<div>🌍 ${p.pais}${p.region?' — '+p.region:''}</div>`:''}${p.uva?`<div>🌿 ${p.uva}</div>`:''}${p.alc?`<div>🔥 ${p.alc}</div>`:''}${p.temp?`<div>🌡️ ${p.temp}</div>`:''}</div>`:''} ${p.aromas?`<div class="sec"><div class="st">Aromas</div><div class="chips">${p.aromas.split(',').map(a=>`<span class="chip">${a.trim()}</span>`).join('')}</div></div>`:''} ${p.maridaje?`<div class="sec"><div class="st">Maridaje</div><div class="chips">${p.maridaje.split(',').map(m=>`<span class="chip">${m.trim()}</span>`).join('')}</div></div>`:''} ${p.nota?`<div class="sec"><div class="nota">${p.nota}</div></div>`:''}<div class="ft">${store()}</div></div></body></html>`;
+  const min=html.replace(/\n\s*/g,'').replace(/>\s+</g,'><');
+  const b64=btoa(unescape(encodeURIComponent(min)));
+  if(b64.length>2800){
+    const u=`<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{font-family:system-ui;background:#111;color:#fff;padding:1rem;max-width:360px;margin:0 auto}h2{color:${c.y};font-size:1.1rem}p{margin:.35rem 0;font-size:.82rem}hr{border-color:#333;margin:.4rem 0}.l{color:#555;font-size:.65rem;text-transform:uppercase}</style></head><body><h2>${p.name}</h2><p style="color:${c.p};font-size:1.4rem;font-weight:900">${fmt(p.after)} <span style="color:#555;font-size:.85rem;text-decoration:line-through">${fmt(p.before)}</span></p><hr>${p.pais?`<p><span class="l">País</span><br>${p.pais}</p>`:''}${p.uva?`<p><span class="l">Uva/Agave</span><br>${p.uva}</p>`:''}${p.alc?`<p><span class="l">Alcohol</span><br>${p.alc}</p>`:''}${p.aromas?`<hr><p><span class="l">Aromas</span><br>${p.aromas}</p>`:''}${p.nota?`<hr><p style="color:#aaa;font-style:italic;font-size:.75rem">${p.nota.substring(0,180)}</p>`:''}<hr><p style="color:#444;font-size:.6rem;text-align:center">${store()}</p></body></html>`;
+    return 'data:text/html;base64,'+btoa(unescape(encodeURIComponent(u)));
+  }
+  return 'data:text/html;base64,'+b64;
+}
+function makeQR(el,p,size){
+  el.innerHTML='';
+  try{new QRCode(el,{text:getQRText(p),width:size,height:size,colorDark:'#000000',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});}
+  catch(e){console.warn('QR:',e);}
+}
+async function injectQRs(container,scale=1){
+  const els=container.querySelectorAll('[data-qrid]');
+  for(const el of els){
+    const qrEl=container.querySelector('#'+el.dataset.qrid);
+    const pidx=parseInt(el.dataset.pidx);
+    if(qrEl&&pidx>=0&&products[pidx]) makeQR(qrEl,products[pidx],Math.round(26*scale));
+    await new Promise(r=>setTimeout(r,25));
+  }
+}
+
+// ── FICHA PAGE (QR scan on Vercel) ───────────────────────────
+function checkFichaPage(){
+  const id=new URLSearchParams(window.location.search).get('ficha');
+  if(!id)return;
+  try{
+    const d=JSON.parse(localStorage.getItem(id)||'{}');
+    if(!d.name){document.body.innerHTML='<p style="padding:2rem;color:#888;font-family:system-ui">Ficha no encontrada en este dispositivo.</p>';return;}
+    const c={p:d.cp||'#c41e1e',y:d.cy||'#f5c842'};
+    const aro=(d.aromas||'').split(',').map(a=>a.trim()).filter(Boolean);
+    const mar=(d.maridaje||'').split(',').map(m=>m.trim()).filter(Boolean);
+    document.body.innerHTML=`<style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:system-ui,sans-serif;background:#0a0a0a;color:#fff;padding:1rem}.card{background:#111;border-radius:14px;overflow:hidden;max-width:400px;margin:0 auto}.hdr{background:${c.p};padding:1rem;text-align:center}.nom{font-size:1.4rem;font-weight:900;letter-spacing:1px}.cat{font-size:.62rem;color:rgba(255,255,255,.7);letter-spacing:2px;text-transform:uppercase;margin-top:.2rem}.pr{display:flex;align-items:center;justify-content:space-between;background:#1a1a1a;padding:.8rem 1rem}.pn{font-size:2rem;font-weight:900;color:${c.y}}.pw{font-size:.72rem;color:#555;text-decoration:line-through}.bw{background:${c.p};color:#fff;font-size:.7rem;font-weight:700;padding:.22rem .55rem;border-radius:4px}.sec{padding:.75rem 1rem;border-bottom:1px solid #1a1a1a}.st{font-size:.55rem;letter-spacing:2px;color:#555;text-transform:uppercase;margin-bottom:.45rem}.grid{display:grid;grid-template-columns:1fr 1fr;gap:.35rem}.item{background:#1a1a1a;border-radius:6px;padding:.35rem .55rem}.il{font-size:.5rem;color:#555;letter-spacing:1px;text-transform:uppercase}.iv{font-size:.76rem;color:#ddd;margin-top:.1rem;font-weight:500}.chips{display:flex;flex-wrap:wrap;gap:.28rem;margin-top:.28rem}.chip{background:#1e1e1e;border:1px solid #2a2a2a;color:#999;font-size:.6rem;padding:.18rem .42rem;border-radius:20px}.nota{background:#1a1a1a;border-radius:8px;padding:.65rem;font-size:.74rem;color:#aaa;line-height:1.55;font-style:italic}.ft{text-align:center;padding:.75rem;font-size:.58rem;color:#333;letter-spacing:1px}</style>
+    <div class="card"><div class="hdr"><div class="nom">${d.name}</div><div class="cat">${d.cat||''} ${d.marca?'· '+d.marca:''}</div></div>
+    <div class="pr"><div><div class="pn">$${Math.floor(d.after)}.${String(Math.round((d.after%1)*100)).padStart(2,'0')}</div><div class="pw">Antes: $${d.before}</div></div><div class="bw">AHORRA ${Math.round((1-d.after/d.before)*100)}%</div></div>
+    ${d.pais||d.alc?`<div class="sec"><div class="st">Ficha técnica</div><div class="grid">${d.pais?`<div class="item"><div class="il">País</div><div class="iv">${d.pais}</div></div>`:''} ${d.region?`<div class="item"><div class="il">Región</div><div class="iv">${d.region}</div></div>`:''} ${d.uva?`<div class="item"><div class="il">Uva/Agave</div><div class="iv">${d.uva}</div></div>`:''} ${d.alc?`<div class="item"><div class="il">Alcohol</div><div class="iv">${d.alc}</div></div>`:''} ${d.anejo?`<div class="item"><div class="il">Añejamiento</div><div class="iv">${d.anejo}</div></div>`:''} ${d.temp?`<div class="item"><div class="il">Temperatura</div><div class="iv">${d.temp}</div></div>`:''}</div></div>`:''}
+    ${aro.length?`<div class="sec"><div class="st">👃 Aromas</div><div class="chips">${aro.map(a=>`<span class="chip">${a}</span>`).join('')}</div></div>`:''}
+    ${d.sabor?`<div class="sec"><div class="st">👅 En boca</div><div style="font-size:.76rem;color:#ccc;margin-top:.2rem">${d.sabor}</div></div>`:''}
+    ${mar.length?`<div class="sec"><div class="st">🍽️ Maridaje</div><div class="chips">${mar.map(m=>`<span class="chip">${m}</span>`).join('')}</div></div>`:''}
+    ${d.nota?`<div class="sec"><div class="st">📝 Sommelier</div><div class="nota">${d.nota}</div></div>`:''}
+    <div class="ft">${d.store||'Vinatería'} · Escanea para más información</div></div>`;
+  }catch(e){console.error(e);}
+}
+
+// ── DATA LOAD ────────────────────────────────────────────────
+const SAMPLE=[
+  {name:'CONCHA Y TORO',desc:'Reserva 750 ml',cat:'VINO TINTO',before:259,after:199},
+  {name:'JACK DANIELS',desc:'Tennessee 700 ml',cat:'WHISKEY',before:499,after:399},
+  {name:'CLASE AZUL',desc:'Reposado 750 ml',cat:'TEQUILA',before:1985,after:1765},
+  {name:'HENNESSY VS',desc:'Cognac 750 ml',cat:'COGNAC',before:1475,after:1199},
+  {name:'HERRADURA',desc:'Plata 750 ml',cat:'TEQUILA',before:1355,after:1199},
+  {name:'SMIRNOFF',desc:'Vodka 750 ml',cat:'VODKA',before:265,after:219},
+  {name:'BACARDI BLANCO',desc:'Ron 750 ml',cat:'RON',before:289,after:229},
+  {name:'CORONA EXTRA',desc:'Six-pack 355 ml',cat:'CERVEZA',before:129,after:99},
+  {name:'BOMBAY SAPPHIRE',desc:'Gin 750 ml',cat:'GIN',before:449,after:359},
+];
+function loadSample(){products=SAMPLE.map(p=>({...p,marca:'',pais:'',region:'',uva:'',alc:'',anejo:'',temp:'',color:'',contenido:'',aromas:'',sabor:'',maridaje:'',nota:'',aiGenerated:false}));afterLoad();}
 function handleFile(e){
   const f=e.target.files[0];if(!f)return;
   const ext=f.name.split('.').pop().toLowerCase();
@@ -377,280 +744,74 @@ function processRows(rows){
     const before=parseFloat(String(r[bi]||'').replace(/[^\d.]/g,''));
     const after=parseFloat(String(r[ai]||'').replace(/[^\d.]/g,''));
     if(!name||!before||!after||isNaN(before)||isNaN(after)||before<=0||after<=0)continue;
-    products.push({
-      name:name.toUpperCase().substring(0,32),
-      desc:di>=0?String(r[di]||'').substring(0,30):'',
-      cat:ci>=0?String(r[ci]||'').toUpperCase().substring(0,20):'',
-      before,after,
-      // ficha fields vacíos — se llenarán con IA
-      marca:'',pais:'',region:'',uva:'',alc:'',anejo:'',temp:'',
-      color:'',contenido:'',aromas:'',sabor:'',maridaje:'',nota:'',
-      aiGenerated:false
-    });
+    products.push({name:name.toUpperCase().substring(0,32),desc:di>=0?String(r[di]||'').substring(0,30):'',cat:ci>=0?String(r[ci]||'').toUpperCase().substring(0,20):'',before,after,marca:'',pais:'',region:'',uva:'',alc:'',anejo:'',temp:'',color:'',contenido:'',aromas:'',sabor:'',maridaje:'',nota:'',aiGenerated:false});
   }
   if(!products.length){alert('Sin productos válidos.');return;}
   afterLoad();
 }
 function afterLoad(){
   const shown=products.slice(0,8);
-  document.getElementById('tbl').innerHTML=`<div class="tbl-wrap">
-  <div style="padding:.5rem .8rem;background:#222;font-size:.7rem;color:#aaa">${products.length} PRODUCTOS CARGADOS · La IA generará la ficha técnica de cada uno</div>
-  <table><thead><tr><th></th><th>PRODUCTO</th><th>CAT.</th><th>ANTES</th><th>AHORA</th><th>AHORRO</th></tr></thead><tbody>
-  ${shown.map(p=>`<tr>
-    <td><span class="dot" style="background:${semColor(p)}"></span></td>
-    <td><strong style="color:#fff">${p.name}</strong>${p.desc?`<br><span style="color:#666;font-size:.7rem">${p.desc}</span>`:''}</td>
-    <td style="color:#888">${p.cat||'—'}</td>
-    <td style="text-decoration:line-through;color:#666">${fmt(p.before)}</td>
-    <td style="color:var(--gold);font-weight:700">${fmt(p.after)}</td>
-    <td><span class="tag" style="background:${semColor(p)}">${savePct(p)}%</span></td>
-  </tr>`).join('')}
+  document.getElementById('tbl').innerHTML=`<div class="tbl-wrap"><div style="padding:.45rem .65rem;background:#222;font-size:.68rem;color:#aaa">${products.length} PRODUCTOS CARGADOS</div>
+  <table><thead><tr><th></th><th>PRODUCTO</th><th>CAT.</th><th>ANTES</th><th>AHORA</th><th>%</th></tr></thead><tbody>
+  ${shown.map(p=>`<tr><td><span class="dot" style="background:${semColor(p)}"></span></td><td><strong style="color:#fff">${p.name}</strong>${p.desc?`<br><span style="color:#666;font-size:.68rem">${p.desc}</span>`:''}</td><td style="color:#888">${p.cat||'—'}</td><td style="text-decoration:line-through;color:#666">${fmt(p.before)}</td><td style="color:var(--gold);font-weight:700">${fmt(p.after)}</td><td><span class="tag" style="background:${semColor(p)}">${savePct(p)}%</span></td></tr>`).join('')}
   </tbody></table></div>`;
-  document.getElementById('cfgPanel').style.display='grid';
-  document.getElementById('clrsPanel').style.display='flex';
-  document.getElementById('p1btns').style.display='flex';
-}
-function setBadge(el,t){badge=t;document.querySelectorAll('.bopt').forEach(b=>b.classList.remove('sel'));el.classList.add('sel');}
-
-// ── AI FICHA GENERATION ──────────────────────────────────────
-// Llama al endpoint de Vercel /api/scrape — sin API key, sin costo
-async function callClaude(productName, category, description){
-  const response = await fetch('/api/scrape', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({ name: productName, category, description })
-  });
-  if(!response.ok){
-    const e = await response.text();
-    throw new Error(`Error scraping ${productName}: ${e}`);
-  }
-  return await response.json();
+  document.getElementById('extraCfg').style.display='block';
 }
 
+// ── AI SCRAPE ────────────────────────────────────────────────
+async function callScrape(name,cat,desc){
+  const r=await fetch('/api/scrape',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,category:cat,description:desc})});
+  if(!r.ok)throw new Error('Scrape error '+r.status);
+  return await r.json();
+}
 async function generateAllFichas(){
-  if(!products.length) return;
-  stopGen = false;
-  const btn = document.getElementById('genBtn');
-  const stopBtn = document.getElementById('stopBtn');
-  btn.disabled = true;
-  stopBtn.style.display = 'inline-block';
-  document.getElementById('aiProgress').style.display = 'block';
-  document.getElementById('aiStatusGlobal').textContent = '';
-
-  // Inicializar lista de productos
-  const listEl = document.getElementById('aiProductList');
-  listEl.innerHTML = products.map((p,i)=>`
-    <div class="product-ai-row" id="airow_${i}">
-      <span class="ai-status ai-pending" id="aist_${i}">PENDIENTE</span>
-      <span style="color:#aaa;flex:1">${p.name}</span>
-      <span style="color:#666;font-size:.65rem">${p.cat||''}</span>
-    </div>`).join('');
-
-  let done = 0;
-  for(let i=0; i<products.length; i++){
-    if(stopGen) break;
-    const p = products[i];
-    const stEl = document.getElementById('aist_'+i);
-
-    // Actualizar estado
-    stEl.className = 'ai-status ai-loading';
-    stEl.textContent = 'GENERANDO...';
-    document.getElementById('aiProgTxt').textContent = `Generando ficha ${i+1} de ${products.length}: ${p.name}`;
-
+  if(!products.length)return;
+  stopGen=false;
+  const btn=document.getElementById('genBtn');
+  const stopBtn=document.getElementById('stopBtn');
+  btn.disabled=true;stopBtn.style.display='inline-block';
+  document.getElementById('aiProgress').style.display='block';
+  document.getElementById('aiStatusGlobal').textContent='';
+  const listEl=document.getElementById('aiProductList');
+  listEl.innerHTML=products.map((p,i)=>`<div class="product-ai-row" id="airow_${i}"><span class="ai-status ai-pending" id="aist_${i}">PENDIENTE</span><span style="color:#aaa;flex:1">${p.name}</span><span style="color:#666;font-size:.62rem">${p.cat||''}</span></div>`).join('');
+  let done=0;
+  for(let i=0;i<products.length;i++){
+    if(stopGen)break;
+    const p=products[i];
+    const stEl=document.getElementById('aist_'+i);
+    stEl.className='ai-status ai-loading';stEl.textContent='BUSCANDO...';
+    document.getElementById('aiProgTxt').textContent=`Buscando info: ${p.name} (${i+1}/${products.length})`;
     try{
-      const ficha = await callClaude(p.name, p.cat, p.desc);
-      // Mezclar con producto existente
-      Object.assign(products[i], {
-        marca: ficha.marca||'',
-        pais: ficha.pais||'',
-        region: ficha.region||'',
-        uva: ficha.uva||'',
-        alc: ficha.alc||'',
-        anejo: ficha.anejo||'',
-        temp: ficha.temp||'',
-        color: ficha.color||'',
-        contenido: ficha.contenido||p.desc||'',
-        aromas: ficha.aromas||'',
-        sabor: ficha.sabor||'',
-        maridaje: ficha.maridaje||'',
-        nota: ficha.nota||'',
-        aiGenerated: true
-      });
-      stEl.className = 'ai-status ai-done';
-      stEl.textContent = '✅ LISTA';
-    } catch(err){
-      console.error('Error en',p.name, err);
-      stEl.className = 'ai-status ai-err';
-      stEl.textContent = '❌ ERROR';
-    }
-
+      const f=await callScrape(p.name,p.cat,p.desc);
+      Object.assign(products[i],{marca:f.marca||'',pais:f.pais||'',region:f.region||'',uva:f.uva||'',alc:f.alc||'',anejo:f.anejo||'',temp:f.temp||'',color:f.color||'',contenido:f.contenido||p.desc||'',aromas:f.aromas||'',sabor:f.sabor||'',maridaje:f.maridaje||'',nota:f.nota||'',aiGenerated:true});
+      stEl.className='ai-status ai-done';stEl.textContent='✅ LISTA';
+    }catch(e){stEl.className='ai-status ai-err';stEl.textContent='❌ ERROR';}
     done++;
-    document.getElementById('aiProgFill').style.width = Math.round(done/products.length*100)+'%';
+    document.getElementById('aiProgFill').style.width=Math.round(done/products.length*100)+'%';
     renderFichasGrid();
-
-    // Pequeña pausa para no saturar la API
-    if(i < products.length-1) await new Promise(r=>setTimeout(r,300));
+    await new Promise(r=>setTimeout(r,200));
   }
-
-  btn.disabled = false;
-  stopBtn.style.display = 'none';
-  const genCount = products.filter(p=>p.aiGenerated).length;
-  document.getElementById('aiStatusGlobal').textContent = `✅ ${genCount} fichas generadas`;
-  document.getElementById('aiProgTxt').textContent = stopGen
-    ? `Detenido. ${genCount} fichas generadas.`
-    : `✅ Todas las fichas generadas. Puedes editar cualquiera antes de imprimir.`;
+  btn.disabled=false;stopBtn.style.display='none';
+  const gc=products.filter(p=>p.aiGenerated).length;
+  document.getElementById('aiStatusGlobal').textContent=`✅ ${gc} fichas generadas`;
+  document.getElementById('aiProgTxt').textContent=stopGen?`Detenido. ${gc} fichas generadas.`:`✅ Completado — ${gc} fichas listas`;
 }
+function stopGeneration(){stopGen=true;document.getElementById('stopBtn').style.display='none';document.getElementById('genBtn').disabled=false;}
 
-function stopGeneration(){
-  stopGen = true;
-  document.getElementById('stopBtn').style.display = 'none';
-  document.getElementById('genBtn').disabled = false;
-}
-
-// ── FICHAS GRID ──────────────────────────────────────────────
 function renderFichasGrid(){
-  const g = document.getElementById('fichasGrid');
-  g.innerHTML = products.map((p,i) => {
-    const aromas = (p.aromas||'').split(',').map(a=>a.trim()).filter(Boolean).slice(0,4);
-    const maridaje = (p.maridaje||'').split(',').map(m=>m.trim()).filter(Boolean).slice(0,3);
+  document.getElementById('fichasGrid').innerHTML=products.map((p,i)=>{
+    const aro=(p.aromas||'').split(',').map(a=>a.trim()).filter(Boolean).slice(0,3);
+    const mar=(p.maridaje||'').split(',').map(m=>m.trim()).filter(Boolean).slice(0,2);
     return `<div class="ficha-card${p.aiGenerated?' ai-generated':''}">
       ${p.aiGenerated?'<div class="ficha-ai-badge">🤖 IA</div>':''}
       <div class="ficha-card-name">${p.name}</div>
       <div class="ficha-card-cat">${p.cat||''} ${p.pais?'· '+p.pais:''} ${p.alc?'· '+p.alc:''}</div>
-      ${aromas.length?`<div class="ficha-chips">${aromas.map(a=>`<span class="ficha-chip">👃 ${a}</span>`).join('')}</div>`:''}
-      ${maridaje.length?`<div class="ficha-chips">${maridaje.map(m=>`<span class="ficha-chip">🍽️ ${m}</span>`).join('')}</div>`:''}
-      ${p.nota?`<div class="ficha-nota-preview">"${p.nota}"</div>`:'<div style="font-size:.72rem;color:#444;margin-top:.3rem;font-style:italic">Sin ficha generada aún</div>'}
-      <button class="edit-ficha-btn" onclick="openEdit(${i})">✏️ Editar ficha</button>
+      ${aro.length?`<div class="ficha-chips">${aro.map(a=>`<span class="ficha-chip">👃 ${a}</span>`).join('')}</div>`:''}
+      ${mar.length?`<div class="ficha-chips">${mar.map(m=>`<span class="ficha-chip">🍽️ ${m}</span>`).join('')}</div>`:''}
+      ${p.nota?`<div class="ficha-nota-preview">"${p.nota}"</div>`:'<div style="font-size:.68rem;color:#444;margin-top:.25rem;font-style:italic">Sin ficha aún</div>'}
+      <button class="edit-ficha-btn" onclick="openEdit(${i})">✏️ Editar</button>
     </div>`;
   }).join('');
-}
-
-// ── QR / FICHA HTML ──────────────────────────────────────────
-function fichaHTML(p){
-  const c=C();
-  const aro=(p.aromas||'').split(',').map(a=>a.trim()).filter(Boolean);
-  const mar=(p.maridaje||'').split(',').map(m=>m.trim()).filter(Boolean);
-  return `<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${p.name}</title>
-<style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:system-ui,sans-serif;background:#0a0a0a;color:#fff;padding:1rem}
-.card{background:#111;border-radius:14px;overflow:hidden;max-width:400px;margin:0 auto}
-.hdr{background:${c.p};padding:1rem;text-align:center}
-.nombre{font-size:1.4rem;font-weight:900;letter-spacing:1px}
-.cat{font-size:.65rem;color:rgba(255,255,255,.7);letter-spacing:2px;text-transform:uppercase;margin-top:.2rem}
-.ai-tag{background:rgba(255,255,255,.2);font-size:.55rem;padding:.1rem .4rem;border-radius:10px;margin-top:.3rem;display:inline-block;letter-spacing:1px}
-.precio-row{display:flex;align-items:center;justify-content:space-between;background:#1a1a1a;padding:.8rem 1rem}
-.precio-now{font-size:2rem;font-weight:900;color:${c.y}}
-.precio-was{font-size:.75rem;color:#555;text-decoration:line-through}
-.badge{background:${c.p};color:#fff;font-size:.72rem;font-weight:700;padding:.25rem .6rem;border-radius:4px}
-.sec{padding:.8rem 1rem;border-bottom:1px solid #1a1a1a}
-.sec-t{font-size:.58rem;letter-spacing:2px;color:#555;text-transform:uppercase;margin-bottom:.5rem}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:.4rem}
-.item{background:#1a1a1a;border-radius:6px;padding:.4rem .6rem}
-.item-l{font-size:.52rem;color:#555;letter-spacing:1px;text-transform:uppercase}
-.item-v{font-size:.78rem;color:#ddd;margin-top:.1rem;font-weight:500}
-.chips{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.3rem}
-.chip{background:#1e1e1e;border:1px solid #2a2a2a;color:#999;font-size:.62rem;padding:.2rem .45rem;border-radius:20px}
-.nota{background:#1a1a1a;border-radius:8px;padding:.7rem;font-size:.76rem;color:#aaa;line-height:1.6;font-style:italic}
-.footer{text-align:center;padding:.8rem;font-size:.6rem;color:#333;letter-spacing:1px}
-</style></head><body><div class="card">
-<div class="hdr">
-  <div class="nombre">${p.name}</div>
-  <div class="cat">${p.cat||''} ${p.marca?'· '+p.marca:''}</div>
-  ${p.aiGenerated?'<div class="ai-tag">🤖 Ficha generada con IA</div>':''}
-</div>
-<div class="precio-row">
-  <div><div class="precio-now">${fmt(p.after)}</div><div class="precio-was">Antes: ${fmt(p.before)}</div></div>
-  <div class="badge">AHORRA ${savePct(p)}%</div>
-</div>
-${(p.pais||p.region||p.uva||p.alc||p.anejo||p.temp||p.color||p.contenido)?`
-<div class="sec"><div class="sec-t">Ficha técnica</div><div class="grid">
-${p.pais?`<div class="item"><div class="item-l">País</div><div class="item-v">${p.pais}</div></div>`:''}
-${p.region?`<div class="item"><div class="item-l">Región</div><div class="item-v">${p.region}</div></div>`:''}
-${p.uva?`<div class="item"><div class="item-l">Uva / Agave</div><div class="item-v">${p.uva}</div></div>`:''}
-${p.alc?`<div class="item"><div class="item-l">Alcohol</div><div class="item-v">${p.alc}</div></div>`:''}
-${p.anejo?`<div class="item"><div class="item-l">Añejamiento</div><div class="item-v">${p.anejo}</div></div>`:''}
-${p.temp?`<div class="item"><div class="item-l">Temperatura</div><div class="item-v">${p.temp}</div></div>`:''}
-${p.color?`<div class="item"><div class="item-l">Color</div><div class="item-v">${p.color}</div></div>`:''}
-${p.contenido?`<div class="item"><div class="item-l">Contenido</div><div class="item-v">${p.contenido}</div></div>`:''}
-</div></div>`:''}
-${(aro.length||p.sabor)?`<div class="sec"><div class="sec-t">Cata</div>
-${aro.length?`<div style="margin-bottom:.5rem"><div class="item-l" style="font-size:.58rem;color:#555;letter-spacing:1px;text-transform:uppercase;margin-bottom:.3rem">👃 Aromas</div><div class="chips">${aro.map(a=>`<span class="chip">${a}</span>`).join('')}</div></div>`:''}
-${p.sabor?`<div class="item-l" style="font-size:.58rem;color:#555;letter-spacing:1px;text-transform:uppercase;margin-bottom:.3rem">👅 En boca</div><div style="font-size:.76rem;color:#bbb">${p.sabor}</div>`:''}
-</div>`:''}
-${mar.length?`<div class="sec"><div class="sec-t">🍽️ Maridaje</div><div class="chips">${mar.map(m=>`<span class="chip">${m}</span>`).join('')}</div></div>`:''}
-${p.nota?`<div class="sec"><div class="sec-t">📝 Nota del sommelier</div><div class="nota">${p.nota}</div></div>`:''}
-<div class="footer">${store()} · Escanea para más información</div>
-</div></body></html>`;
-}
-
-function fichaDataURL(p){
-  const html=fichaHTML(p);
-  return 'data:text/html;base64,'+btoa(unescape(encodeURIComponent(html)));
-}
-
-function makeQR(el, p, size){
-  el.innerHTML='';
-  try{new QRCode(el,{text:fichaDataURL(p),width:size,height:size,colorDark:'#000000',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.L});}
-  catch(e){console.warn(e);}
-}
-
-// ── LABEL HTML ───────────────────────────────────────────────
-function labelHTML(p,S=1,sem=false){
-  const c=C();
-  const s=savePct(p);
-  const iP=Math.floor(p.after);
-  const dP=String(Math.round((p.after%1)*100)).padStart(2,'0');
-  const iStr=String(iP);
-  const iFs=iStr.length>=4?38:iStr.length===3?46:54;
-  const nFs=p.name.length>24?10:p.name.length>18?12:p.name.length>13?13.5:15;
-  const bFs=fmt(p.before).length>=8?11:fmt(p.before).length>=6?13:14;
-  const sc=semColor(p);
-  const qrId='qr_'+(Math.random().toString(36).slice(2,8));
-  return `<div style="width:${220*S}px;height:${144*S}px;border-radius:${7*S}px;overflow:hidden;display:flex;position:relative;font-family:'Barlow Condensed',sans-serif;border:${S}px solid #ccc;background:#fff;flex-shrink:0" data-qrid="${qrId}" data-pidx="${products.indexOf(p)}">
-  ${sem?`<div style="position:absolute;top:${3*S}px;right:${3*S}px;width:${8*S}px;height:${8*S}px;border-radius:50%;background:${sc};z-index:10;box-shadow:0 0 ${5*S}px ${sc}88"></div>`:''}
-  <div style="flex:0 0 58%;position:relative;overflow:hidden;background:#fff">
-    <div style="position:absolute;top:0;left:0;right:0;height:${21*S}px;background:${c.d};display:flex;align-items:center;justify-content:flex-end;padding:0 ${7*S}px;z-index:3">
-      <span style="font-size:${9*S}px;font-weight:700;letter-spacing:${1.5*S}px;text-transform:uppercase;color:${c.a}">${store()}</span>
-    </div>
-    <div style="position:absolute;top:${-5*S}px;left:${-30*S}px;width:${95*S}px;height:${40*S}px;background:${c.p};transform:rotate(-35deg);z-index:5;display:flex;align-items:flex-end;justify-content:center;padding-bottom:${3*S}px">
-      <span style="font-weight:900;font-size:${7.5*S}px;color:#fff;text-transform:uppercase;transform:rotate(35deg);margin-left:${22*S}px;margin-bottom:${1*S}px;white-space:nowrap">${badge}</span>
-    </div>
-    <div style="position:absolute;top:${25*S}px;left:${7*S}px;right:${3*S}px;bottom:${40*S}px;display:flex;flex-direction:column;justify-content:center;gap:${1*S}px;overflow:hidden">
-      ${p.cat?`<div style="font-size:${6*S}px;color:#999;letter-spacing:${.8*S}px;text-transform:uppercase">${p.cat}</div>`:''}
-      <div style="font-weight:900;color:#111;line-height:1.05;text-transform:uppercase;font-size:${nFs*S}px">${p.name}</div>
-      ${p.desc?`<div style="font-size:${7*S}px;color:#666">${p.desc}</div>`:''}
-    </div>
-    <div style="position:absolute;bottom:${4*S}px;left:${7*S}px;right:${36*S}px">
-      <div style="font-size:${6*S}px;color:#999;font-weight:700">Antes:</div>
-      <div style="font-weight:700;color:#aaa;line-height:1;text-decoration:line-through;font-size:${bFs*S}px">${fmt(p.before)}</div>
-    </div>
-    <div id="${qrId}" style="position:absolute;bottom:${3*S}px;right:${3*S}px;width:${30*S}px;height:${30*S}px;background:#fff;border-radius:${2*S}px;overflow:hidden"></div>
-  </div>
-  <div style="flex:0 0 42%;display:flex;flex-direction:column">
-    <div style="flex:1;background:${c.y};display:flex;flex-direction:column;align-items:center;justify-content:center;padding:${3*S}px">
-      <div style="font-size:${7.5*S}px;font-weight:700;letter-spacing:${.8*S}px;text-transform:uppercase;color:${dk(c.y)}">AHORA:</div>
-      <div style="display:flex;align-items:flex-start;line-height:1;margin-top:${2*S}px">
-        <span style="font-weight:900;color:${c.p};margin-top:${4*S}px;font-size:${15*S}px">$</span>
-        <span style="font-weight:900;color:${c.p};font-size:${iFs*S}px;line-height:1">${iStr}</span>
-        <span style="font-weight:900;color:${c.p};margin-top:${3*S}px;font-size:${13*S}px">.${dP}</span>
-      </div>
-    </div>
-    <div style="background:${c.p};padding:${3*S}px ${4*S}px;text-align:center">
-      <span style="font-size:${7*S}px;font-weight:900;color:#fff;letter-spacing:.8px;text-transform:uppercase">AHORRA <span style="font-size:${10*S}px">${s}%</span></span>
-    </div>
-    <div style="background:#f5f5f5;padding:${2*S}px;text-align:center;border-top:${S}px solid #eee">
-      <span style="font-size:${5*S}px;color:#aaa">📱 ESCANEA · FICHA TÉCNICA</span>
-    </div>
-  </div>
-</div>`;
-}
-
-async function injectQRs(container,scale=1){
-  const els=container.querySelectorAll('[data-qrid]');
-  for(const el of els){
-    const qrEl=container.querySelector('#'+el.dataset.qrid);
-    const pidx=parseInt(el.dataset.pidx);
-    if(qrEl&&pidx>=0&&products[pidx]) makeQR(qrEl,products[pidx],Math.round(30*scale));
-    await new Promise(r=>setTimeout(r,30));
-  }
 }
 
 // ── SHEET ────────────────────────────────────────────────────
@@ -663,43 +824,34 @@ function renderSheet(){
   const sem=document.getElementById('showSem').checked;
   let html=`<div class="sheet${cuts?' cuts':''}">`;
   for(let i=0;i<LPP;i++){
-    if(i<pp.length){const gi=(pg-1)*LPP+i;
-      html+=`<div class="lwrap" onclick="openEdit(${gi})"><div style="padding:4px">${labelHTML(pp[i],1,sem)}</div></div>`;
-    } else html+=`<div class="lwrap"></div>`;
+    const gi=(pg-1)*LPP+i;
+    html+=`<div class="lwrap"${i<pp.length?` onclick="openEdit(${gi})"`:''}><div style="padding:4px">${i<pp.length?labelHTML(pp[i],1,sem):''}</div></div>`;
   }
   html+=`</div>`;
   document.getElementById('sheet').innerHTML=html;
-  setTimeout(()=>injectQRs(document.getElementById('sheet'),1),150);
+  setTimeout(()=>injectQRs(document.getElementById('sheet'),1),200);
 }
 
 // ── EDITOR ───────────────────────────────────────────────────
 function openEdit(idx){
-  editIdx=idx;
-  const p=products[idx];
-  const map={eName:'name',eCat:'cat',eDesc:'desc',eMarca:'marca',eBefore:'before',eAfter:'after',
-    ePais:'pais',eRegion:'region',eUva:'uva',eAlc:'alc',eAnejo:'anejo',eTemp:'temp',
-    eColor:'color',eContenido:'contenido',eAromas:'aromas',eSabor:'sabor',eMaridaje:'maridaje',eNota:'nota'};
+  editIdx=idx;const p=products[idx];
+  const map={eName:'name',eCat:'cat',eDesc:'desc',eMarca:'marca',eBefore:'before',eAfter:'after',ePais:'pais',eRegion:'region',eUva:'uva',eAlc:'alc',eAnejo:'anejo',eTemp:'temp',eAromas:'aromas',eSabor:'sabor',eMaridaje:'maridaje',eNota:'nota'};
   Object.entries(map).forEach(([elId,key])=>{const el=document.getElementById(elId);if(el)el.value=p[key]||'';});
-  miniPrev();
-  document.getElementById('editModal').classList.add('open');
+  miniPrev();document.getElementById('editModal').classList.add('open');
 }
 function miniPrev(){
   const tmp={name:(document.getElementById('eName').value||'PRODUCTO').toUpperCase(),cat:document.getElementById('eCat').value.toUpperCase(),desc:document.getElementById('eDesc').value,before:parseFloat(document.getElementById('eBefore').value)||100,after:parseFloat(document.getElementById('eAfter').value)||80};
-  document.getElementById('miniPrevEl').innerHTML=`<div style="transform:scale(.65);transform-origin:top center;height:94px;overflow:visible">${labelHTML(tmp,1,true)}</div>`;
+  document.getElementById('miniPrevEl').innerHTML=`<div style="transform:scale(.62);transform-origin:top center;height:90px;overflow:visible">${labelHTML(tmp,1,true)}</div>`;
 }
 function confirmEdit(){
   if(editIdx<0)return;
-  const map={eName:'name',eCat:'cat',eDesc:'desc',eMarca:'marca',
-    ePais:'pais',eRegion:'region',eUva:'uva',eAlc:'alc',eAnejo:'anejo',eTemp:'temp',
-    eColor:'color',eContenido:'contenido',eAromas:'aromas',eSabor:'sabor',eMaridaje:'maridaje',eNota:'nota'};
+  const map={eName:'name',eCat:'cat',eDesc:'desc',eMarca:'marca',ePais:'pais',eRegion:'region',eUva:'uva',eAlc:'alc',eAnejo:'anejo',eTemp:'temp',eAromas:'aromas',eSabor:'sabor',eMaridaje:'maridaje',eNota:'nota'};
   Object.entries(map).forEach(([elId,key])=>{const el=document.getElementById(elId);if(el)products[editIdx][key]=el.value;});
   products[editIdx].name=products[editIdx].name.toUpperCase().substring(0,32);
   products[editIdx].cat=products[editIdx].cat.toUpperCase().substring(0,20);
   products[editIdx].before=parseFloat(document.getElementById('eBefore').value)||0;
   products[editIdx].after=parseFloat(document.getElementById('eAfter').value)||0;
-  closeModal();
-  renderSheet();
-  renderFichasGrid();
+  closeModal();renderSheet();renderFichasGrid();
 }
 function closeModal(){document.getElementById('editModal').classList.remove('open');editIdx=-1;}
 document.getElementById('editModal').addEventListener('click',e=>{if(e.target.classList.contains('modal-overlay'))closeModal();});
@@ -708,8 +860,7 @@ document.getElementById('editModal').addEventListener('click',e=>{if(e.target.cl
 function goStep(n){
   [1,2,3,4].forEach(i=>{
     document.getElementById('p'+i).style.display=i===n?'block':'none';
-    const b=document.getElementById('s'+i);
-    b.classList.remove('active','done');
+    const b=document.getElementById('s'+i);b.classList.remove('active','done');
     if(i===n)b.classList.add('active');else if(i<n)b.classList.add('done');
   });
   if(n===2)renderFichasGrid();
@@ -719,11 +870,11 @@ function goStep(n){
 function updateStats(id){
   if(!products.length)return;
   const avg=Math.round(products.reduce((a,p)=>a+savePct(p),0)/products.length);
-  const conFicha=products.filter(p=>p.aiGenerated).length;
+  const gc=products.filter(p=>p.aiGenerated).length;
   document.getElementById(id).innerHTML=`
   <div class="stat"><div class="stat-n">${products.length}</div><div class="stat-l">Etiquetas</div></div>
   <div class="stat"><div class="stat-n">${Math.ceil(products.length/LPP)}</div><div class="stat-l">Páginas</div></div>
-  <div class="stat"><div class="stat-n" style="color:#bb86fc">${conFicha}</div><div class="stat-l">Fichas IA</div></div>
+  <div class="stat"><div class="stat-n" style="color:#bb86fc">${gc}</div><div class="stat-l">Con ficha IA</div></div>
   <div class="stat"><div class="stat-n">${avg}%</div><div class="stat-l">Ahorro prom.</div></div>`;
 }
 
@@ -757,9 +908,13 @@ async function generatePDF(){
         const col=i%COLS,row=Math.floor(i/COLS);
         const X=MAR+col*(LW+GAPX),Y=MAR+row*(LH+GAPY);
         off.innerHTML=`<div>${labelHTML(p,SCALE,true)}</div>`;
+        // Inyectar QR
         const qrEl=off.querySelector('[id^="qr_"]');
-        if(qrEl){makeQR(qrEl,p,90);await new Promise(r=>setTimeout(r,120));}
-        const canvas=await html2canvas(off.firstChild,{scale:1,useCORS:true,backgroundColor:'#ffffff',logging:false});
+        if(qrEl){makeQR(qrEl,p,78);await new Promise(r=>setTimeout(r,100));}
+        // Foto real: esperar a que cargue la imagen
+        const imgEl=off.querySelector('img');
+        if(imgEl&&!imgEl.complete) await new Promise(r=>{imgEl.onload=r;imgEl.onerror=r;setTimeout(r,1500);});
+        const canvas=await html2canvas(off.firstChild,{scale:1,useCORS:true,allowTaint:true,backgroundColor:'#ffffff',logging:false});
         doc.addImage(canvas.toDataURL('image/jpeg',qual),'JPEG',X,Y,LW,LH);
         if(cuts){
           doc.setDrawColor(160,160,160);doc.setLineWidth(0.1);doc.setLineDashPattern([1.2,1.2],0);
@@ -777,12 +932,10 @@ async function generatePDF(){
     }
     document.body.removeChild(off);
     doc.save('etiquetas-'+store().replace(/[^a-zA-Z0-9]/g,'-')+'.pdf');
-    pTxt.textContent='✅ PDF listo con fichas de cata generadas por IA';
+    pTxt.textContent='✅ PDF listo';
     pFill.style.width='100%';pFill.style.background='var(--gold)';
   }catch(err){
-    console.error(err);
-    pTxt.textContent='❌ Error: '+err.message;
-    pFill.style.background='var(--red)';
+    console.error(err);pTxt.textContent='❌ Error: '+err.message;pFill.style.background='var(--red)';
   }
   btn.disabled=false;btn.innerHTML='📄 DESCARGAR PDF';
 }
@@ -794,6 +947,7 @@ dz.addEventListener('dragleave',()=>dz.classList.remove('drag'));
 dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('drag');const f=e.dataTransfer.files[0];if(f){document.getElementById('fi').files=e.dataTransfer.files;handleFile({target:{files:[f]}});}});
 
 initTemplates();
+checkFichaPage();
 </script>
 </body>
 </html>
