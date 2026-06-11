@@ -592,7 +592,7 @@ function labelHTML(p, S=1, sem=false){
     : '';
 
   // QR
-  const qrEl = `<div id="${qrId}" style="position:absolute;bottom:${hasVig?20*S:4*S}px;left:${6*S}px;width:${26*S}px;height:${26*S}px;background:#fff;border-radius:${2*S}px;overflow:hidden"></div>`;
+  const qrEl = `<div id="${qrId}" style="position:absolute;top:${24*S}px;right:${4*S}px;width:${22*S}px;height:${22*S}px;background:#fff;border-radius:${2*S}px;overflow:hidden;z-index:8;box-shadow:0 0 ${2*S}px rgba(0,0,0,.15)"></div>`;
 
   // B&N: aplicar filter en la etiqueta completa
   const bwFilter = isBW ? 'filter:grayscale(1) contrast(1.1);' : '';
