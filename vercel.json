@@ -1,12 +1,12 @@
 {
   "version": 2,
   "functions": {
-    "api/scrape.js": {
-      "maxDuration": 30
-    }
+    "api/scrape.js": { "maxDuration": 30 }
   },
   "routes": [
     { "src": "/api/(.*)", "dest": "/api/$1" },
+    { "src": "/ficha.html", "dest": "/public/ficha.html" },
+    { "src": "/ficha", "dest": "/public/ficha.html" },
     { "src": "/(.*)", "dest": "/public/$1" }
   ]
 }

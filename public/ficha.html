@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name="theme-color" content="#c41e1e">
+<title>Ficha Técnica · Vinatería</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{--red:#c41e1e;--gold:#f5c842}
+body{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;background:#0a0a0a;color:#fff;min-height:100vh;padding-bottom:2rem}
+
+/* LOADING */
+#loading{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;gap:1rem;color:#555;font-size:.9rem}
+.spinner{width:36px;height:36px;border:3px solid #222;border-top-color:var(--red);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ERROR */
+#errorPage{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:2rem;text-align:center;gap:1rem}
+#errorPage h2{font-size:1.2rem;color:#888}
+#errorPage p{font-size:.82rem;color:#555;line-height:1.6}
+
+/* MAIN CARD */
+#card{display:none;max-width:420px;margin:0 auto}
+
+/* HEADER */
+.hdr{padding:1.2rem 1rem 1rem;text-align:center;position:relative}
+.hdr-store{font-size:.62rem;letter-spacing:2px;color:rgba(255,255,255,.6);text-transform:uppercase;margin-bottom:.3rem}
+.hdr-nombre{font-size:1.5rem;font-weight:900;letter-spacing:.5px;line-height:1.1}
+.hdr-cat{font-size:.65rem;color:rgba(255,255,255,.65);letter-spacing:1.5px;text-transform:uppercase;margin-top:.3rem}
+.hdr-marca{font-size:.75rem;color:rgba(255,255,255,.5);margin-top:.2rem}
+
+/* PRECIO ROW */
+.precio-row{display:flex;align-items:center;justify-content:space-between;background:#111;padding:.9rem 1.2rem;border-top:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06)}
+.precio-left{}
+.precio-now{font-size:2.2rem;font-weight:900;letter-spacing:-1px;line-height:1}
+.precio-was{font-size:.75rem;color:#444;text-decoration:line-through;margin-top:.15rem}
+.ahorra-badge{background:var(--red);color:#fff;font-size:.72rem;font-weight:800;padding:.35rem .7rem;border-radius:6px;letter-spacing:.5px;text-align:center}
+.ahorra-pct{font-size:1.1rem;font-weight:900;display:block}
+.ahorra-lbl{font-size:.55rem;letter-spacing:1px;opacity:.85}
+
+/* SECTIONS */
+.sec{padding:.9rem 1.2rem;border-bottom:1px solid #111}
+.sec-title{font-size:.58rem;letter-spacing:2px;color:#444;text-transform:uppercase;margin-bottom:.65rem;display:flex;align-items:center;gap:.4rem}
+.sec-title::after{content:'';flex:1;height:1px;background:#1a1a1a}
+
+/* FICHA GRID */
+.ficha-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.ficha-item{background:#111;border-radius:8px;padding:.5rem .7rem}
+.fi-label{font-size:.52rem;color:#444;letter-spacing:1px;text-transform:uppercase;margin-bottom:.2rem}
+.fi-val{font-size:.82rem;color:#ddd;font-weight:500;line-height:1.3}
+
+/* AROMAS */
+.chips{display:flex;flex-wrap:wrap;gap:.35rem}
+.chip{background:#111;border:1px solid #1e1e1e;color:#999;font-size:.68rem;padding:.25rem .55rem;border-radius:20px;letter-spacing:.3px}
+.chip-aroma{border-color:#2a1a1a;color:#c8a0a0}
+.chip-maridaje{border-color:#1a2a1a;color:#90c890}
+
+/* SABOR */
+.sabor-txt{font-size:.82rem;color:#bbb;line-height:1.6;font-style:italic}
+
+/* NOTA SOMMELIER */
+.nota-box{background:#111;border-left:3px solid var(--red);border-radius:0 8px 8px 0;padding:.8rem 1rem}
+.nota-txt{font-size:.8rem;color:#aaa;line-height:1.7;font-style:italic}
+.nota-firma{font-size:.62rem;color:#555;margin-top:.5rem;letter-spacing:.5px}
+
+/* FOOTER */
+.footer{padding:1.5rem 1.2rem .5rem;text-align:center}
+.footer-store{font-size:.65rem;color:#333;letter-spacing:1.5px;text-transform:uppercase}
+.footer-tag{display:inline-block;background:#111;border:1px solid #1e1e1e;color:#444;font-size:.55rem;padding:.2rem .5rem;border-radius:10px;margin-top:.4rem;letter-spacing:.5px}
+
+/* ANIMACIONES */
+.fade-in{animation:fadeIn .4s ease forwards}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.sec:nth-child(2){animation-delay:.05s}
+.sec:nth-child(3){animation-delay:.1s}
+.sec:nth-child(4){animation-delay:.15s}
+.sec:nth-child(5){animation-delay:.2s}
+.sec:nth-child(6){animation-delay:.25s}
+
+/* BARRA SUPERIOR DE COLOR */
+.color-bar{height:5px;width:100%}
+
+/* SCROLL SUAVE */
+html{scroll-behavior:smooth}
+</style>
+</head>
+<body>
+
+<div id="loading">
+  <div class="spinner"></div>
+  <span>Cargando ficha técnica...</span>
+</div>
+
+<div id="errorPage">
+  <div style="font-size:3rem">📱</div>
+  <h2>Ficha no encontrada</h2>
+  <p>Esta ficha técnica no está disponible en este dispositivo.<br><br>
+  El QR debe escanearse desde el mismo lugar donde se generó, o la app debe estar desplegada en Vercel para que funcione en cualquier teléfono.</p>
+</div>
+
+<div id="card"></div>
+
+<script>
+function getParam(key){
+  return new URLSearchParams(window.location.search).get(key);
+}
+
+function fmt(n){
+  if(!n) return '$0.00';
+  const i=Math.floor(n), d=Math.round((n-i)*100);
+  return '$'+i+'.'+String(d).padStart(2,'0');
+}
+
+function pct(p){ return Math.round((1-p.after/p.before)*100); }
+
+function renderFicha(p){
+  const colPrimary = p.cp || '#c41e1e';
+  const colGold    = p.cy || '#f5c842';
+  const save       = pct(p);
+  const aromas     = (p.aromas||'').split(',').map(a=>a.trim()).filter(Boolean);
+  const maridaje   = (p.maridaje||'').split(',').map(m=>m.trim()).filter(Boolean);
+
+  // Campos técnicos disponibles
+  const fichaItems = [
+    {l:'País',     v:p.pais},
+    {l:'Región',   v:p.region},
+    {l:'Uva / Agave', v:p.uva},
+    {l:'Alcohol',  v:p.alc},
+    {l:'Añejamiento', v:p.anejo},
+    {l:'Temp. servicio', v:p.temp},
+    {l:'Color',    v:p.color},
+    {l:'Contenido',v:p.contenido||p.desc},
+  ].filter(x=>x.v && x.v.trim());
+
+  let html = `
+  <div class="color-bar" style="background:linear-gradient(90deg,${colPrimary},${colGold},${colPrimary})"></div>
+
+  <div class="hdr fade-in" style="background:linear-gradient(180deg,${colPrimary}ee 0%,${colPrimary}99 70%,transparent 100%)">
+    ${p.store?`<div class="hdr-store">${p.store}</div>`:''}
+    <div class="hdr-nombre">${p.name}</div>
+    ${p.cat?`<div class="hdr-cat">${p.cat}</div>`:''}
+    ${p.marca?`<div class="hdr-marca">${p.marca}</div>`:''}
+  </div>
+
+  <div class="precio-row fade-in">
+    <div class="precio-left">
+      <div class="precio-now" style="color:${colGold}">${fmt(p.after)}</div>
+      <div class="precio-was">Antes: ${fmt(p.before)}</div>
+    </div>
+    <div class="ahorra-badge" style="background:${colPrimary}">
+      <span class="ahorra-pct">${save}%</span>
+      <span class="ahorra-lbl">DE AHORRO</span>
+    </div>
+  </div>`;
+
+  // Ficha técnica
+  if(fichaItems.length){
+    html += `<div class="sec fade-in">
+    <div class="sec-title">🍾 Ficha técnica</div>
+    <div class="ficha-grid">
+      ${fichaItems.map(f=>`
+      <div class="ficha-item">
+        <div class="fi-label">${f.l}</div>
+        <div class="fi-val">${f.v}</div>
+      </div>`).join('')}
+    </div>
+  </div>`;
+  }
+
+  // Aromas
+  if(aromas.length){
+    html += `<div class="sec fade-in">
+    <div class="sec-title">👃 Aromas</div>
+    <div class="chips">
+      ${aromas.map(a=>`<span class="chip chip-aroma">${a}</span>`).join('')}
+    </div>
+  </div>`;
+  }
+
+  // Sabor en boca
+  if(p.sabor){
+    html += `<div class="sec fade-in">
+    <div class="sec-title">👅 En boca</div>
+    <div class="sabor-txt">${p.sabor}</div>
+  </div>`;
+  }
+
+  // Maridaje
+  if(maridaje.length){
+    html += `<div class="sec fade-in">
+    <div class="sec-title">🍽️ Maridaje</div>
+    <div class="chips">
+      ${maridaje.map(m=>`<span class="chip chip-maridaje">${m}</span>`).join('')}
+    </div>
+  </div>`;
+  }
+
+  // Nota del sommelier
+  if(p.nota){
+    html += `<div class="sec fade-in">
+    <div class="sec-title">📝 Nota del sommelier</div>
+    <div class="nota-box" style="border-left-color:${colPrimary}">
+      <div class="nota-txt">"${p.nota}"</div>
+      <div class="nota-firma">— Equipo ${p.store||'Vinatería'}</div>
+    </div>
+  </div>`;
+  }
+
+  // Footer
+  html += `<div class="footer fade-in">
+    <div class="footer-store">${p.store||'Vinatería'}</div>
+    <div class="footer-tag">📱 Ficha técnica digital</div>
+  </div>`;
+
+  // Actualizar título de la página
+  document.title = `${p.name} · ${p.store||'Vinatería'}`;
+  // Color del theme-color para la barra del navegador móvil
+  document.querySelector('meta[name="theme-color"]').content = colPrimary;
+
+  document.getElementById('card').innerHTML = html;
+  document.getElementById('card').style.display = 'block';
+  document.getElementById('loading').style.display = 'none';
+}
+
+function showError(){
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('errorPage').style.display = 'flex';
+}
+
+// ── INICIO ───────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  const id = getParam('ficha');
+
+  if(!id){
+    // No hay parámetro — redirigir a la app principal
+    showError();
+    return;
+  }
+
+  // Intentar leer del localStorage
+  try{
+    const raw = localStorage.getItem(id);
+    if(raw){
+      const data = JSON.parse(raw);
+      if(data && data.name){
+        renderFicha(data);
+        return;
+      }
+    }
+  }catch(e){ console.error(e); }
+
+  // Si no está en localStorage, intentar decodificar como base64 (fallback offline)
+  if(id.startsWith('data:')){
+    showError();
+    return;
+  }
+
+  // Último recurso: mostrar error con instrucción
+  showError();
+});
+</script>
+</body>
+</html>

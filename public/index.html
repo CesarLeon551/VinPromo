@@ -591,8 +591,10 @@ function labelHTML(p, S=1, sem=false){
       </div>`
     : '';
 
-  // QR
-  const qrEl = `<div id="${qrId}" style="position:absolute;top:${24*S}px;right:${4*S}px;width:${22*S}px;height:${22*S}px;background:#fff;border-radius:${2*S}px;overflow:hidden;z-index:8;box-shadow:0 0 ${2*S}px rgba(0,0,0,.15)"></div>`;
+  // QR — esquina inferior derecha junto al precio anterior, sin superponerse
+  const qrSize = Math.round(26*S);
+  const qrBottom = hasVig ? Math.round(20*S) : Math.round(3*S);
+  const qrEl = `<div id="${qrId}" style="position:absolute;bottom:${qrBottom}px;right:${3*S}px;width:${qrSize}px;height:${qrSize}px;background:#fff;border-radius:${2*S}px;overflow:hidden;z-index:8;box-shadow:0 0 ${2*S}px rgba(0,0,0,.2)"></div>`;
 
   // B&N: aplicar filter en la etiqueta completa
   const bwFilter = isBW ? 'filter:grayscale(1) contrast(1.1);' : '';
@@ -654,7 +656,7 @@ function saveFichaToStorage(p){
 }
 function getQRText(p){
   const isHosted=window.location.protocol==='https:'||window.location.hostname==='localhost';
-  if(isHosted){const id=saveFichaToStorage(p);return window.location.origin+'/?ficha='+id;}
+  if(isHosted){const id=saveFichaToStorage(p);return window.location.origin+'/ficha.html?ficha='+id;}
   return fichaDataURLMini(p);
 }
 function fichaDataURLMini(p){
