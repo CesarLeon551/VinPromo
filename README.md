@@ -1,90 +1,55 @@
-# 🍷 Vinatería Etiquetas PRO v8
+# 🍷 Vinatería Etiquetas PRO v10
 
-Generador de etiquetas promocionales con fichas de cata automáticas.  
-Funciona para **múltiples sucursales** desde una sola URL pública — **100% gratuito**.
-
----
-
-## ¿Cómo funciona?
-
-1. Subes tu Excel con productos y precios
-2. La app busca información de cada producto en Wikipedia y fuentes públicas
-3. Genera fichas técnicas de cata automáticamente
-4. Exporta etiquetas en PDF con QR incluido — el cliente escanea y ve la ficha en su celular
+Generador de etiquetas con QR que abre ficha técnica en el celular del cliente.
+Funciona para múltiples sucursales — **100% gratuito en Vercel**.
 
 ---
 
-## Deploy en Vercel (5 minutos, gratis para siempre)
+## Cómo funciona el QR
+
+1. La app genera las etiquetas con fichas de cata
+2. Cada ficha se guarda en **Vercel KV** (base de datos gratuita incluida en Vercel)
+3. El QR impreso apunta a `tu-app.vercel.app/ficha.html?ficha=ID`
+4. Cualquier cliente en cualquier celular escanea y ve la ficha técnica completa
+
+---
+
+## Deploy (10 minutos, gratis para siempre)
 
 ### Paso 1 — Subir a GitHub
+1. Ve a github.com → New repository → nombre: `vinateria-etiquetas` → Private → Create
+2. Sube todos los archivos de esta carpeta
 
-1. Ve a [github.com](https://github.com) → **New repository**
-2. Nombre: `vinateria-etiquetas`
-3. Visibility: **Private** (recomendado)
-4. Click **Create repository**
-5. Sube todos estos archivos:
-   ```
-   vinateria-vercel/
-   ├── vercel.json
-   ├── api/
-   │   └── scrape.js
-   └── public/
-       └── index.html
-   ```
+### Paso 2 — Deploy en Vercel
+1. Ve a vercel.com → Sign up with GitHub
+2. Add New Project → selecciona `vinateria-etiquetas`
+3. Framework: Other → Deploy
 
-Con GitHub Desktop o arrastrando los archivos al repositorio.
+### Paso 3 — Activar Vercel KV ⚠️ SIN ESTO EL QR NO FUNCIONA
+1. En tu proyecto Vercel → click **Storage** (menú superior)
+2. **Create Database** → selecciona **KV** → nombre: `vinateria-kv` → Create & Continue
+3. **Connect to Project** → selecciona tu proyecto → **Connect**
+4. Vercel agrega las variables de entorno automáticamente
 
-### Paso 2 — Conectar con Vercel
-
-1. Ve a [vercel.com](https://vercel.com) → **Sign up with GitHub** (gratis)
-2. Click **Add New Project**
-3. Selecciona el repositorio `vinateria-etiquetas`
-4. En configuración:
-   - **Framework Preset**: Other
-   - **Root Directory**: `vinateria-vercel`
-   - Todo lo demás déjalo por defecto
-5. Click **Deploy**
-
-¡Listo! En 2 minutos tendrás una URL pública tipo:
-```
-https://vinateria-etiquetas.vercel.app
-```
-
-### Paso 3 — Compartir con sucursales
-
-Comparte esa URL con todas las sucursales. Funciona en cualquier navegador, sin instalar nada.
+¡Listo! El QR de cada etiqueta abrirá la ficha en el celular de cualquier cliente.
 
 ---
 
-## Actualizar la app
-
-Cada vez que modifiques los archivos y los subas a GitHub, Vercel se actualiza automáticamente en segundos.
-
----
-
-## Estructura del proyecto
+## Estructura
 
 ```
-vinateria-vercel/
-├── vercel.json          ← Configuración de Vercel
+├── package.json           ← Dependencia @vercel/kv
+├── vercel.json            ← Rutas
 ├── api/
-│   └── scrape.js        ← Función que busca info del producto (Wikipedia + DuckDuckGo)
+│   ├── scrape.js          ← Busca info del producto
+│   ├── ficha-save.js      ← Guarda ficha en KV
+│   └── ficha-get.js       ← Lee ficha desde KV
 └── public/
-    └── index.html       ← La app completa (frontend)
+    ├── index.html         ← App principal
+    └── ficha.html         ← Página del cliente al escanear QR
 ```
 
----
-
-## Fuentes de información usadas
-
-- **Wikipedia API** — información general de marcas y productos
-- **DuckDuckGo Instant Answers** — datos adicionales de productos
-- **Base de conocimiento por categoría** — defaults inteligentes para tequila, whiskey, vino, etc.
-
-Ambas APIs son **públicas y gratuitas**, sin límite de uso para este propósito.
-
----
-
-## Soporte
-
-Si la ficha de algún producto sale incompleta, puedes editarla manualmente en la app antes de generar el PDF.
+## Límites gratuitos de Vercel KV
+- 30,000 requests/mes (suficiente para cualquier vinatería)
+- 256 MB de almacenamiento
+- Las fichas expiran a los 90 días (se regeneran al reimprimir etiquetas)

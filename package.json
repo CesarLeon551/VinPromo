@@ -1,0 +1,9 @@
+{
+  "name": "vinateria-etiquetas-pro",
+  "version": "10.0.0",
+  "description": "Generador de etiquetas con fichas de cata y QR — Vercel KV",
+  "type": "module",
+  "dependencies": {
+    "@vercel/kv": "^1.0.0"
+  }
+}

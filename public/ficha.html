@@ -223,9 +223,21 @@ function renderFicha(p){
   document.getElementById('loading').style.display = 'none';
 }
 
-function showError(){
+function showError(type){
+  const msgs = {
+    not_found: { icon:'🔍', title:'Ficha no encontrada', body:'Esta ficha puede haber expirado (90 días). Pide al encargado que regenere las etiquetas.' },
+    network:   { icon:'📡', title:'Sin conexión', body:'Necesitas conexión a internet para ver la ficha técnica. Conéctate a WiFi o datos e intenta de nuevo.' },
+    default:   { icon:'📱', title:'Algo salió mal', body:'Intenta escanear el QR de nuevo.' }
+  };
+  const m = msgs[type] || msgs.default;
+  document.getElementById('errorPage').innerHTML = `
+    <div style="font-size:3rem">${m.icon}</div>
+    <h2>${m.title}</h2>
+    <p>${m.body}</p>
+    <button onclick="location.reload()" style="margin-top:1rem;background:#c41e1e;color:#fff;border:none;padding:.6rem 1.5rem;border-radius:8px;font-size:.9rem;cursor:pointer">Reintentar</button>`;
   document.getElementById('loading').style.display = 'none';
   document.getElementById('errorPage').style.display = 'flex';
+}
 }
 
 // ── INICIO ───────────────────────────────────────────────────
@@ -238,26 +250,25 @@ window.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  // Intentar leer del localStorage
+  // Leer ficha desde Vercel KV via API
   try{
-    const raw = localStorage.getItem(id);
-    if(raw){
-      const data = JSON.parse(raw);
+    const r = await fetch('/api/ficha-get?id=' + encodeURIComponent(id));
+    if(r.ok){
+      const data = await r.json();
       if(data && data.name){
         renderFicha(data);
         return;
       }
     }
-  }catch(e){ console.error(e); }
-
-  // Si no está en localStorage, intentar decodificar como base64 (fallback offline)
-  if(id.startsWith('data:')){
-    showError();
-    return;
+    if(r.status === 404){
+      showError('not_found');
+      return;
+    }
+  }catch(e){
+    console.error('KV fetch error:', e);
   }
 
-  // Último recurso: mostrar error con instrucción
-  showError();
+  showError('network');
 });
 </script>
 </body>

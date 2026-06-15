@@ -649,14 +649,38 @@ function labelHTML(p, S=1, sem=false){
 }
 
 // ── QR ───────────────────────────────────────────────────────
-function saveFichaToStorage(p){
-  const id='f_'+p.name.replace(/[^A-Z0-9]/g,'').substring(0,10)+'_'+Date.now().toString(36);
-  try{localStorage.setItem(id,JSON.stringify({...p,store:store(),cp:C().p,cy:C().y}));}catch(e){}
-  return id;
+function saveFichaToStorage(p){/* legacy - not used */}
+
+// Cache local para no re-guardar la misma ficha dos veces en KV
+const _qrCache=new Map();
+
+function fichaPayload(p){
+  return {name:p.name,cat:p.cat||'',desc:p.desc||'',marca:p.marca||'',
+    pais:p.pais||'',region:p.region||'',uva:p.uva||'',alc:p.alc||'',
+    anejo:p.anejo||'',temp:p.temp||'',color:p.color||'',contenido:p.contenido||p.desc||'',
+    aromas:p.aromas||'',sabor:p.sabor||'',maridaje:p.maridaje||'',nota:p.nota||'',
+    before:p.before,after:p.after,store:store(),cp:C().p,cy:C().y};
 }
+
+async function saveToKV(p){
+  const cacheKey=p.name+p.before+p.after;
+  if(_qrCache.has(cacheKey)) return _qrCache.get(cacheKey);
+  try{
+    const r=await fetch('/api/ficha-save',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(fichaPayload(p))});
+    const data=await r.json();
+    if(data.id){
+      const url=window.location.origin+'/ficha.html?ficha='+data.id;
+      _qrCache.set(cacheKey,url);
+      return url;
+    }
+  }catch(e){console.warn('KV save error:',e);}
+  return null;
+}
+
 function getQRText(p){
-  const isHosted=window.location.protocol==='https:'||window.location.hostname==='localhost';
-  if(isHosted){const id=saveFichaToStorage(p);return window.location.origin+'/ficha.html?ficha='+id;}
+  // Retorna mini ficha base64 como placeholder — se reemplaza async en injectQRs
+  const cacheKey=p.name+p.before+p.after;
+  if(_qrCache.has(cacheKey)) return _qrCache.get(cacheKey);
   return fichaDataURLMini(p);
 }
 function fichaDataURLMini(p){
@@ -670,9 +694,10 @@ function fichaDataURLMini(p){
   }
   return 'data:text/html;base64,'+b64;
 }
-function makeQR(el,p,size){
+function makeQR(el,p,size,overrideUrl){
   el.innerHTML='';
-  try{new QRCode(el,{text:getQRText(p),width:size,height:size,colorDark:'#000000',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});}
+  const text = overrideUrl || getQRText(p);
+  try{new QRCode(el,{text,width:size,height:size,colorDark:'#000000',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});}
   catch(e){console.warn('QR:',e);}
 }
 async function injectQRs(container,scale=1){
@@ -680,8 +705,18 @@ async function injectQRs(container,scale=1){
   for(const el of els){
     const qrEl=container.querySelector('#'+el.dataset.qrid);
     const pidx=parseInt(el.dataset.pidx);
-    if(qrEl&&pidx>=0&&products[pidx]) makeQR(qrEl,products[pidx],Math.round(26*scale));
-    await new Promise(r=>setTimeout(r,25));
+    if(!qrEl||pidx<0||!products[pidx]) continue;
+    const p=products[pidx];
+    const size=Math.round(26*scale);
+    // Intentar guardar en KV primero para que el QR apunte a URL real
+    const isHosted=window.location.protocol==='https:'||window.location.hostname==='localhost';
+    if(isHosted){
+      const url=await saveToKV(p);
+      if(url){makeQR(qrEl,p,size,url);} else {makeQR(qrEl,p,size);}
+    } else {
+      makeQR(qrEl,p,size);
+    }
+    await new Promise(r=>setTimeout(r,40));
   }
 }
 
