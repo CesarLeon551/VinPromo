@@ -1,13 +1,14 @@
 {
   "version": 2,
   "functions": {
-    "api/scrape.js":    { "maxDuration": 30 },
-    "api/ficha-save.js":{ "maxDuration": 10 },
-    "api/ficha-get.js": { "maxDuration": 10 }
+    "api/scrape.js":     { "maxDuration": 30 },
+    "api/ficha-save.js": { "maxDuration": 10 },
+    "api/ficha-get.js":  { "maxDuration": 10 }
   },
   "routes": [
-    { "src": "/api/(.*)", "dest": "/api/$1" },
-    { "src": "/ficha.html", "dest": "/public/ficha.html" },
-    { "src": "/(.*)",    "dest": "/public/$1" }
+    { "src": "/api/(.*)",     "dest": "/api/$1" },
+    { "src": "/ficha.html",   "dest": "/public/ficha.html" },
+    { "src": "/precios.html", "dest": "/public/precios.html" },
+    { "src": "/(.*)",         "dest": "/public/$1" }
   ]
 }

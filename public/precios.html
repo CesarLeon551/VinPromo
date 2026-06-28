@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>💲 Cambio de Precios · Vinatería PRO</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--red:#c41e1e;--gold:#f5c842;--dark:#0e0e0e;--panel:#1a1a1a;--border:#2a2a2a}
+body{font-family:'Oswald',sans-serif;background:var(--dark);color:#fff;min-height:100vh}
+.app{max-width:1300px;margin:0 auto;padding:1.5rem}
+
+.header{text-align:center;padding:1.2rem 0 1.8rem;border-bottom:2px solid var(--red);margin-bottom:1.8rem;position:relative}
+.header h1{font-family:'Barlow Condensed',sans-serif;font-size:2.2rem;font-weight:900;letter-spacing:3px}
+.header h1 span{color:var(--gold)}
+.header p{color:#aaa;margin-top:.3rem;font-size:.8rem;letter-spacing:1px}
+.back-btn{position:absolute;left:0;top:1.5rem;background:transparent;border:1px solid #444;color:#aaa;padding:.4rem .9rem;border-radius:6px;cursor:pointer;font-family:'Oswald',sans-serif;font-size:.8rem;text-decoration:none;display:inline-flex;align-items:center;gap:.4rem}
+.back-btn:hover{border-color:var(--gold);color:var(--gold)}
+
+.panel{background:var(--panel);border-radius:12px;padding:1.5rem;border:1px solid var(--border);margin-bottom:1.2rem}
+
+/* UPLOAD */
+.upload-zone{border:2px dashed #444;border-radius:10px;padding:2rem;text-align:center;cursor:pointer;transition:all .2s;position:relative}
+.upload-zone:hover,.drag{border-color:var(--gold)!important;background:#1f1d10}
+.upload-zone h3{font-size:1rem;color:#fff;margin:.6rem 0 .3rem}
+.upload-zone p{color:#666;font-size:.78rem}
+.upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.new-btn{background:#2a2a2a;border:1px solid #555;color:var(--gold);padding:.4rem 1.1rem;border-radius:6px;cursor:pointer;font-family:'Oswald',sans-serif;font-size:.8rem;letter-spacing:1px;margin-top:.6rem}
+.new-btn:hover{background:#383838}
+
+/* TABS */
+.tabs{display:flex;gap:0;background:#111;border-radius:10px;overflow:hidden;border:1px solid #2a2a2a;margin-bottom:1.2rem}
+.tab{flex:1;padding:.7rem;text-align:center;cursor:pointer;font-size:.78rem;letter-spacing:.5px;color:#555;transition:all .2s;border-right:1px solid #222}
+.tab:last-child{border-right:none}
+.tab.active{background:var(--red);color:#fff;font-weight:700}
+.tab:hover:not(.active){color:#aaa;background:#1a1a1a}
+
+/* GRID EDITOR — replica el layout del Excel */
+.grid-section{margin-bottom:1.5rem}
+.grid-title{font-size:.72rem;letter-spacing:1.5px;color:var(--gold);margin-bottom:.6rem;text-transform:uppercase}
+.price-grid{display:grid;gap:3px}
+.price-grid.cols4{grid-template-columns:repeat(4,1fr)}
+.price-grid.cols3{grid-template-columns:repeat(3,1fr)}
+.price-grid.cols2{grid-template-columns:repeat(2,1fr)}
+.price-grid.cols1{grid-template-columns:1fr}
+
+/* CELDA DE PRECIO */
+.price-cell{background:#111;border:1px solid #222;border-radius:6px;padding:0;overflow:hidden;position:relative;transition:all .2s}
+.price-cell:hover{border-color:#444}
+.price-cell.editing{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold)}
+.price-cell.changed{border-color:#4caf50}
+.cell-name{padding:.5rem .6rem .2rem;font-size:.72rem;font-weight:700;color:#bbb;letter-spacing:.3px;min-height:32px;word-break:break-word;line-height:1.3}
+.cell-price{padding:.2rem .6rem .5rem;font-family:'Barlow Condensed',sans-serif;font-size:1.9rem;font-weight:900;color:#fff;line-height:1}
+.cell-price-old{font-size:.75rem;color:#555;text-decoration:line-through;margin-left:.2rem}
+.cell-actions{position:absolute;top:4px;right:4px;display:none;gap:3px}
+.price-cell:hover .cell-actions{display:flex}
+.cell-btn{background:#222;border:1px solid #333;color:#888;width:22px;height:22px;border-radius:3px;cursor:pointer;font-size:.7rem;display:flex;align-items:center;justify-content:center}
+.cell-btn:hover{background:#333;color:#fff}
+.cell-btn.del:hover{background:#c41e1e;color:#fff;border-color:#c41e1e}
+
+.add-cell{background:#111;border:2px dashed #2a2a2a;border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;min-height:80px;color:#333;font-size:1.5rem;transition:all .2s}
+.add-cell:hover{border-color:#555;color:#666}
+
+/* INLINE EDITOR */
+.inline-edit{background:#1a1a1a;border:1px solid var(--gold);border-radius:8px;padding:1rem;margin:.3rem 0;display:none}
+.inline-edit.open{display:block}
+.ie-row{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:.6rem}
+.ie-label{font-size:.65rem;color:#888;letter-spacing:1px;display:block;margin-bottom:.2rem;text-transform:uppercase}
+.ie-input{width:100%;background:#111;border:1px solid #333;color:#fff;padding:.4rem .6rem;border-radius:5px;font-family:'Oswald',sans-serif;font-size:.88rem}
+.ie-input:focus{outline:none;border-color:var(--gold)}
+.ie-btns{display:flex;gap:.5rem}
+
+/* STATS BAR */
+.stats-bar{display:flex;gap:.8rem;margin-bottom:1.2rem;flex-wrap:wrap}
+.stat{background:#222;border-radius:8px;padding:.5rem .8rem;flex:1;min-width:80px;text-align:center}
+.stat-n{font-size:1.3rem;font-weight:900;color:var(--gold)}
+.stat-l{font-size:.6rem;color:#666;letter-spacing:1px;text-transform:uppercase}
+.stat-n.green{color:#4caf50}
+.stat-n.red{color:var(--red)}
+
+/* TOOLBAR */
+.toolbar{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;margin-bottom:1rem}
+.toolbar-search{flex:1;min-width:180px;background:#111;border:1px solid #333;color:#fff;padding:.45rem .7rem;border-radius:6px;font-family:'Oswald',sans-serif;font-size:.85rem}
+.toolbar-search:focus{outline:none;border-color:var(--gold)}
+
+/* BUTTONS */
+.btn{padding:.55rem 1.2rem;border-radius:6px;font-family:'Oswald',sans-serif;font-size:.82rem;font-weight:700;letter-spacing:1px;cursor:pointer;border:none;transition:all .15s;text-transform:uppercase}
+.btn-r{background:var(--red);color:#fff}.btn-r:hover{background:#e52020}
+.btn-y{background:var(--gold);color:#111}.btn-y:hover{background:#ffd44a}
+.btn-g{background:#1e3a1a;color:#7fff6e;border:1px solid #4caf50}.btn-g:hover{background:#274f22}
+.btn-o{background:transparent;border:1px solid #555;color:#aaa}.btn-o:hover{border-color:var(--gold);color:var(--gold)}
+.btn-sm{padding:.3rem .7rem;font-size:.72rem}
+
+/* CHANGES LOG */
+.changes-list{max-height:300px;overflow-y:auto}
+.change-row{display:flex;align-items:center;gap:.8rem;padding:.5rem .6rem;border-bottom:1px solid #1a1a1a;font-size:.78rem}
+.change-row:last-child{border-bottom:none}
+.change-row:hover{background:#111}
+.change-name{flex:1;color:#ddd;font-weight:600}
+.change-old{color:#555;text-decoration:line-through}
+.change-arrow{color:#444;font-size:.65rem}
+.change-new{color:#4caf50;font-weight:700}
+.change-sheet{font-size:.62rem;background:#222;color:#888;padding:.1rem .35rem;border-radius:3px;letter-spacing:.5px}
+.change-undo{background:none;border:1px solid #333;color:#555;font-size:.65rem;padding:.1rem .4rem;border-radius:3px;cursor:pointer;font-family:'Oswald',sans-serif}
+.change-undo:hover{border-color:var(--red);color:var(--red)}
+
+/* PREVIEW TABLE */
+.preview-wrap{overflow:auto;border-radius:8px;border:1px solid #222}
+.preview-table{border-collapse:collapse;font-family:'Barlow Condensed',sans-serif;background:#fff;min-width:600px}
+.preview-table td{border:1px solid #ccc;text-align:center;vertical-align:middle}
+.pt-sep{width:8px;background:#fff;border:none!important}
+.pt-name{font-size:11px;font-weight:700;padding:4px 6px;background:#f0f0f0;word-break:break-word;line-height:1.3;min-width:90px;max-width:110px}
+.pt-price{font-size:26px;font-weight:900;padding:4px 6px;color:#000;background:#fff}
+.pt-price.changed{color:#c41e1e}
+.pt-spacer-row{height:4px}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:200;display:none;align-items:center;justify-content:center;padding:1rem}
+.modal-overlay.open{display:flex}
+.modal{background:#1a1a1a;border-radius:12px;padding:1.5rem;border:1px solid #444;width:420px;max-width:100%}
+.modal h3{font-size:.95rem;letter-spacing:1px;margin-bottom:1rem;color:var(--gold)}
+.mfield{margin-bottom:.75rem}
+.mfield label{font-size:.65rem;color:#888;letter-spacing:1px;display:block;margin-bottom:.25rem;text-transform:uppercase}
+.mfield input,.mfield select{width:100%;background:#111;border:1px solid #333;color:#fff;padding:.45rem .7rem;border-radius:6px;font-family:'Oswald',sans-serif;font-size:.88rem}
+.mfield input:focus,.mfield select:focus{outline:none;border-color:var(--gold)}
+.mfield-row{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+
+/* EMPTY STATE */
+.empty{text-align:center;padding:3rem 2rem;color:#333}
+.empty h3{font-size:1rem;color:#444;margin-bottom:.4rem}
+.empty p{font-size:.78rem;color:#2a2a2a;line-height:1.6}
+
+/* INFO */
+.info-box{border-radius:8px;padding:.7rem 1rem;margin-bottom:.8rem;font-size:.78rem;display:flex;align-items:flex-start;gap:.5rem}
+.info-gold{background:#1f1d10;border:1px solid var(--gold);color:var(--gold)}
+.info-green{background:#0d1f0d;border:1px solid #4caf50;color:#4caf50}
+
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0;margin-top:2px}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="header">
+    <a href="/" class="back-btn">← Etiquetas</a>
+    <h1>💲 CAMBIO DE <span>PRECIOS</span></h1>
+    <p>EDITA, ACTUALIZA Y EXPORTA · FORMATO PRECIOS_FUENTE_UNICO</p>
+  </header>
+
+  <!-- PASO 1: CARGAR O CREAR -->
+  <div class="panel" id="loadPanel">
+    <div class="upload-zone" id="dz">
+      <div style="font-size:2.5rem">📂</div>
+      <h3>CARGAR ARCHIVO EXISTENTE</h3>
+      <p>PRECIOS_FUENTE_UNICO.xlsm / .xlsx</p>
+      <input type="file" id="fi" accept=".xlsx,.xlsm" onchange="loadFile(event)">
+    </div>
+    <div style="text-align:center;margin-top:.6rem">
+      <button class="new-btn" onclick="createNew()">✨ CREAR NUEVO ARCHIVO DE PRECIOS</button>
+    </div>
+  </div>
+
+  <!-- EDITOR PRINCIPAL -->
+  <div id="editorPanel" style="display:none">
+
+    <!-- STATS -->
+    <div class="stats-bar" id="statsBar"></div>
+
+    <!-- TOOLBAR -->
+    <div class="toolbar">
+      <input class="toolbar-search" type="text" id="searchInput" placeholder="Buscar producto..." oninput="filterProducts()">
+      <button class="btn btn-o btn-sm" onclick="showModal('addProduct')">➕ AGREGAR</button>
+      <button class="btn btn-o btn-sm" onclick="toggleChanges()">📋 VER CAMBIOS (<span id="changeCount">0</span>)</button>
+      <button class="btn btn-g btn-sm" onclick="exportExcel()">⬇️ EXPORTAR EXCEL</button>
+      <button class="btn btn-r btn-sm" onclick="exportToLabels()">🏷️ GENERAR ETIQUETAS</button>
+    </div>
+
+    <!-- CAMBIOS LOG (colapsable) -->
+    <div id="changesPanel" style="display:none" class="panel">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.8rem">
+        <span style="font-size:.78rem;color:var(--gold);letter-spacing:1px">CAMBIOS REALIZADOS</span>
+        <button class="btn btn-o btn-sm" onclick="undoAll()">↩️ DESHACER TODO</button>
+      </div>
+      <div class="changes-list" id="changesList">
+        <div class="empty"><p>Sin cambios aún</p></div>
+      </div>
+    </div>
+
+    <!-- TABS POR HOJA -->
+    <div class="tabs" id="sheetTabs"></div>
+
+    <!-- GRID DE PRECIOS -->
+    <div class="panel">
+      <div id="priceGrid"></div>
+    </div>
+
+    <!-- PREVIEW TABLA ESTILO EXCEL -->
+    <div class="panel" id="previewPanel" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.8rem">
+        <span class="grid-title">👁 VISTA PREVIA · FORMATO EXCEL</span>
+        <button class="btn btn-o btn-sm" onclick="document.getElementById('previewPanel').style.display='none'">✕</button>
+      </div>
+      <div class="preview-wrap"><div id="previewTable"></div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODAL AGREGAR/EDITAR PRODUCTO -->
+<div class="modal-overlay" id="productModal">
+  <div class="modal">
+    <h3 id="modalTitle">➕ AGREGAR PRODUCTO</h3>
+    <div class="mfield">
+      <label>Nombre del producto</label>
+      <input type="text" id="mName" placeholder="VINO TINTO RESERVA 750ML">
+    </div>
+    <div class="mfield-row">
+      <div class="mfield">
+        <label>Precio</label>
+        <input type="number" id="mPrice" placeholder="0" min="0" step="0.01">
+      </div>
+      <div class="mfield">
+        <label>Hoja</label>
+        <select id="mSheet"></select>
+      </div>
+    </div>
+    <div class="mfield-row">
+      <div class="mfield">
+        <label>Columna (posición)</label>
+        <select id="mCol">
+          <option value="0">Columna 1</option>
+          <option value="1">Columna 2</option>
+          <option value="2">Columna 3</option>
+          <option value="3">Columna 4</option>
+        </select>
+      </div>
+      <div class="mfield">
+        <label>Fila (bloque)</label>
+        <input type="number" id="mRow" placeholder="1" min="1">
+      </div>
+    </div>
+    <div style="display:flex;gap:.6rem;margin-top:.5rem">
+      <button class="btn btn-r" onclick="confirmProduct()">✅ GUARDAR</button>
+      <button class="btn btn-o" onclick="closeModal()">CANCELAR</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+// ── STATE ────────────────────────────────────────────────────
+// sheets = { "PRECIOS CHICOS": { cols:4, rows:[ [{name, price, origPrice}, ...col], ...row ] } }
+let sheets = {};
+let activeSheet = '';
+let changes = []; // {sheet, row, col, name, oldPrice, newPrice}
+let editingCell = null; // {sheet, row, col}
+let searchTerm = '';
+
+// ── LAYOUT DEL EXCEL ─────────────────────────────────────────
+// Col ancho (B,D,F,H) = índice 0,1,2,3 → Excel col B=2,D=4,F=6,H=8
+// Filas de datos en pares: odd=nombre, even=precio
+// PRECIOS CHICOS: 4 cols, rows 1-6 (3 bloques de 2 filas + separadores)
+// PRECIOS GRANDES: 4 cols, rows 1-5 (misma estructura)
+// OFERTAS: 4 cols, rows 1-7 (precio grande 26pt)
+// OFERTA2: 4 cols, rows 1-12
+
+const SHEET_DEFS = {
+  'PRECIOS CHICOS':  { cols:4, label:'Precios Chicos',  emoji:'🍾', colWidth:23.7, nameSize:10, priceSize:20 },
+  'PRECIOS GRANDES': { cols:4, label:'Precios Grandes', emoji:'🍷', colWidth:23.7, nameSize:10, priceSize:26 },
+  'OFERTAS':         { cols:4, label:'Ofertas',         emoji:'🔥', colWidth:23.7, nameSize:26, priceSize:26 },
+  'OFERTA2':         { cols:4, label:'Oferta 2',        emoji:'⭐', colWidth:23.7, nameSize:10, priceSize:26 },
+};
+
+// ── LOAD EXCEL ───────────────────────────────────────────────
+function loadFile(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => parseExcel(ev.target.result);
+  reader.readAsArrayBuffer(file);
+}
+
+function parseExcel(buf){
+  const wb = XLSX.read(buf, {type:'array'});
+  sheets = {};
+  changes = [];
+
+  wb.SheetNames.forEach(name => {
+    const ws = wb.Sheets[name];
+    const def = SHEET_DEFS[name];
+    const cols = def ? def.cols : 4;
+
+    // Convertir a array de arrays
+    const data = XLSX.utils.sheet_to_json(ws, {header:1, defval:''});
+
+    // Leer bloques de productos
+    // Columnas de datos: B(1), D(3), F(5), H(7) → índices 1,3,5,7
+    const dataCols = [1,3,5,7].slice(0, cols);
+    const products = [];
+
+    // Cada "bloque" tiene filas impares=nombre, pares=precio
+    // Detectar bloques automáticamente por row height pattern
+    // En el Excel: filas pequeñas (sep ~5px) + pares de filas grandes
+    // Simplificamos: recorrer rows en pares buscando nombre+precio
+    let i = 0;
+    while(i < data.length){
+      const nameRow = data[i] || [];
+      const priceRow = data[i+1] || [];
+      
+      // Verificar si alguna columna de datos tiene contenido
+      const hasName = dataCols.some(c => String(nameRow[c]||'').trim());
+      const hasPrice = dataCols.some(c => {
+        const v = priceRow[c];
+        return v !== '' && v !== null && v !== undefined && !isNaN(parseFloat(v));
+      });
+
+      if(hasName || hasPrice){
+        const block = dataCols.map(c => ({
+          name: String(nameRow[c]||'').trim(),
+          price: parseFloat(String(priceRow[c]||'').replace(/[^\d.]/g,'')) || null,
+          origPrice: parseFloat(String(priceRow[c]||'').replace(/[^\d.]/g,'')) || null,
+          nameRowIdx: i,
+          priceRowIdx: i+1,
+          colIdx: c,
+        }));
+        products.push(block);
+        i += 2;
+      } else {
+        i++;
+      }
+    }
+
+    sheets[name] = { cols, products, def: def || {cols:4,label:name,emoji:'📋',nameSize:10,priceSize:20} };
+  });
+
+  if(!Object.keys(sheets).length){
+    // No recognized — create default structure
+    createDefaultSheets();
+  }
+
+  activeSheet = Object.keys(sheets)[0] || '';
+  showEditor();
+}
+
+function createNew(){
+  sheets = {};
+  changes = [];
+  Object.entries(SHEET_DEFS).forEach(([name, def]) => {
+    // Crear 3 bloques vacíos de 4 columnas
+    const products = Array.from({length:3}, () =>
+      Array.from({length:4}, () => ({name:'', price:null, origPrice:null}))
+    );
+    sheets[name] = {cols:4, products, def};
+  });
+  activeSheet = 'PRECIOS CHICOS';
+  showEditor();
+}
+
+function createDefaultSheets(){
+  Object.entries(SHEET_DEFS).forEach(([name, def]) => {
+    sheets[name] = {cols:4, products:[], def};
+  });
+}
+
+// ── SHOW EDITOR ──────────────────────────────────────────────
+function showEditor(){
+  document.getElementById('loadPanel').style.display='none';
+  document.getElementById('editorPanel').style.display='block';
+  renderTabs();
+  renderGrid();
+  updateStats();
+}
+
+function renderTabs(){
+  const c = document.getElementById('sheetTabs');
+  c.innerHTML = Object.keys(sheets).map(name => {
+    const def = sheets[name].def;
+    return `<div class="tab ${name===activeSheet?'active':''}" onclick="switchSheet('${name.replace(/'/g,"\\'")}')">
+      ${def.emoji} ${def.label||name}
+    </div>`;
+  }).join('');
+}
+
+function switchSheet(name){
+  activeSheet = name;
+  editingCell = null;
+  renderTabs();
+  renderGrid();
+}
+
+// ── RENDER GRID ──────────────────────────────────────────────
+function renderGrid(){
+  const sheet = sheets[activeSheet];
+  if(!sheet){ document.getElementById('priceGrid').innerHTML=''; return; }
+
+  const def = sheet.def;
+  const q = searchTerm.toLowerCase();
+
+  let html = `<div class="grid-title">${def.emoji} ${def.label||activeSheet} · ${sheet.products.length} bloques · ${sheet.cols} columnas por fila</div>`;
+
+  if(!sheet.products.length){
+    html += `<div class="empty"><h3>Sin productos</h3><p>Haz clic en ➕ para agregar el primer producto</p></div>`;
+    document.getElementById('priceGrid').innerHTML = html;
+    return;
+  }
+
+  sheet.products.forEach((block, rowIdx) => {
+    // Filtrar por búsqueda
+    const visible = !q || block.some(cell => cell.name.toLowerCase().includes(q) || String(cell.price||'').includes(q));
+    if(!visible) return;
+
+    html += `<div class="price-grid cols${sheet.cols}" style="margin-bottom:3px">`;
+    block.forEach((cell, colIdx) => {
+      const isEditing = editingCell && editingCell.row===rowIdx && editingCell.col===colIdx && editingCell.sheet===activeSheet;
+      const isChanged = cell.price !== cell.origPrice && cell.origPrice !== null;
+      const isEmpty = !cell.name && cell.price===null;
+
+      html += `<div class="price-cell ${isChanged?'changed':''} ${isEditing?'editing':''}" id="cell_${rowIdx}_${colIdx}">
+        <div class="cell-actions">
+          <button class="cell-btn" onclick="startEdit(${rowIdx},${colIdx})" title="Editar">✏️</button>
+          <button class="cell-btn del" onclick="deleteCell(${rowIdx},${colIdx})" title="Vaciar">🗑</button>
+        </div>
+        ${isEmpty
+          ? `<div style="padding:.8rem;text-align:center;color:#2a2a2a;cursor:pointer;font-size:.75rem" onclick="startEdit(${rowIdx},${colIdx})">+ agregar</div>`
+          : `<div class="cell-name">${cell.name||'—'}</div>
+             <div class="cell-price">
+               ${cell.price!==null ? '$'+fmtNum(cell.price) : '<span style="color:#333">sin precio</span>'}
+               ${isChanged&&cell.origPrice!==null ? `<span class="cell-price-old">$${fmtNum(cell.origPrice)}</span>` : ''}
+             </div>`
+        }
+      </div>`;
+
+      // Inline editor debajo de la celda seleccionada
+      if(isEditing){
+        html += `</div><div style="grid-column:1/-1">
+        <div class="inline-edit open" id="inlineEdit">
+          <div class="ie-row">
+            <div>
+              <span class="ie-label">Nombre del producto</span>
+              <input class="ie-input" id="ie_name" value="${(cell.name||'').replace(/"/g,'&quot;')}" placeholder="PRODUCTO..." onkeydown="ieKeydown(event)">
+            </div>
+            <div>
+              <span class="ie-label">Precio actual</span>
+              <input class="ie-input" id="ie_price" type="number" value="${cell.price!==null?cell.price:''}" placeholder="0.00" step="0.01" onkeydown="ieKeydown(event)">
+            </div>
+          </div>
+          ${cell.origPrice!==null && cell.origPrice!==cell.price ? `<div style="font-size:.7rem;color:#555;margin-bottom:.5rem">Precio original: $${fmtNum(cell.origPrice)}</div>` : ''}
+          <div class="ie-btns">
+            <button class="btn btn-r btn-sm" onclick="saveEdit()">✅ GUARDAR</button>
+            <button class="btn btn-o btn-sm" onclick="cancelEdit()">✕</button>
+            ${cell.origPrice!==null&&cell.origPrice!==cell.price ? `<button class="btn btn-o btn-sm" onclick="revertCell(${rowIdx},${colIdx})">↩️ REVERTIR</button>` : ''}
+          </div>
+        </div>
+        <div style="grid-column:1/-1">`;
+      }
+    });
+    html += `</div>`;
+
+    // Botón para agregar columna si hay espacio
+    if(block.length < sheet.cols){
+      html += `<!-- row ${rowIdx} has ${block.length}/${sheet.cols} cols -->`;
+    }
+  });
+
+  // Botón agregar fila
+  html += `<div style="margin-top:.5rem">
+    <button class="btn btn-o btn-sm" onclick="addRow()" style="width:100%">➕ AGREGAR FILA DE PRODUCTOS</button>
+  </div>`;
+
+  document.getElementById('priceGrid').innerHTML = html;
+}
+
+// ── EDIT CELL ────────────────────────────────────────────────
+function startEdit(row, col){
+  editingCell = {sheet:activeSheet, row, col};
+  renderGrid();
+  setTimeout(() => {
+    const el = document.getElementById('ie_name');
+    if(el){ el.focus(); el.select(); }
+  }, 50);
+}
+
+function cancelEdit(){
+  editingCell = null;
+  renderGrid();
+}
+
+function saveEdit(){
+  if(!editingCell) return;
+  const {sheet, row, col} = editingCell;
+  const newName = document.getElementById('ie_name')?.value?.trim() || '';
+  const newPrice = parseFloat(document.getElementById('ie_price')?.value) || null;
+  const cell = sheets[sheet].products[row][col];
+  const oldPrice = cell.price;
+
+  // Registrar cambio si el precio cambió
+  if(newPrice !== oldPrice && oldPrice !== null){
+    changes.push({sheet, row, col, name:newName||cell.name, oldPrice, newPrice, ts:Date.now()});
+  }
+  if(cell.origPrice === null && newPrice !== null) cell.origPrice = newPrice; // primera vez
+
+  cell.name = newName;
+  cell.price = newPrice;
+  editingCell = null;
+  renderGrid();
+  updateStats();
+  renderChangesList();
+}
+
+function ieKeydown(e){
+  if(e.key==='Enter') saveEdit();
+  if(e.key==='Escape') cancelEdit();
+}
+
+function deleteCell(row, col){
+  const cell = sheets[activeSheet].products[row][col];
+  if(cell.origPrice !== null && cell.price !== null){
+    changes.push({sheet:activeSheet, row, col, name:cell.name, oldPrice:cell.price, newPrice:null, deleted:true, ts:Date.now()});
+  }
+  cell.name = '';
+  cell.price = null;
+  renderGrid();
+  updateStats();
+  renderChangesList();
+}
+
+function revertCell(row, col){
+  const cell = sheets[activeSheet].products[row][col];
+  cell.price = cell.origPrice;
+  // Quitar de cambios
+  changes = changes.filter(c => !(c.sheet===activeSheet && c.row===row && c.col===col));
+  editingCell = null;
+  renderGrid();
+  updateStats();
+  renderChangesList();
+}
+
+function addRow(){
+  const sheet = sheets[activeSheet];
+  const emptyBlock = Array.from({length:sheet.cols}, () => ({name:'', price:null, origPrice:null}));
+  sheet.products.push(emptyBlock);
+  renderGrid();
+  updateStats();
+}
+
+// ── MODAL ADD PRODUCT ────────────────────────────────────────
+function showModal(type){
+  const sheetSel = document.getElementById('mSheet');
+  sheetSel.innerHTML = Object.keys(sheets).map(n => `<option value="${n}">${sheets[n].def.label||n}</option>`).join('');
+  sheetSel.value = activeSheet;
+  document.getElementById('mName').value = '';
+  document.getElementById('mPrice').value = '';
+  document.getElementById('mRow').value = sheets[activeSheet].products.length + 1;
+  document.getElementById('modalTitle').textContent = '➕ AGREGAR PRODUCTO';
+  document.getElementById('productModal').classList.add('open');
+  setTimeout(()=>document.getElementById('mName').focus(), 50);
+}
+
+function confirmProduct(){
+  const sheetName = document.getElementById('mSheet').value;
+  const name = document.getElementById('mName').value.trim().toUpperCase();
+  const price = parseFloat(document.getElementById('mPrice').value) || null;
+  const colIdx = parseInt(document.getElementById('mCol').value);
+
+  if(!name){ alert('Escribe el nombre del producto'); return; }
+
+  const sheet = sheets[sheetName];
+  const rowIdx = sheet.products.length; // agregar al final
+  // Si la última fila no está llena, usar esa
+  let targetRow = rowIdx - 1;
+  if(targetRow >= 0 && sheet.products[targetRow][colIdx].name === '' && sheet.products[targetRow][colIdx].price === null){
+    sheet.products[targetRow][colIdx] = {name, price, origPrice:price};
+  } else {
+    const newBlock = Array.from({length:sheet.cols}, () => ({name:'', price:null, origPrice:null}));
+    newBlock[colIdx] = {name, price, origPrice:price};
+    sheet.products.push(newBlock);
+  }
+
+  activeSheet = sheetName;
+  closeModal();
+  renderTabs();
+  renderGrid();
+  updateStats();
+}
+
+function closeModal(){
+  document.getElementById('productModal').classList.remove('open');
+}
+document.getElementById('productModal').addEventListener('click', e => {
+  if(e.target.classList.contains('modal-overlay')) closeModal();
+});
+
+// ── SEARCH ───────────────────────────────────────────────────
+function filterProducts(){
+  searchTerm = document.getElementById('searchInput').value;
+  renderGrid();
+}
+
+// ── STATS ────────────────────────────────────────────────────
+function updateStats(){
+  let total = 0, withPrice = 0, changed = 0;
+  Object.values(sheets).forEach(s => {
+    s.products.forEach(block => {
+      block.forEach(cell => {
+        if(cell.name || cell.price!==null) total++;
+        if(cell.price!==null) withPrice++;
+        if(cell.price!==cell.origPrice && cell.origPrice!==null) changed++;
+      });
+    });
+  });
+  document.getElementById('statsBar').innerHTML = `
+    <div class="stat"><div class="stat-n">${total}</div><div class="stat-l">Productos</div></div>
+    <div class="stat"><div class="stat-n">${withPrice}</div><div class="stat-l">Con precio</div></div>
+    <div class="stat"><div class="stat-n green">${changed}</div><div class="stat-l">Modificados</div></div>
+    <div class="stat"><div class="stat-n">${Object.keys(sheets).length}</div><div class="stat-l">Hojas</div></div>`;
+  document.getElementById('changeCount').textContent = changes.length;
+}
+
+// ── CHANGES LOG ──────────────────────────────────────────────
+function toggleChanges(){
+  const p = document.getElementById('changesPanel');
+  p.style.display = p.style.display==='none' ? 'block' : 'none';
+  renderChangesList();
+}
+
+function renderChangesList(){
+  const c = document.getElementById('changesList');
+  if(!changes.length){
+    c.innerHTML = '<div class="empty"><p>Sin cambios aún</p></div>';
+    return;
+  }
+  c.innerHTML = [...changes].reverse().map((ch,i) => `
+    <div class="change-row">
+      <span class="dot" style="background:${ch.deleted?'#c41e1e':'#4caf50'}"></span>
+      <span class="change-sheet">${ch.sheet}</span>
+      <span class="change-name">${ch.name}</span>
+      <span class="change-old">$${fmtNum(ch.oldPrice)}</span>
+      <span class="change-arrow">→</span>
+      <span class="change-new">${ch.deleted?'ELIMINADO':'$'+fmtNum(ch.newPrice)}</span>
+      <button class="change-undo" onclick="undoChange(${changes.length-1-i})">↩️</button>
+    </div>`).join('');
+}
+
+function undoChange(idx){
+  const ch = changes[idx];
+  if(!ch) return;
+  const cell = sheets[ch.sheet]?.products[ch.row]?.[ch.col];
+  if(cell){ cell.price = ch.oldPrice; }
+  changes.splice(idx, 1);
+  renderGrid();
+  updateStats();
+  renderChangesList();
+}
+
+function undoAll(){
+  if(!confirm('¿Revertir todos los cambios?')) return;
+  changes.forEach(ch => {
+    const cell = sheets[ch.sheet]?.products[ch.row]?.[ch.col];
+    if(cell) cell.price = ch.oldPrice;
+  });
+  changes = [];
+  renderGrid();
+  updateStats();
+  renderChangesList();
+}
+
+// ── EXPORT EXCEL (replica exacto el formato) ─────────────────
+function exportExcel(){
+  const wb = XLSX.utils.book_new();
+
+  Object.entries(sheets).forEach(([sheetName, sheet]) => {
+    const def = sheet.def;
+    // Layout: col A(sep 2.28) B(data 23.71) C(sep) D(data) E(sep) F(data) G(sep) H(data)
+    // Filas de datos en pares: nombre(bold 10pt fill) + precio(bold 20/26pt fill)
+    // Separadores entre bloques: 1 fila vacía (altura ~24px)
+
+    const ws = {};
+    const COLS = ['A','B','C','D','E','F','G','H'];
+    const DATA_COLS = [1,3,5,7]; // B,D,F,H (0-indexed)
+
+    let excelRow = 1; // 1-indexed
+
+    // Primera fila separadora
+    excelRow++;
+
+    sheet.products.forEach((block, blockIdx) => {
+      // Fila de nombres
+      block.forEach((cell, ci) => {
+        const excelCol = DATA_COLS[ci];
+        const addr = XLSX.utils.encode_cell({r: excelRow-1, c: excelCol});
+        ws[addr] = {
+          v: cell.name || '',
+          t: 's',
+          s: {
+            font: {bold:true, sz:def.nameSize||10},
+            alignment: {horizontal:'center', vertical:'center', wrapText:true},
+            fill: cell.name ? {fgColor:{rgb:'FFFFC000'}, patternType:'solid'} : undefined,
+          }
+        };
+      });
+      excelRow++;
+
+      // Fila de precios
+      block.forEach((cell, ci) => {
+        const excelCol = DATA_COLS[ci];
+        const addr = XLSX.utils.encode_cell({r: excelRow-1, c: excelCol});
+        ws[addr] = {
+          v: cell.price !== null ? cell.price : '',
+          t: cell.price !== null ? 'n' : 's',
+          s: {
+            font: {bold:true, sz:def.priceSize||20},
+            alignment: {horizontal:'center', vertical:'center', wrapText:true},
+            fill: cell.price!==null ? {fgColor:{rgb:'FFFFC000'}, patternType:'solid'} : undefined,
+          }
+        };
+      });
+      excelRow++;
+
+      // Fila separadora entre bloques
+      excelRow++;
+    });
+
+    // Set column widths
+    const colInfo = COLS.map((c,i) => ({
+      wch: DATA_COLS.includes(i) ? 23.71 : 2.29
+    }));
+    ws['!cols'] = colInfo;
+    ws['!ref'] = XLSX.utils.encode_range({s:{r:0,c:0}, e:{r:excelRow, c:8}});
+
+    XLSX.utils.book_append_sheet(wb, ws, sheetName);
+  });
+
+  XLSX.writeFile(wb, `PRECIOS_FUENTE_UNICO_${new Date().toISOString().slice(0,10)}.xlsx`);
+}
+
+// ── EXPORT TO LABELS (transferir productos a la app de etiquetas) ─
+function exportToLabels(){
+  // Recopilar productos con precio y nombre
+  const products = [];
+  Object.entries(sheets).forEach(([sheetName, sheet]) => {
+    sheet.products.forEach(block => {
+      block.forEach(cell => {
+        if(cell.name && cell.price!==null && cell.origPrice!==null && cell.price!==cell.origPrice){
+          products.push({
+            name: cell.name,
+            cat: sheetName,
+            desc: '',
+            before: cell.origPrice,
+            after: cell.price,
+          });
+        }
+      });
+    });
+  });
+
+  if(!products.length){
+    alert('No hay precios modificados para generar etiquetas.\nModifica algunos precios primero.');
+    return;
+  }
+
+  // Guardar en sessionStorage y redirigir
+  sessionStorage.setItem('labelProducts', JSON.stringify(products));
+  alert(`✅ ${products.length} productos con precio actualizado listos para etiquetas.\n\nSe abrirá la app de etiquetas ahora.`);
+  window.location.href = '/?from=precios';
+}
+
+// ── PREVIEW EXCEL FORMAT ─────────────────────────────────────
+function showPreview(){
+  const sheet = sheets[activeSheet];
+  if(!sheet) return;
+
+  let html = '<table class="preview-table">';
+  sheet.products.forEach((block, bi) => {
+    // Fila de nombres
+    html += '<tr>';
+    block.forEach((cell, ci) => {
+      if(ci > 0) html += '<td class="pt-sep"></td>';
+      html += `<td class="pt-name">${cell.name||''}</td>`;
+    });
+    html += '</tr>';
+    // Fila de precios
+    html += '<tr>';
+    block.forEach((cell, ci) => {
+      if(ci > 0) html += '<td class="pt-sep"></td>';
+      const changed = cell.price !== cell.origPrice && cell.origPrice !== null;
+      html += `<td class="pt-price ${changed?'changed':''}">${cell.price!==null?fmtNum(cell.price):''}</td>`;
+    });
+    html += '</tr>';
+    // Separador
+    html += `<tr class="pt-spacer-row"><td colspan="${block.length*2-1}"></td></tr>`;
+  });
+  html += '</table>';
+
+  document.getElementById('previewTable').innerHTML = html;
+  document.getElementById('previewPanel').style.display = 'block';
+  document.getElementById('previewPanel').scrollIntoView({behavior:'smooth'});
+}
+
+// ── HELPERS ──────────────────────────────────────────────────
+function fmtNum(n){
+  if(n===null||n===undefined) return '';
+  return Number(n).toLocaleString('es-MX', {minimumFractionDigits:0, maximumFractionDigits:2});
+}
+
+// ── DRAG & DROP ──────────────────────────────────────────────
+const dz = document.getElementById('dz');
+dz.addEventListener('dragover', e => {e.preventDefault(); dz.classList.add('drag')});
+dz.addEventListener('dragleave', () => dz.classList.remove('drag'));
+dz.addEventListener('drop', e => {
+  e.preventDefault(); dz.classList.remove('drag');
+  const f = e.dataTransfer.files[0];
+  if(f){ document.getElementById('fi').files = e.dataTransfer.files; loadFile({target:{files:[f]}}); }
+});
+
+// ── CHECK IF COMING FROM LABELS APP ─────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  // Si viene de la app de etiquetas, mostrar productos ya cargados
+  const saved = sessionStorage.getItem('priceData');
+  if(saved){
+    try{
+      const data = JSON.parse(saved);
+      if(data.sheets){ sheets = data.sheets; changes = data.changes||[]; activeSheet = data.active||Object.keys(sheets)[0]; showEditor(); }
+    }catch(e){}
+  }
+});
+</script>
+</body>
+</html>
