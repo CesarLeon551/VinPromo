@@ -31,7 +31,7 @@ body{font-family:'Oswald',sans-serif;background:var(--dark);color:#fff;min-heigh
 .sample-btn:hover{background:#383838}
 .section-title{font-size:.72rem;letter-spacing:1.5px;color:var(--gold);margin-bottom:.6rem;text-transform:uppercase}
 /* TEMPLATES */
-.tpl-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:.5rem;margin-bottom:1rem}
+.tpl-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:.5rem;margin-bottom:1rem}
 .tpl{border-radius:8px;padding:.5rem .2rem;text-align:center;cursor:pointer;border:2px solid transparent;transition:all .2s;font-size:.58rem;font-weight:700}
 .tpl.sel{border-color:#fff!important;transform:scale(1.05)}
 .tpl-emoji{font-size:1.2rem;display:block;margin-bottom:.2rem}
@@ -325,6 +325,7 @@ const TEMPLATES=[
   {id:'elegante',n:'Elegante',e:'✨',p:'#1a1a2e', y:'#c9a84c', d:'#0f0f0f',  a:'#c9a84c', bw:false},
   {id:'neon',    n:'Neon',   e:'💥', p:'#ff0066', y:'#00ffcc', d:'#080808',  a:'#00ffcc', bw:false},
   {id:'bw',      n:'B & N',  e:'⬛', p:'#222222', y:'#f0f0f0', d:'#000000',  a:'#ffffff', bw:true},
+  {id:'simple',  n:'Simple', e:'🏷️', p:'#000000', y:'#ffffff', d:'#000000',  a:'#ffffff', bw:true, simple:true},
 ];
 
 function initTemplates(){
@@ -558,7 +559,36 @@ function getBottleImgHTML(p, W, H){
 // ── LABEL HTML ───────────────────────────────────────────────
 function labelHTML(p, S=1, sem=false){
   const c=C();
-  const isBW = document.querySelector('.tpl.sel')?.id==='tpl_bw';
+  const isSimple = document.querySelector('.tpl.sel')?.id==='tpl_simple';
+  const isBW = isSimple || document.querySelector('.tpl.sel')?.id==='tpl_bw';
+
+  // ── MODO SIMPLE (foto de referencia) ────────────────────────
+  // Blanco y negro, solo nombre + precio enorme, sin colores ni banners
+  if(isSimple){
+    const iP=Math.floor(p.after);
+    const dP=String(Math.round((p.after%1)*100)).padStart(2,'0');
+    const iStr=String(iP);
+    const W=220*S, H=144*S;
+    // Tamaño del precio: llenar casi todo el ancho
+    const priceFs = iStr.length>=4 ? 58*S : iStr.length===3 ? 70*S : 82*S;
+    // Tamaño nombre
+    const nLen = p.name.length;
+    const nameFs = nLen>30 ? 8*S : nLen>22 ? 9.5*S : nLen>15 ? 11*S : 13*S;
+    return `<div style="width:${W}px;height:${H}px;border-radius:${4*S}px;overflow:hidden;display:flex;flex-direction:column;position:relative;font-family:'Arial',sans-serif;border:${S}px solid #aaa;background:#fff;flex-shrink:0">
+      <!-- NOMBRE -->
+      <div style="padding:${6*S}px ${8*S}px ${2*S}px;flex-shrink:0">
+        <div style="font-size:${nameFs}px;font-weight:700;color:#000;letter-spacing:.5px;line-height:1.2;word-break:break-word;text-transform:uppercase">${p.name}${p.desc?` <span style="font-weight:400;font-size:${nameFs*.85}px">${p.desc}</span>`:''}</div>
+      </div>
+      <!-- PRECIO ENORME -->
+      <div style="flex:1;display:flex;align-items:center;justify-content:flex-start;padding:0 ${6*S}px ${4*S}px">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:${priceFs}px;font-weight:900;color:#000;line-height:1;letter-spacing:-2px">\$${iStr}<span style="font-size:${priceFs*0.42}px;vertical-align:super;letter-spacing:0">.${dP}</span></div>
+      </div>
+      <!-- VIGENCIA (si aplica) -->
+      ${vigencia()?`<div style="padding:${2*S}px ${8*S}px;background:#f0f0f0;border-top:${S}px solid #ddd;text-align:right">
+        <span style="font-size:${6*S}px;color:#888;letter-spacing:.5px">VIGENCIA: ${fmtDate(vigencia())}</span>
+      </div>`:''}
+    </div>`;
+  }
   const s=savePct(p);
   const iP=Math.floor(p.after);
   const dP=String(Math.round((p.after%1)*100)).padStart(2,'0');
