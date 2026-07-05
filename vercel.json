@@ -1,10 +1,10 @@
 {
   "version": 2,
   "functions": {
-    "api/scrape.js":       { "maxDuration": 30 },
-    "api/ficha-save.js":   { "maxDuration": 10 },
-    "api/ficha-get.js":    { "maxDuration": 10 },
-    "api/fill-precios.py": { "maxDuration": 30, "runtime": "python3.9" }
+    "api/scrape.js":        { "maxDuration": 30 },
+    "api/ficha-save.js":    { "maxDuration": 10 },
+    "api/ficha-get.js":     { "maxDuration": 10 },
+    "api/fill-precios.js":  { "maxDuration": 30 }
   },
   "routes": [
     { "src": "/api/(.*)",      "dest": "/api/$1" },
